@@ -7,4 +7,4 @@ Bodyweight morning routine with three tiers:
 
 Core · Glutes · Upper Body · Mobility. All exercises are lower-back safe.
 
-Open at: `https://YOUR_USERNAME.github.io/morning-workout/`
+Open at: `https://ksrvskj.github.io/sport-stuff/`
