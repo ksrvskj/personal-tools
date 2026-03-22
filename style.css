@@ -1,0 +1,38 @@
+/* ========== SHARED BASE STYLES ========== */
+/* Each page sets --accent for its color theme */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#121215;--text:#e8e0d4}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* Header */
+.header{padding:24px 20px 12px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 7%,transparent) 0%,transparent 100%)}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start}
+.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.35;font-weight:600;margin-bottom:4px}
+.header h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e8e0d4,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-desc{font-size:13px;opacity:.45;margin-top:4px}
+.header-links{display:flex;gap:12px;margin-top:8px}
+.header-link{font-size:12px;opacity:.35;text-decoration:none;color:var(--text)}
+.header-link:hover{opacity:.6}
+
+/* Lang toggle */
+.lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1);flex-shrink:0;margin-top:2px}
+.lang-btn{padding:4px 10px;font-size:11px;font-weight:600;background:rgba(255,255,255,.03);color:rgba(255,255,255,.3);cursor:pointer;border:none;font-family:inherit;transition:all .12s}
+.lang-btn.active{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent)}
+.lang-btn:first-child{border-right:1px solid rgba(255,255,255,.06)}
+
+/* Filters (shared pattern) */
+.filters{padding:8px 16px 6px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.filters::-webkit-scrollbar{display:none}
+.fbtn{flex-shrink:0;padding:6px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:rgba(255,255,255,.35);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
+.fbtn.active{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--c)}
+.tag-filters{padding:4px 16px 12px;display:flex;gap:6px;flex-wrap:wrap}
+.tbtn{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.3);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit}
+.tbtn.on{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 8%,transparent)}
+
+/* KBJU pills */
+.kp{font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.04)}
+.kp .mono{font-weight:600}

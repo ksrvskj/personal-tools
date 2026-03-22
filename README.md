@@ -11,10 +11,17 @@ A collection of personal tools — workout routines, batch-cooking recipes, and 
 ## Structure
 
 ```
+style.css       <- Shared CSS (variables, fonts, header, lang toggle)
 index.html      <- Hub / dashboard
 workout.html    <- Morning workout
 recipes.html    <- Batch cooking recipes
 coffee.html     <- Coffee brew guides
 ```
 
-Open at: `https://ksrvskj.github.io/sport-stuff/`
+## Deep Links
+
+- Recipe: `?r=chickpea-spinach-tomato&lang=en`
+- Coffee method: `?m=chemex&lang=en`
+- Workout tier: `?t=full`
+
+Open at: `https://ksrvskj.github.io/personal-tools/`

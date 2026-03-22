@@ -6,24 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#121215">
 <title>Кофе / Coffee</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--bg:#121215;--text:#e8e0d4;--br:#8B5A2B;--br-dim:rgba(139,90,43,.25);--br-bg:rgba(139,90,43,.08)}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
-.mono{font-family:'JetBrains Mono',monospace}
-.header{padding:24px 20px 12px;background:linear-gradient(180deg,rgba(139,90,43,0.08) 0%,transparent 100%)}
-.header-top{display:flex;justify-content:space-between;align-items:flex-start}
-.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.35;font-weight:600;margin-bottom:4px}
-.header h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e8e0d4,#8B5A2B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-desc{font-size:13px;opacity:.45;margin-top:4px}
-.header-links{display:flex;gap:12px;margin-top:8px}
-.header-link{font-size:12px;opacity:.35;text-decoration:none;color:var(--text)}
-.header-link:hover{opacity:.6}
-.lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1);flex-shrink:0;margin-top:2px}
-.lang-btn{padding:4px 10px;font-size:11px;font-weight:600;background:rgba(255,255,255,.03);color:rgba(255,255,255,.3);cursor:pointer;border:none;font-family:inherit;transition:all .12s}
-.lang-btn.active{background:var(--br-bg);color:var(--br)}
-.lang-btn:first-child{border-right:1px solid rgba(255,255,255,.06)}
+:root{--accent:#8B5A2B;--br:#8B5A2B;--br-dim:rgba(139,90,43,.25);--br-bg:rgba(139,90,43,.08)}
 
 .methods{padding:0 16px 60px}
 .method{border-radius:12px;margin-bottom:10px;border:1px solid var(--br-dim);background:#1c1915;overflow:hidden}
@@ -92,7 +77,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neu
 
 <script>
 let lang=localStorage.getItem('lang')||'ru';
-function setLang(l){lang=l;localStorage.setItem('lang',l);render();}
+function setLang(l){lang=l;localStorage.setItem('lang',l);render();updateURL();}
 function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
 
 const UI={
@@ -176,7 +161,7 @@ let openMethod=null,doses={};
 function getDose(m){return doses[m.id]||m.dd;}
 function setDose(id,v){const n=parseInt(v);if(n>0&&n<200){doses[id]=n;render();}}
 function setPreset(id,v){doses[id]=v;render();}
-function toggle(id){openMethod=openMethod===id?null:id;render();
+function toggle(id){openMethod=openMethod===id?null:id;render();updateURL();
   if(openMethod)setTimeout(()=>document.getElementById('m-'+id)?.scrollIntoView({behavior:'smooth',block:'start'}),50);
 }
 
@@ -229,6 +214,25 @@ function render(){
   }).join('');
 }
 
+function readURL(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('lang')&&['ru','en'].includes(params.get('lang'))){
+    lang=params.get('lang');localStorage.setItem('lang',lang);
+  }
+  if(params.get('m')){
+    const method=M.find(x=>x.id===params.get('m'));
+    if(method)openMethod=method.id;
+  }
+}
+function updateURL(){
+  const params=new URLSearchParams();
+  if(openMethod)params.set('m',openMethod);
+  if(lang!=='ru')params.set('lang',lang);
+  const qs=params.toString();
+  history.replaceState(null,'',qs?'?'+qs:location.pathname);
+}
+
+readURL();
 render();
 </script>
 </body>

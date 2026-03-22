@@ -7,14 +7,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#121215">
 <title>Morning Workout</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:#121215;color:#e8e0d4;font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
-.header{padding:24px 20px 16px;background:linear-gradient(180deg,rgba(212,163,115,0.08) 0%,transparent 100%)}
-.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.4;font-weight:600;margin-bottom:4px}
-.header h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e8e0d4,#D4A373);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-desc{font-size:13px;opacity:.5;margin-top:4px}
+:root{--accent:#D4A373}
+.header{padding:24px 20px 16px}
 .tiers{display:flex;gap:8px;padding:0 20px 16px}
 .tier-btn{flex:1;padding:10px 8px;border-radius:10px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
 .tier-btn.active-min{border-color:#6B9080;background:rgba(107,144,128,.08);color:#6B9080}
@@ -74,6 +70,9 @@ body{background:#121215;color:#e8e0d4;font-family:'DM Sans','Helvetica Neue',san
   <div class="header-sub">Morning Routine</div>
   <h1 id="tierTitle">Just Show Up</h1>
   <div class="header-desc" id="tierDesc">~10 min · Tired, low energy, depression day. Just don't skip.</div>
+  <div class="header-links">
+    <a class="header-link" href="index.html">&larr; Hub</a>
+  </div>
 </div>
 
 <div class="tiers">
@@ -124,6 +123,7 @@ function switchTier(t){
   document.getElementById('tierTitle').textContent=tier.name;
   document.getElementById('tierDesc').textContent=tier.time+' · '+tier.desc;
   render();
+  updateURL();
 }
 
 function getEffective(){
@@ -288,7 +288,22 @@ function formatTime(sec){
   return `${m}:${String(s).padStart(2,'0')}`;
 }
 
-render();
+function readURL(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('t')&&TIERS[params.get('t')]){
+    switchTier(params.get('t'));
+    return true;
+  }
+  return false;
+}
+function updateURL(){
+  const params=new URLSearchParams();
+  if(currentTier!=='min')params.set('t',currentTier);
+  const qs=params.toString();
+  history.replaceState(null,'',qs?'?'+qs:location.pathname);
+}
+
+if(!readURL()) render();
 </script>
 </body>
 </html>

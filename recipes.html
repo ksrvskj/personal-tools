@@ -7,37 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#121215">
 <title>Рецепты / Recipes</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--bg:#121215;--card:#1a1a1f;--text:#e8e0d4;--dim:rgba(255,255,255,.4);--soup:#D4A373;--curry:#6B9080;--pasta:#9B72AA;--bowl:#5B8A9A;--comfort:#C4796B;--vegan:#6B9080;--gf:#D4A373;--fast:#5B8A9A;--hprot:#C4796B}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
-.mono{font-family:'JetBrains Mono',monospace}
-
-/* Header */
-.header{padding:24px 20px 12px;background:linear-gradient(180deg,rgba(212,163,115,0.06) 0%,transparent 100%)}
-.header-top{display:flex;justify-content:space-between;align-items:flex-start}
-.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.35;font-weight:600;margin-bottom:4px}
-.header h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e8e0d4,#D4A373);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-desc{font-size:13px;opacity:.45;margin-top:4px}
-.header-links{display:flex;gap:12px;margin-top:8px}
-.header-link{font-size:12px;opacity:.35;text-decoration:none;color:var(--text)}
-.header-link:hover{opacity:.6}
-
-/* Lang toggle */
-.lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1);flex-shrink:0;margin-top:2px}
-.lang-btn{padding:4px 10px;font-size:11px;font-weight:600;background:rgba(255,255,255,.03);color:rgba(255,255,255,.3);cursor:pointer;border:none;font-family:inherit;transition:all .12s}
-.lang-btn.active{background:rgba(212,163,115,.1);color:#D4A373}
-.lang-btn:first-child{border-right:1px solid rgba(255,255,255,.06)}
-
-/* Filters */
-.filters{padding:8px 16px 6px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.filters::-webkit-scrollbar{display:none}
-.fbtn{flex-shrink:0;padding:6px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:rgba(255,255,255,.35);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
-.fbtn.active{border-color:var(--c);background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--c)}
-.tag-filters{padding:4px 16px 12px;display:flex;gap:6px;flex-wrap:wrap}
-.tbtn{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.3);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit}
-.tbtn.on{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 8%,transparent)}
+:root{--accent:#D4A373;--card:#1a1a1f;--dim:rgba(255,255,255,.4);--soup:#D4A373;--curry:#6B9080;--pasta:#9B72AA;--bowl:#5B8A9A;--comfort:#C4796B;--vegan:#6B9080;--gf:#D4A373;--fast:#5B8A9A;--hprot:#C4796B}
 
 /* Cards */
 .cards{padding:0 16px 100px}
@@ -56,8 +28,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neu
 .tag-fast{background:rgba(91,138,154,.1);color:var(--fast)}
 .tag-hprot{background:rgba(196,121,107,.1);color:var(--hprot)}
 .card-kbju{display:flex;gap:4px;margin-top:5px}
-.kp{font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.04)}
-.kp .mono{font-weight:600}
 .kp-k .mono{color:var(--text)}.kp-p .mono{color:var(--vegan)}.kp-f .mono{color:var(--comfort)}.kp-c .mono{color:var(--pasta)}
 .card-preview{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
 .card-preview-list{font-size:12px;line-height:1.7;opacity:.55;columns:2;column-gap:12px}
@@ -106,6 +76,8 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 .cook-tips{padding:0 16px 60px}
 .cook-tip{font-size:13px;line-height:1.6;font-style:italic;opacity:.5;padding:10px 14px;border-left:2px solid var(--c);border-radius:0 8px 8px 0;background:rgba(255,255,255,.02);margin-bottom:6px}
 .nothing{text-align:center;padding:60px 20px;opacity:.25;font-size:14px}
+.share-btn{margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--c) 25%,transparent);background:color-mix(in srgb,var(--c) 6%,transparent);color:var(--c);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.share-btn:active{transform:scale(0.97)}
 </style>
 </head>
 <body>
@@ -144,7 +116,7 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 <script>
 // ======================== I18N ========================
 let lang = localStorage.getItem('lang') || 'ru';
-function setLang(l){ lang=l; localStorage.setItem('lang',l); document.documentElement.lang=l; fullRender(); }
+function setLang(l){ lang=l; localStorage.setItem('lang',l); document.documentElement.lang=l; fullRender(); updateURL(); }
 function t(o){ if(!o) return ''; if(typeof o==='string') return o; return o[lang]||o.ru||o.en||''; }
 
 const UI = {
@@ -162,6 +134,8 @@ const UI = {
   pause:       {ru:"пауза", en:"pause"},
   reset:       {ru:"заново", en:"reset"},
   all:         {ru:"Всё", en:"All"},
+  share:       {ru:"Поделиться", en:"Share"},
+  copied:      {ru:"Ссылка скопирована!", en:"Link copied!"},
   pWord(n){
     if(lang==='en') return n===1?'serving':'servings';
     return n===1?'порция':n<5?'порции':'порций';
@@ -594,11 +568,11 @@ function toggleCard(id){openCard=openCard===id?null:id;renderBrowse();}
 function enterCook(id){
   cookId=id;stepsDone={};
   Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});
-  tmrs={};document.body.classList.add('cooking');window.scrollTo(0,0);renderCook();
+  tmrs={};document.body.classList.add('cooking');window.scrollTo(0,0);renderCook();updateURL();
 }
 function exitCook(){
   Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});
-  tmrs={};document.body.classList.remove('cooking');cookId=null;
+  tmrs={};document.body.classList.remove('cooking');cookId=null;updateURL();
 }
 function setCookP(id,n,e){e?.stopPropagation();cookPortion[id]=n;renderCook();}
 function toggleStep(i,e){e?.stopPropagation();stepsDone[i]=!stepsDone[i];renderCook();}
@@ -615,7 +589,7 @@ function renderCook(){
   const r=R.find(x=>x.id===cookId);if(!r)return;
   const p=gp(r),c=gc(r.cat),opts=pOpts(r.bp);
   let h=`<div style="--c:${c}">`;
-  h+=`<div class="cook-hero"><div class="cook-emoji">${r.emoji}</div><div class="cook-title">${t(r.name)}</div>${r.sub?`<div class="cook-subtitle">${t(r.sub)}</div>`:''}</div>`;
+  h+=`<div class="cook-hero"><div class="cook-emoji">${r.emoji}</div><div class="cook-title">${t(r.name)}</div>${r.sub?`<div class="cook-subtitle">${t(r.sub)}</div>`:''}<button id="shareBtn" class="share-btn" style="--c:${c}" onclick="event.stopPropagation();shareRecipe()">↗ ${t(UI.share)}</button></div>`;
   h+=`<div class="cook-portions"><label>${t(UI.portions)}</label><div class="pbtns">${opts.map(n=>`<button class="pbtn${p===n?' active':''}" style="--c:${c}" onclick="setCookP('${r.id}',${n},event)">${n}</button>`).join('')}</div></div>`;
   h+=`<div class="cook-kbju">
     <div class="ckp"><span class="lab">${lang==='ru'?'ккал':'kcal'}</span><span class="mono" style="color:${c}">${r.kbju[0]}</span></div>
@@ -628,7 +602,7 @@ function renderCook(){
   h+=`<div class="cook-steps">`;
   r.steps.forEach((st,i)=>{
     const done=stepsDone[i],k='t'+i,tm=tmrs[k];
-    h+=`<div class="cs${done?' done':'"}"><div class="cs-top"><div class="cs-n${done?' dn':''}">${done?'✓':i+1}</div><div class="cs-t">${resolve(st.s,r.ing,r.bp,p)}`;
+    h+=`<div class="cs${done?' done':''}"><div class="cs-top"><div class="cs-n${done?' dn':''}">${done?'✓':i+1}</div><div class="cs-t">${resolve(st.s,r.ing,r.bp,p)}`;
     if(st.tm){
       const left=tm?tm.left:st.tm,run=tm?.iv,fin=tm&&tm.left<=0;
       h+=`<div class="cs-tm${run?' run':''}${fin?' fin':''}" onclick="event.stopPropagation();startTm(${i},${st.tm})"><span class="cs-td">${fin?'✓':fmtTm(left)}</span><span class="cs-tl">${fin?t(UI.reset):run?t(UI.pause):t(UI.start)}</span></div>`;
@@ -641,7 +615,42 @@ function renderCook(){
   document.getElementById('cookContent').innerHTML=h;
 }
 
+// ======================== URL PARAMS ========================
+function readURL(){
+  const params=new URLSearchParams(location.search);
+  if(params.get('lang')&&['ru','en'].includes(params.get('lang'))){
+    lang=params.get('lang');localStorage.setItem('lang',lang);
+  }
+  document.documentElement.lang=lang;
+  if(params.get('r')){
+    const recipe=R.find(x=>x.id===params.get('r'));
+    if(recipe)enterCook(recipe.id);
+  }
+}
+function updateURL(){
+  const params=new URLSearchParams();
+  if(cookId)params.set('r',cookId);
+  if(lang!=='ru')params.set('lang',lang);
+  const qs=params.toString();
+  history.replaceState(null,'',qs?'?'+qs:location.pathname);
+}
+function shareRecipe(){
+  const params=new URLSearchParams();
+  params.set('r',cookId);
+  if(lang!=='ru')params.set('lang',lang);
+  const url=location.origin+location.pathname+'?'+params;
+  if(navigator.share){
+    navigator.share({url}).catch(()=>{});
+  } else if(navigator.clipboard){
+    navigator.clipboard.writeText(url).then(()=>{
+      const btn=document.getElementById('shareBtn');
+      if(btn){const orig=btn.textContent;btn.textContent=t(UI.copied);setTimeout(()=>btn.textContent=orig,1500);}
+    });
+  }
+}
+
 // ======================== INIT ========================
+readURL();
 fullRender();
 window.addEventListener('popstate',()=>{if(cookId)exitCook();});
 </script>
