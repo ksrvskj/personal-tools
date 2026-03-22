@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#121215">
+<title>Morning Workout</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#121215;color:#e8e0d4;font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
+.header{padding:24px 20px 16px;background:linear-gradient(180deg,rgba(212,163,115,0.08) 0%,transparent 100%)}
+.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.4;font-weight:600;margin-bottom:4px}
+.header h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e8e0d4,#D4A373);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-desc{font-size:13px;opacity:.5;margin-top:4px}
+.tiers{display:flex;gap:8px;padding:0 20px 16px}
+.tier-btn{flex:1;padding:10px 8px;border-radius:10px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
+.tier-btn.active-min{border-color:#6B9080;background:rgba(107,144,128,.08);color:#6B9080}
+.tier-btn.active-regular{border-color:#D4A373;background:rgba(212,163,115,.08);color:#D4A373}
+.tier-btn.active-full{border-color:#9B72AA;background:rgba(155,114,170,.08);color:#9B72AA}
+.tier-emoji{font-size:16px;margin-bottom:3px}
+.tier-time{font-size:10px;opacity:.7;margin-top:1px}
+.exercises{padding:0 16px 90px}
+.ex-card{border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid;transition:all .3s ease}
+.ex-card.done{opacity:.6}
+.ex-top{display:flex;align-items:flex-start;gap:12px}
+.ex-svg{flex-shrink:0;background:rgba(255,255,255,.03);border-radius:8px;padding:2px}
+.ex-svg svg{color:rgba(255,255,255,.6)}
+.ex-body{flex:1;min-width:0}
+.ex-cat{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:2px}
+.ex-name{font-weight:700;font-size:15px;color:#e8e0d4;margin-bottom:2px}
+.ex-name.done{text-decoration:line-through}
+.ex-sets{font-size:13px;font-weight:600;margin-bottom:6px}
+.ex-cue{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;font-style:italic}
+.ex-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
+.check-btn{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;transition:all .2s}
+.check-btn.checked{border-color:#6B9080;background:#6B9080;color:#1a1a1f}
+.swap-btn{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.4);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
+.swap-panel{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
+.swap-label{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
+.swap-options{display:flex;flex-wrap:wrap;gap:6px}
+.swap-opt{padding:5px 10px;border-radius:6px;border:1px solid;background:rgba(255,255,255,.05);color:#e8e0d4;font-size:12px;cursor:pointer;font-family:inherit}
+.timer-wrap{display:flex;align-items:center;gap:10px;margin-top:8px}
+.timer-ring{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.timer-inner{width:36px;height:36px;border-radius:50%;background:#1a1a1f;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600}
+.timer-hint{font-size:11px;opacity:.5;font-style:italic}
+.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:linear-gradient(transparent,#121215 30%);text-align:center}
+.bottom-bar div{font-size:11px;opacity:.3}
+.hidden{display:none}
+
+.cat-core{color:#D4A373}
+.cat-glutes{color:#6B9080}
+.cat-upper{color:#9B72AA}
+.cat-mobility{color:#5B8A9A}
+.bg-core{background:#2a2420;border-color:rgba(212,163,115,.2)}
+.bg-glutes{background:#202428;border-color:rgba(107,144,128,.2)}
+.bg-upper{background:#24202a;border-color:rgba(155,114,170,.2)}
+.bg-mobility{background:#202428;border-color:rgba(91,138,154,.2)}
+.sets-core{color:#D4A373}
+.sets-glutes{color:#6B9080}
+.sets-upper{color:#9B72AA}
+.sets-mobility{color:#5B8A9A}
+.swap-border-core{border-color:rgba(212,163,115,.33)}
+.swap-border-glutes{border-color:rgba(107,144,128,.33)}
+.swap-border-upper{border-color:rgba(155,114,170,.33)}
+.swap-border-mobility{border-color:rgba(91,138,154,.33)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-sub">Morning Routine</div>
+  <h1 id="tierTitle">Just Show Up</h1>
+  <div class="header-desc" id="tierDesc">~10 min · Tired, low energy, depression day. Just don't skip.</div>
+</div>
+
+<div class="tiers">
+  <button class="tier-btn active-min" data-tier="min" onclick="switchTier('min')">
+    <div class="tier-emoji">🌙</div>
+    <div>Just Show Up</div>
+    <div class="tier-time">~10 min</div>
+  </button>
+  <button class="tier-btn" data-tier="regular" onclick="switchTier('regular')">
+    <div class="tier-emoji">☀️</div>
+    <div>Regular</div>
+    <div class="tier-time">~22 min</div>
+  </button>
+  <button class="tier-btn" data-tier="full" onclick="switchTier('full')">
+    <div class="tier-emoji">💪</div>
+    <div>Full Pack</div>
+    <div class="tier-time">~38 min</div>
+  </button>
+</div>
+
+<div class="exercises" id="exerciseList"></div>
+
+<div class="bottom-bar">
+  <div>↻ Tap swap to switch exercises · Tap ○ to mark done</div>
+</div>
+
+<script>
+const EXERCISES={core:[{id:"dead-bugs",name:"Dead Bugs",sets:"2×8 each side",time:null,cue:"Press lower back into the floor. Extend opposite arm and leg slowly. If your back arches, you've gone too far.",category:"core",svg:"dead-bugs"},{id:"bird-dogs",name:"Bird Dogs",sets:"2×8 each side",time:null,cue:"Tabletop position. Extend opposite arm and leg, keep hips level — imagine a cup of coffee on your lower back.",category:"core",svg:"bird-dogs"},{id:"front-plank",name:"Front Plank",sets:"1×",time:40,cue:"Forearms on the floor, body straight. Squeeze glutes, pull belly button in. Don't let hips sag or pike up.",category:"core",svg:"plank"},{id:"side-plank",name:"Side Plank",sets:"2× (each side)",time:30,cue:"Stack feet or stagger them. Lift hips until body is straight. Top hand on hip or reaching up. Breathe!",category:"core",svg:"side-plank"},{id:"hollow-hold",name:"Hollow Body Hold",sets:"3×",time:20,cue:"Lie flat, press lower back down. Lift shoulders and legs slightly off the ground. Arms by ears or by sides if too hard.",category:"core",svg:"hollow-hold"},{id:"leg-raises",name:"Bent-Knee Leg Raises",sets:"3×10",time:null,cue:"Lie flat, hands under hips for back support. Lift bent knees to chest, lower slowly. Keep lower back pressed down.",category:"core",svg:"leg-raises"},{id:"bear-hold",name:"Bear Crawl Hold",sets:"3×",time:20,cue:"Tabletop position, lift knees 2cm off the ground. Hold. Breathe. Harder than it looks.",category:"core",svg:"bear-hold"},{id:"dead-bug-reach",name:"Dead Bug Reaches",sets:"2×10 each side",time:null,cue:"Like dead bugs but both arms start overhead. Reach opposite arm to opposite knee while extending the other leg.",category:"core",svg:"dead-bugs"}],glutes:[{id:"glute-bridge",name:"Glute Bridges",sets:"2×12",time:null,cue:"Feet flat, hip-width. Drive through heels, squeeze glutes at the top. Pause 1 second up top.",category:"glutes",svg:"glute-bridge"},{id:"sl-glute-bridge",name:"Single Leg Glute Bridge",sets:"2×10 each side",time:null,cue:"One foot planted, other leg extended or knee to chest. Drive through the planted heel. Keep hips level.",category:"glutes",svg:"sl-glute-bridge"},{id:"clamshells",name:"Clamshells",sets:"2×12 each side",time:null,cue:"Side-lying, knees bent 90°. Open top knee like a clamshell, keep feet together. Don't roll your hips back.",category:"glutes",svg:"clamshell"},{id:"fire-hydrants",name:"Fire Hydrants",sets:"2×12 each side",time:null,cue:"Tabletop position. Lift knee out to the side, keeping 90° bend. Control the movement — no swinging.",category:"glutes",svg:"fire-hydrant"},{id:"donkey-kicks",name:"Donkey Kicks",sets:"2×12 each side",time:null,cue:"Tabletop, push one foot toward the ceiling. Keep knee bent 90°. Squeeze at the top, don't arch your back.",category:"glutes",svg:"donkey-kick"},{id:"hip-thrust",name:"Hip Thrusts (Elevated)",sets:"2×12",time:null,cue:"Upper back on bed/couch edge. Feet flat on floor. Drive hips up until thighs are parallel. Squeeze hard at the top.",category:"glutes",svg:"hip-thrust"}],upper:[{id:"push-ups",name:"Push-Ups",sets:"2×8–12",time:null,cue:"Hands under shoulders, core tight. Lower chest to floor, push back up. On knees is fine — full range of motion > half reps.",category:"upper",svg:"push-up"},{id:"pike-push-ups",name:"Pike Push-Ups",sets:"2×8",time:null,cue:"Inverted V position, hands shoulder width. Bend elbows, lower head toward floor. Great for shoulders.",category:"upper",svg:"pike-push-up"},{id:"scap-push-ups",name:"Scapular Push-Ups",sets:"2×10",time:null,cue:"Plank position, arms straight. Let shoulder blades pinch together, then push them apart. Arms stay locked.",category:"upper",svg:"scap-push-up"},{id:"superman",name:"Superman (Gentle)",sets:"2×8",time:null,cue:"Lie face down. Lift arms and legs just a few cm — you don't need a huge range. Hold 2 sec at top. Go easy with your back.",category:"upper",svg:"superman"},{id:"tricep-dips",name:"Tricep Dips (Chair/Bed)",sets:"2×10",time:null,cue:"Hands on edge behind you, legs extended or bent. Lower until elbows hit ~90°, push back up.",category:"upper",svg:"tricep-dip"}],mobility:[{id:"cat-cow",name:"Cat-Cow",sets:"",time:60,cue:"Tabletop. Inhale: drop belly, look up (cow). Exhale: round spine, tuck chin (cat). Slow and fluid.",category:"mobility",svg:"cat-cow"},{id:"hip-flexor",name:"Hip Flexor Stretch",sets:"30s each side",time:30,cue:"Kneeling lunge. Push hips forward gently, feel the stretch in front of the back leg's hip. Don't arch your lower back.",category:"mobility",svg:"hip-flexor"},{id:"90-90",name:"90/90 Hip Stretch",sets:"30s each side",time:30,cue:"Sit with both knees at 90°, front and back. Lean forward over the front leg. Switch sides.",category:"mobility",svg:"ninety-ninety"},{id:"thoracic-rotation",name:"Thoracic Rotation",sets:"8 each side",time:null,cue:"Side-lying, knees stacked and bent. Open top arm to the other side like opening a book. Follow with your eyes.",category:"mobility",svg:"thoracic"},{id:"worlds-greatest",name:"World's Greatest Stretch",sets:"5 each side",time:null,cue:"Deep lunge, plant inside hand, rotate and reach other arm to ceiling. Combines hip, thoracic, and hamstring stretch in one.",category:"mobility",svg:"worlds-greatest"},{id:"pigeon",name:"Pigeon Pose",sets:"45s each side",time:45,cue:"Front shin across the mat, back leg extended. Fold forward gently. Amazing for tight hips from running.",category:"mobility",svg:"pigeon"},{id:"figure-four",name:"Figure-4 Stretch",sets:"30s each side",time:30,cue:"Lie on back, cross one ankle over opposite knee. Pull the bottom leg toward chest. Gentle on the back.",category:"mobility",svg:"figure-four"}]};
+
+const TIERS={min:{name:"Just Show Up",time:"~10 min",desc:"Tired, low energy, depression day. Just don't skip.",color:"#6B9080",exercises:["cat-cow","dead-bugs","glute-bridge","bird-dogs","front-plank","hip-flexor"]},regular:{name:"Regular Morning",time:"~22 min",desc:"Normal day. Solid core + glutes + a bit of everything.",color:"#D4A373",exercises:["cat-cow","dead-bugs","glute-bridge","bird-dogs","front-plank","side-plank","clamshells","push-ups","hollow-hold","90-90","thoracic-rotation"]},full:{name:"Full Pack (Abroad)",time:"~38 min",desc:"No gym available. Full body, replaces strength day.",color:"#9B72AA",exercises:["cat-cow","dead-bugs","hollow-hold","leg-raises","front-plank","side-plank","glute-bridge","sl-glute-bridge","clamshells","fire-hydrants","push-ups","pike-push-ups","superman","worlds-greatest","pigeon","thoracic-rotation"]}};
+
+const CATEGORY_LABELS={core:"Core",glutes:"Glutes",upper:"Upper Body",mobility:"Mobility"};
+
+const allEx=Object.values(EXERCISES).flat();
+const getEx=id=>allEx.find(e=>e.id===id);
+
+let currentTier="min";
+let swaps={min:{},regular:{},full:{}};
+let timers={};
+let doneSet=new Set();
+
+function switchTier(t){
+  currentTier=t;
+  document.querySelectorAll('.tier-btn').forEach(b=>{
+    b.className='tier-btn'+(b.dataset.tier===t?' active-'+t:'');
+  });
+  const tier=TIERS[t];
+  document.getElementById('tierTitle').textContent=tier.name;
+  document.getElementById('tierDesc').textContent=tier.time+' · '+tier.desc;
+  render();
+}
+
+function getEffective(){
+  const s=swaps[currentTier]||{};
+  return TIERS[currentTier].exercises.map(id=>{
+    const swapped=s[id]||id;
+    return getEx(swapped);
+  }).filter(Boolean);
+}
+
+function makeSVG(type){
+  const s=64,sc=s/80;
+  const st=`stroke="currentColor" fill="none" stroke-width="${2.2*sc}" stroke-linecap="round" stroke-linejoin="round"`;
+  const fl=`${st} stroke-width="${1*sc}" opacity="0.3"`;
+  const floor=`<line x1="${10*sc}" y1="${55*sc}" x2="${78*sc}" y2="${55*sc}" ${fl}/>`;
+  const svgs={
+    "dead-bugs":`<line x1="${20*sc}" y1="${45*sc}" x2="${60*sc}" y2="${45*sc}" ${st}/><circle cx="${17*sc}" cy="${45*sc}" r="${5*sc}" ${st}/><line x1="${30*sc}" y1="${45*sc}" x2="${25*sc}" y2="${28*sc}" ${st}/><line x1="${42*sc}" y1="${45*sc}" x2="${47*sc}" y2="${55*sc}" ${st}/><line x1="${60*sc}" y1="${45*sc}" x2="${72*sc}" y2="${45*sc}" ${st}/><line x1="${72*sc}" y1="${45*sc}" x2="${76*sc}" y2="${50*sc}" ${st}/><line x1="${55*sc}" y1="${45*sc}" x2="${55*sc}" y2="${32*sc}" ${st}/><line x1="${55*sc}" y1="${32*sc}" x2="${50*sc}" y2="${28*sc}" ${st}/><line x1="${10*sc}" y1="${52*sc}" x2="${78*sc}" y2="${52*sc}" ${fl}/>`,
+    "bird-dogs":`<circle cx="${25*sc}" cy="${28*sc}" r="${5*sc}" ${st}/><line x1="${30*sc}" y1="${30*sc}" x2="${50*sc}" y2="${35*sc}" ${st}/><line x1="${35*sc}" y1="${33*sc}" x2="${32*sc}" y2="${55*sc}" ${st}/><line x1="${30*sc}" y1="${30*sc}" x2="${12*sc}" y2="${25*sc}" ${st}/><line x1="${50*sc}" y1="${35*sc}" x2="${53*sc}" y2="${55*sc}" ${st}/><line x1="${50*sc}" y1="${35*sc}" x2="${72*sc}" y2="${33*sc}" ${st}/><line x1="${72*sc}" y1="${33*sc}" x2="${76*sc}" y2="${37*sc}" ${st}/>${floor}`,
+    "plank":`<circle cx="${18*sc}" cy="${38*sc}" r="${5*sc}" ${st}/><line x1="${23*sc}" y1="${40*sc}" x2="${62*sc}" y2="${40*sc}" ${st}/><line x1="${23*sc}" y1="${40*sc}" x2="${20*sc}" y2="${55*sc}" ${st}/><line x1="${62*sc}" y1="${40*sc}" x2="${68*sc}" y2="${55*sc}" ${st}/><line x1="${68*sc}" y1="${55*sc}" x2="${72*sc}" y2="${55*sc}" ${st}/>${floor}`,
+    "side-plank":`<circle cx="${25*sc}" cy="${18*sc}" r="${5*sc}" ${st}/><line x1="${27*sc}" y1="${23*sc}" x2="${40*sc}" y2="${48*sc}" ${st}/><line x1="${40*sc}" y1="${48*sc}" x2="${65*sc}" y2="${48*sc}" ${st}/><line x1="${27*sc}" y1="${23*sc}" x2="${24*sc}" y2="${48*sc}" ${st}/><line x1="${30*sc}" y1="${28*sc}" x2="${25*sc}" y2="${10*sc}" ${st}/><line x1="${65*sc}" y1="${48*sc}" x2="${68*sc}" y2="${52*sc}" ${st}/>${floor}`,
+    "hollow-hold":`<circle cx="${15*sc}" cy="${33*sc}" r="${5*sc}" ${st}/><path d="M ${20*sc} ${36*sc} Q ${40*sc} ${48*sc} ${65*sc} ${38*sc}" ${st}/><line x1="${15*sc}" y1="${28*sc}" x2="${8*sc}" y2="${22*sc}" ${st}/><line x1="${65*sc}" y1="${38*sc}" x2="${75*sc}" y2="${34*sc}" ${st}/><line x1="${75*sc}" y1="${34*sc}" x2="${78*sc}" y2="${38*sc}" ${st}/>${floor}`,
+    "leg-raises":`<circle cx="${15*sc}" cy="${42*sc}" r="${5*sc}" ${st}/><line x1="${20*sc}" y1="${44*sc}" x2="${50*sc}" y2="${44*sc}" ${st}/><line x1="${50*sc}" y1="${44*sc}" x2="${55*sc}" y2="${28*sc}" ${st}/><line x1="${55*sc}" y1="${28*sc}" x2="${60*sc}" y2="${35*sc}" ${st}/><line x1="${28*sc}" y1="${44*sc}" x2="${28*sc}" y2="${50*sc}" ${st}/><line x1="${10*sc}" y1="${50*sc}" x2="${78*sc}" y2="${50*sc}" ${fl}/>`,
+    "bear-hold":`<circle cx="${22*sc}" cy="${30*sc}" r="${5*sc}" ${st}/><line x1="${27*sc}" y1="${33*sc}" x2="${52*sc}" y2="${35*sc}" ${st}/><line x1="${27*sc}" y1="${33*sc}" x2="${24*sc}" y2="${52*sc}" ${st}/><line x1="${38*sc}" y1="${34*sc}" x2="${35*sc}" y2="${52*sc}" ${st}/><line x1="${52*sc}" y1="${35*sc}" x2="${55*sc}" y2="${50*sc}" ${st}/><line x1="${52*sc}" y1="${35*sc}" x2="${62*sc}" y2="${50*sc}" ${st}/>${floor}`,
+    "glute-bridge":`<circle cx="${15*sc}" cy="${42*sc}" r="${5*sc}" ${st}/><line x1="${20*sc}" y1="${43*sc}" x2="${35*sc}" y2="${30*sc}" ${st}/><line x1="${35*sc}" y1="${30*sc}" x2="${50*sc}" y2="${30*sc}" ${st}/><line x1="${50*sc}" y1="${30*sc}" x2="${58*sc}" y2="${50*sc}" ${st}/><line x1="${58*sc}" y1="${50*sc}" x2="${52*sc}" y2="${50*sc}" ${st}/><line x1="${10*sc}" y1="${50*sc}" x2="${78*sc}" y2="${50*sc}" ${fl}/>`,
+    "sl-glute-bridge":`<circle cx="${15*sc}" cy="${42*sc}" r="${5*sc}" ${st}/><line x1="${20*sc}" y1="${43*sc}" x2="${35*sc}" y2="${28*sc}" ${st}/><line x1="${35*sc}" y1="${28*sc}" x2="${50*sc}" y2="${28*sc}" ${st}/><line x1="${50*sc}" y1="${28*sc}" x2="${58*sc}" y2="${50*sc}" ${st}/><line x1="${58*sc}" y1="${50*sc}" x2="${52*sc}" y2="${50*sc}" ${st}/><line x1="${50*sc}" y1="${28*sc}" x2="${70*sc}" y2="${22*sc}" ${st}/><line x1="${70*sc}" y1="${22*sc}" x2="${73*sc}" y2="${25*sc}" ${st}/><line x1="${10*sc}" y1="${50*sc}" x2="${78*sc}" y2="${50*sc}" ${fl}/>`,
+    "clamshell":`<circle cx="${18*sc}" cy="${32*sc}" r="${5*sc}" ${st}/><line x1="${23*sc}" y1="${34*sc}" x2="${42*sc}" y2="${40*sc}" ${st}/><line x1="${42*sc}" y1="${40*sc}" x2="${52*sc}" y2="${50*sc}" ${st}/><line x1="${52*sc}" y1="${50*sc}" x2="${62*sc}" y2="${50*sc}" ${st}/><line x1="${42*sc}" y1="${40*sc}" x2="${55*sc}" y2="${28*sc}" ${st}/><line x1="${55*sc}" y1="${28*sc}" x2="${62*sc}" y2="${36*sc}" ${st}/>${floor}`,
+    "fire-hydrant":`<circle cx="${22*sc}" cy="${28*sc}" r="${5*sc}" ${st}/><line x1="${27*sc}" y1="${30*sc}" x2="${50*sc}" y2="${35*sc}" ${st}/><line x1="${27*sc}" y1="${30*sc}" x2="${24*sc}" y2="${52*sc}" ${st}/><line x1="${38*sc}" y1="${33*sc}" x2="${35*sc}" y2="${52*sc}" ${st}/><line x1="${50*sc}" y1="${35*sc}" x2="${55*sc}" y2="${52*sc}" ${st}/><line x1="${50*sc}" y1="${35*sc}" x2="${68*sc}" y2="${22*sc}" ${st}/><line x1="${68*sc}" y1="${22*sc}" x2="${68*sc}" y2="${32*sc}" ${st}/>${floor}`,
+    "donkey-kick":`<circle cx="${22*sc}" cy="${28*sc}" r="${5*sc}" ${st}/><line x1="${27*sc}" y1="${30*sc}" x2="${50*sc}" y2="${35*sc}" ${st}/><line x1="${27*sc}" y1="${30*sc}" x2="${24*sc}" y2="${52*sc}" ${st}/><line x1="${38*sc}" y1="${33*sc}" x2="${35*sc}" y2="${52*sc}" ${st}/><line x1="${50*sc}" y1="${35*sc}" x2="${55*sc}" y2="${52*sc}" ${st}/><line x1="${50*sc}" y1="${35*sc}" x2="${60*sc}" y2="${30*sc}" ${st}/><line x1="${60*sc}" y1="${30*sc}" x2="${70*sc}" y2="${18*sc}" ${st}/>${floor}`,
+    "hip-thrust":`<circle cx="${18*sc}" cy="${28*sc}" r="${5*sc}" ${st}/><line x1="${20*sc}" y1="${32*sc}" x2="${28*sc}" y2="${35*sc}" ${st}/><line x1="${28*sc}" y1="${35*sc}" x2="${50*sc}" y2="${32*sc}" ${st}/><line x1="${50*sc}" y1="${32*sc}" x2="${58*sc}" y2="${52*sc}" ${st}/><line x1="${58*sc}" y1="${52*sc}" x2="${52*sc}" y2="${52*sc}" ${st}/><rect x="${12*sc}" y="${35*sc}" width="${14*sc}" height="${17*sc}" ${st} opacity="0.3"/>${floor}`,
+    "push-up":`<circle cx="${18*sc}" cy="${32*sc}" r="${5*sc}" ${st}/><line x1="${23*sc}" y1="${35*sc}" x2="${60*sc}" y2="${42*sc}" ${st}/><line x1="${23*sc}" y1="${35*sc}" x2="${18*sc}" y2="${52*sc}" ${st}/><line x1="${18*sc}" y1="${52*sc}" x2="${22*sc}" y2="${52*sc}" ${st}/><line x1="${60*sc}" y1="${42*sc}" x2="${68*sc}" y2="${52*sc}" ${st}/><line x1="${68*sc}" y1="${52*sc}" x2="${72*sc}" y2="${52*sc}" ${st}/>${floor}`,
+    "pike-push-up":`<circle cx="${28*sc}" cy="${18*sc}" r="${5*sc}" ${st}/><line x1="${30*sc}" y1="${22*sc}" x2="${42*sc}" y2="${20*sc}" ${st}/><line x1="${42*sc}" y1="${20*sc}" x2="${48*sc}" y2="${52*sc}" ${st}/><line x1="${28*sc}" y1="${22*sc}" x2="${22*sc}" y2="${52*sc}" ${st}/><line x1="${22*sc}" y1="${52*sc}" x2="${26*sc}" y2="${52*sc}" ${st}/><line x1="${48*sc}" y1="${52*sc}" x2="${52*sc}" y2="${52*sc}" ${st}/>${floor}`,
+    "scap-push-up":`<circle cx="${18*sc}" cy="${35*sc}" r="${5*sc}" ${st}/><line x1="${23*sc}" y1="${37*sc}" x2="${60*sc}" y2="${37*sc}" ${st}/><line x1="${23*sc}" y1="${37*sc}" x2="${20*sc}" y2="${52*sc}" ${st}/><line x1="${60*sc}" y1="${37*sc}" x2="${66*sc}" y2="${52*sc}" ${st}/><line x1="${66*sc}" y1="${52*sc}" x2="${70*sc}" y2="${52*sc}" ${st}/>${floor}`,
+    "superman":`<circle cx="${15*sc}" cy="${38*sc}" r="${5*sc}" ${st}/><line x1="${20*sc}" y1="${42*sc}" x2="${58*sc}" y2="${42*sc}" ${st}/><line x1="${12*sc}" y1="${34*sc}" x2="${6*sc}" y2="${28*sc}" ${st}/><line x1="${58*sc}" y1="${42*sc}" x2="${72*sc}" y2="${36*sc}" ${st}/><line x1="${72*sc}" y1="${36*sc}" x2="${76*sc}" y2="${38*sc}" ${st}/><line x1="${10*sc}" y1="${48*sc}" x2="${78*sc}" y2="${48*sc}" ${fl}/>`,
+    "tricep-dip":`<circle cx="${28*sc}" cy="${18*sc}" r="${5*sc}" ${st}/><line x1="${28*sc}" y1="${23*sc}" x2="${28*sc}" y2="${38*sc}" ${st}/><line x1="${28*sc}" y1="${28*sc}" x2="${20*sc}" y2="${32*sc}" ${st}/><line x1="${20*sc}" y1="${32*sc}" x2="${20*sc}" y2="${25*sc}" ${st}/><line x1="${28*sc}" y1="${38*sc}" x2="${50*sc}" y2="${38*sc}" ${st}/><line x1="${50*sc}" y1="${38*sc}" x2="${55*sc}" y2="${52*sc}" ${st}/>${floor}`,
+    "cat-cow":`<circle cx="${22*sc}" cy="${25*sc}" r="${5*sc}" ${st}/><path d="M ${27*sc} ${28*sc} Q ${40*sc} ${18*sc} ${55*sc} ${30*sc}" ${st}/><line x1="${27*sc}" y1="${28*sc}" x2="${24*sc}" y2="${50*sc}" ${st}/><line x1="${35*sc}" y1="${22*sc}" x2="${32*sc}" y2="${50*sc}" ${st}/><line x1="${50*sc}" y1="${28*sc}" x2="${52*sc}" y2="${50*sc}" ${st}/><line x1="${55*sc}" y1="${30*sc}" x2="${58*sc}" y2="${50*sc}" ${st}/><line x1="${10*sc}" y1="${53*sc}" x2="${78*sc}" y2="${53*sc}" ${fl}/>`,
+    "hip-flexor":`<circle cx="${30*sc}" cy="${12*sc}" r="${5*sc}" ${st}/><line x1="${30*sc}" y1="${17*sc}" x2="${32*sc}" y2="${35*sc}" ${st}/><line x1="${32*sc}" y1="${35*sc}" x2="${42*sc}" y2="${52*sc}" ${st}/><line x1="${42*sc}" y1="${52*sc}" x2="${46*sc}" y2="${52*sc}" ${st}/><line x1="${32*sc}" y1="${35*sc}" x2="${18*sc}" y2="${50*sc}" ${st}/><line x1="${18*sc}" y1="${50*sc}" x2="${8*sc}" y2="${52*sc}" ${st}/>${floor}`,
+    "ninety-ninety":`<circle cx="${30*sc}" cy="${18*sc}" r="${5*sc}" ${st}/><line x1="${30*sc}" y1="${23*sc}" x2="${33*sc}" y2="${40*sc}" ${st}/><line x1="${33*sc}" y1="${40*sc}" x2="${48*sc}" y2="${45*sc}" ${st}/><line x1="${48*sc}" y1="${45*sc}" x2="${48*sc}" y2="${55*sc}" ${st}/><line x1="${33*sc}" y1="${40*sc}" x2="${18*sc}" y2="${45*sc}" ${st}/><line x1="${18*sc}" y1="${45*sc}" x2="${10*sc}" y2="${38*sc}" ${st}/>${floor}`,
+    "thoracic":`<circle cx="${25*sc}" cy="${32*sc}" r="${5*sc}" ${st}/><line x1="${28*sc}" y1="${36*sc}" x2="${42*sc}" y2="${42*sc}" ${st}/><line x1="${42*sc}" y1="${42*sc}" x2="${52*sc}" y2="${52*sc}" ${st}/><line x1="${52*sc}" y1="${52*sc}" x2="${60*sc}" y2="${52*sc}" ${st}/><line x1="${34*sc}" y1="${38*sc}" x2="${50*sc}" y2="${22*sc}" ${st}/>${floor}`,
+    "worlds-greatest":`<circle cx="${28*sc}" cy="${15*sc}" r="${5*sc}" ${st}/><line x1="${28*sc}" y1="${20*sc}" x2="${35*sc}" y2="${38*sc}" ${st}/><line x1="${35*sc}" y1="${38*sc}" x2="${38*sc}" y2="${52*sc}" ${st}/><line x1="${38*sc}" y1="${52*sc}" x2="${42*sc}" y2="${52*sc}" ${st}/><line x1="${35*sc}" y1="${38*sc}" x2="${62*sc}" y2="${52*sc}" ${st}/><line x1="${62*sc}" y1="${52*sc}" x2="${65*sc}" y2="${52*sc}" ${st}/><line x1="${32*sc}" y1="${28*sc}" x2="${32*sc}" y2="${52*sc}" ${st}/><line x1="${32*sc}" y1="${28*sc}" x2="${20*sc}" y2="${10*sc}" ${st}/>${floor}`,
+    "pigeon":`<circle cx="${22*sc}" cy="${30*sc}" r="${5*sc}" ${st}/><line x1="${25*sc}" y1="${34*sc}" x2="${40*sc}" y2="${48*sc}" ${st}/><line x1="${40*sc}" y1="${48*sc}" x2="${28*sc}" y2="${52*sc}" ${st}/><line x1="${40*sc}" y1="${48*sc}" x2="${70*sc}" y2="${50*sc}" ${st}/><line x1="${70*sc}" y1="${50*sc}" x2="${74*sc}" y2="${46*sc}" ${st}/>${floor}`,
+    "figure-four":`<circle cx="${15*sc}" cy="${40*sc}" r="${5*sc}" ${st}/><line x1="${20*sc}" y1="${42*sc}" x2="${42*sc}" y2="${42*sc}" ${st}/><line x1="${42*sc}" y1="${42*sc}" x2="${48*sc}" y2="${28*sc}" ${st}/><line x1="${48*sc}" y1="${28*sc}" x2="${42*sc}" y2="${22*sc}" ${st}/><line x1="${42*sc}" y1="${42*sc}" x2="${50*sc}" y2="${34*sc}" ${st}/><line x1="${50*sc}" y1="${34*sc}" x2="${58*sc}" y2="${34*sc}" ${st}/><line x1="${30*sc}" y1="${42*sc}" x2="${38*sc}" y2="${25*sc}" ${st}/><line x1="${10*sc}" y1="${48*sc}" x2="${78*sc}" y2="${48*sc}" ${fl}/>`
+  };
+  return `<svg width="${s}" height="${s}" viewBox="0 0 ${s} ${s}">${svgs[type]||svgs["plank"]}</svg>`;
+}
+
+function startTimer(exId,seconds){
+  const key=currentTier+'-'+exId;
+  if(timers[key]&&timers[key].interval){
+    clearInterval(timers[key].interval);
+    timers[key].running=false;
+    updateTimerDisplay(key);
+    return;
+  }
+  if(!timers[key])timers[key]={left:seconds,total:seconds,running:false,interval:null};
+  if(timers[key].left<=0){
+    timers[key].left=seconds;
+    timers[key].running=false;
+    updateTimerDisplay(key);
+    return;
+  }
+  timers[key].running=true;
+  timers[key].interval=setInterval(()=>{
+    timers[key].left--;
+    if(timers[key].left<=0){
+      clearInterval(timers[key].interval);
+      timers[key].interval=null;
+      timers[key].running=false;
+    }
+    updateTimerDisplay(key);
+  },1000);
+  updateTimerDisplay(key);
+}
+
+function updateTimerDisplay(key){
+  const el=document.getElementById('timer-'+key);
+  if(!el)return;
+  const t=timers[key];
+  const m=Math.floor(t.left/60);
+  const s=t.left%60;
+  const pct=((t.total-t.left)/t.total)*100;
+  const done=t.left<=0;
+  const ring=el.querySelector('.timer-ring');
+  const inner=el.querySelector('.timer-inner');
+  const hint=el.querySelector('.timer-hint');
+  ring.style.background=`conic-gradient(${done?'#6B9080':'#D4A373'} ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
+  inner.style.color=done?'#6B9080':'#e8e0d4';
+  inner.textContent=done?'✓':`${m}:${String(s).padStart(2,'0')}`;
+  hint.textContent=done?'done — tap to reset':t.running?'tap to pause':'tap to start';
+}
+
+function toggleDone(exId){
+  const key=currentTier+'-'+exId;
+  if(doneSet.has(key))doneSet.delete(key);else doneSet.add(key);
+  render();
+}
+
+function toggleSwap(exId){
+  const panel=document.getElementById('swap-'+currentTier+'-'+exId);
+  if(panel)panel.classList.toggle('hidden');
+}
+
+function doSwap(origId,newId){
+  swaps[currentTier][origId]=newId;
+  render();
+}
+
+function render(){
+  const exercises=getEffective();
+  const container=document.getElementById('exerciseList');
+  let html='';
+  exercises.forEach((ex,i)=>{
+    const origId=TIERS[currentTier].exercises[i];
+    const key=currentTier+'-'+ex.id;
+    const isDone=doneSet.has(key);
+    const cat=ex.category;
+    const alts=EXERCISES[cat].filter(e=>e.id!==ex.id);
+    const timerKey=currentTier+'-'+ex.id;
+    if(!timers[timerKey]&&ex.time)timers[timerKey]={left:ex.time,total:ex.time,running:false,interval:null};
+
+    html+=`<div class="ex-card bg-${cat}${isDone?' done':''}">
+      <div class="ex-top">
+        <div class="ex-svg">${makeSVG(ex.svg)}</div>
+        <div class="ex-body">
+          <div class="ex-cat cat-${cat}">${CATEGORY_LABELS[cat]}</div>
+          <div class="ex-name${isDone?' done':''}">${ex.name}</div>
+          <div class="ex-sets sets-${cat}">${ex.sets}${ex.time?' × '+ex.time+'s':''}</div>
+          <div class="ex-cue">${ex.cue}</div>
+          ${ex.time?`<div class="timer-wrap" id="timer-${timerKey}">
+            <div class="timer-ring" onclick="startTimer('${ex.id}',${ex.time})" style="background:conic-gradient(#D4A373 0%, rgba(255,255,255,0.1) 0%)">
+              <div class="timer-inner">${timers[timerKey]?formatTime(timers[timerKey].left):formatTime(ex.time)}</div>
+            </div>
+            <span class="timer-hint">tap to start</span>
+          </div>`:''}
+        </div>
+        <div class="ex-actions">
+          <button class="check-btn${isDone?' checked':''}" onclick="toggleDone('${ex.id}')">${isDone?'✓':''}</button>
+          <button class="swap-btn" onclick="toggleSwap('${origId}')">↻</button>
+        </div>
+      </div>
+      <div class="swap-panel hidden" id="swap-${currentTier}-${origId}">
+        <div class="swap-label">Swap for:</div>
+        <div class="swap-options">
+          ${alts.map(a=>`<button class="swap-opt swap-border-${cat}" onclick="doSwap('${origId}','${a.id}')">${a.name}</button>`).join('')}
+        </div>
+      </div>
+    </div>`;
+  });
+  container.innerHTML=html;
+
+  // restore timer displays
+  exercises.forEach(ex=>{
+    if(ex.time){
+      const tk=currentTier+'-'+ex.id;
+      if(timers[tk])updateTimerDisplay(tk);
+    }
+  });
+}
+
+function formatTime(sec){
+  const m=Math.floor(sec/60);
+  const s=sec%60;
+  return `${m}:${String(s).padStart(2,'0')}`;
+}
+
+render();
+</script>
+</body>
+</html>

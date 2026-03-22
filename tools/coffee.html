@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#121215">
+<title>Кофе / Coffee</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--bg:#121215;--text:#e8e0d4;--br:#8B5A2B;--br-dim:rgba(139,90,43,.25);--br-bg:rgba(139,90,43,.08)}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
+.mono{font-family:'JetBrains Mono',monospace}
+.header{padding:24px 20px 12px;background:linear-gradient(180deg,rgba(139,90,43,0.08) 0%,transparent 100%)}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start}
+.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2px;opacity:.35;font-weight:600;margin-bottom:4px}
+.header h1{font-size:26px;font-weight:700;background:linear-gradient(135deg,#e8e0d4,#8B5A2B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header-desc{font-size:13px;opacity:.45;margin-top:4px}
+.header-links{display:flex;gap:12px;margin-top:8px}
+.header-link{font-size:12px;opacity:.35;text-decoration:none;color:var(--text)}
+.header-link:hover{opacity:.6}
+.lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.1);flex-shrink:0;margin-top:2px}
+.lang-btn{padding:4px 10px;font-size:11px;font-weight:600;background:rgba(255,255,255,.03);color:rgba(255,255,255,.3);cursor:pointer;border:none;font-family:inherit;transition:all .12s}
+.lang-btn.active{background:var(--br-bg);color:var(--br)}
+.lang-btn:first-child{border-right:1px solid rgba(255,255,255,.06)}
+
+.methods{padding:0 16px 60px}
+.method{border-radius:12px;margin-bottom:10px;border:1px solid var(--br-dim);background:#1c1915;overflow:hidden}
+.m-top{display:flex;gap:12px;align-items:center;padding:14px 16px;cursor:pointer}
+.m-top:active{opacity:.8}
+.m-emoji{font-size:26px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border-radius:8px;flex-shrink:0}
+.m-body{flex:1;min-width:0}
+.m-name{font-weight:700;font-size:15px}
+.m-style{font-size:11px;color:var(--br);font-weight:600;text-transform:uppercase;letter-spacing:.8px;margin-top:1px}
+.m-meta{font-size:11px;opacity:.35;margin-top:2px}
+.m-arrow{color:rgba(255,255,255,.2);font-size:18px;flex-shrink:0;transition:transform .2s}
+.method.open .m-arrow{transform:rotate(90deg)}
+.m-detail{display:none;padding:0 16px 16px}
+.method.open .m-detail{display:block}
+
+.dose-row{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.dose-label{font-size:13px;opacity:.5}
+.dose-input{width:58px;padding:7px 6px;border-radius:8px;border:1.5px solid var(--br-dim);background:rgba(255,255,255,.04);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:600;text-align:center}
+.dose-input:focus{outline:none;border-color:var(--br)}
+.dose-unit{font-size:13px;opacity:.4}
+.dose-arrow{font-size:14px;opacity:.35;margin:0 2px}
+.dose-water{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--br)}
+.dose-water-unit{font-size:13px;opacity:.4}
+
+.presets{display:flex;gap:6px;margin-bottom:16px}
+.preset{padding:5px 12px;border-radius:6px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03);color:rgba(255,255,255,.35);font-size:11px;font-weight:600;cursor:pointer;font-family:'JetBrains Mono',monospace;transition:all .12s}
+.preset.active{border-color:var(--br-dim);color:var(--br);background:var(--br-bg)}
+
+.grind-row{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.grind-label{font-size:11px;opacity:.4}
+.grind-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,.06);position:relative;overflow:hidden}
+.grind-fill{height:100%;border-radius:3px;background:var(--br);transition:width .3s}
+.grind-text{font-size:11px;font-weight:600;color:var(--br);min-width:70px;text-align:right}
+
+.pours{border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);overflow:hidden;margin-bottom:12px}
+.pour-header{padding:10px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--br);opacity:.7;border-bottom:1px solid rgba(255,255,255,.04)}
+.pour{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.03)}
+.pour:last-child{border-bottom:none}
+.pour-time{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,.35);min-width:42px;flex-shrink:0}
+.pour-amount{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px;color:var(--text);min-width:55px;flex-shrink:0}
+.pour-note{font-size:12px;opacity:.5;line-height:1.4}
+.pour-total{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--br);opacity:.6;padding:6px 14px;text-align:right}
+.note{font-size:12px;line-height:1.6;font-style:italic;opacity:.45;padding:10px 14px;border-left:2px solid var(--br);border-radius:0 8px 8px 0;background:rgba(139,90,43,.03);margin-top:8px}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="header-sub">Filter Coffee</div>
+      <h1 id="hTitle">☕ Кофе</h1>
+      <div class="header-desc">Chemex · V60 · Aeropress · Cold Brew</div>
+      <div class="header-links">
+        <a class="header-link" href="../index.html">← Hub</a>
+        <a class="header-link" href="recipes.html" id="hRecipes">🍲 Рецепты</a>
+      </div>
+    </div>
+    <div class="lang-toggle">
+      <button class="lang-btn" onclick="setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+<div class="methods" id="methods"></div>
+
+<script>
+let lang=localStorage.getItem('lang')||'ru';
+function setLang(l){lang=l;localStorage.setItem('lang',l);render();}
+function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
+
+const UI={
+  title:{ru:"☕ Кофе",en:"☕ Coffee"},
+  recipes:{ru:"🍲 Рецепты",en:"🍲 Recipes"},
+  coffee:{ru:"Кофе",en:"Coffee"},
+  recipe:{ru:"Рецепт",en:"Recipe"},
+  grind:{ru:"Помол",en:"Grind"},
+};
+
+const M=[
+  {
+    id:"chemex",emoji:"⏳",name:"Chemex",style:"Pour Over · 1:16",
+    meta:{ru:"3.5–4 мин · Чистый, яркий",en:"3.5–4 min · Clean, bright"},
+    ratio:16,dd:45,presets:[30,36,45],
+    grind:65,grindT:{ru:"Средне-крупный",en:"Medium-coarse"},
+    temp:"92–96°C",
+    calc(d){const w=d*16,b=d*2,r=w-b,p=Math.round(r/3);return{w,pours:[
+      {time:"0:00",amt:b,note:{ru:"Bloom — залить, подождать 30 сек",en:"Bloom — pour, wait 30 sec"}},
+      {time:"0:30",amt:p,note:{ru:"Первый пролив, по спирали",en:"First pour, spiral"}},
+      {time:"1:30",amt:p,note:{ru:"Второй пролив",en:"Second pour"}},
+      {time:"2:30",amt:p,note:{ru:"Третий пролив, дождаться стекания",en:"Third pour, let it drain"}}
+    ]};},
+    notes:{ru:"Фильтр промыть горячей водой (убирает бумажный вкус). Лить медленно, тонкой струёй.",en:"Rinse filter with hot water (removes paper taste). Pour slowly, thin stream."}
+  },
+  {
+    id:"v60",emoji:"🔻",name:"V60",style:"Pour Over · 1:16",
+    meta:{ru:"2.5–3 мин · Экспериментальный",en:"2.5–3 min · Experimental"},
+    ratio:16,dd:15,presets:[12,15,20],
+    grind:50,grindT:{ru:"Средний",en:"Medium"},
+    temp:"93°C",
+    calc(d){const w=d*16,b=d*2,r=w-b;return{w,pours:[
+      {time:"0:00",amt:b,note:{ru:"Bloom — 30–45 сек",en:"Bloom — 30–45 sec"}},
+      {time:"0:45",amt:Math.round(r*0.6),note:{ru:"Основной пролив, по спирали",en:"Main pour, spiral"}},
+      {time:"1:30",amt:Math.round(r*0.4),note:{ru:"Финальный пролив, по центру",en:"Final pour, center"}}
+    ]};},
+    notes:{ru:"Пока нет любимого рецепта — экспериментируй! Помол чуть мельче чем Chemex. Swirl после bloom.",en:"No favorite recipe yet — experiment! Grind slightly finer than Chemex. Swirl after bloom."}
+  },
+  {
+    id:"aero-filter",emoji:"🔄",name:"Aeropress — Filter",style:"Immersion · Inverted",
+    meta:{ru:"~2 мин · Мягкий",en:"~2 min · Smooth"},
+    ratio:16,dd:15,presets:[12,15,18],
+    grind:45,grindT:{ru:"Средний",en:"Medium"},
+    temp:"85–90°C",
+    calc(d){const w=d*16;return{w,pours:[
+      {time:"0:00",amt:w,note:{ru:"Залить всю воду сразу",en:"Pour all water at once"}},
+      {time:"0:10",amt:null,note:{ru:"Размешать 10 сек",en:"Stir 10 sec"}},
+      {time:"1:00",amt:null,note:{ru:"Перевернуть, давить медленно ~30 сек",en:"Flip, press slowly ~30 sec"}}
+    ]};},
+    notes:{ru:"Inverted method: поршень снизу, аэропресс перевёрнут. Флип на кружку в 1:00.",en:"Inverted method: plunger at bottom, flip onto cup at 1:00."}
+  },
+  {
+    id:"aero-espresso",emoji:"💥",name:"Aeropress — Espresso",style:"Concentrated · 1:6",
+    meta:{ru:"~1 мин · Крепкий",en:"~1 min · Strong"},
+    ratio:6,dd:18,presets:[15,18,20],
+    grind:25,grindT:{ru:"Мелкий",en:"Fine"},
+    temp:"90°C",
+    calc(d){const w=d*6;return{w,pours:[
+      {time:"0:00",amt:w,note:{ru:"Мало воды — залить сразу",en:"Little water — pour at once"}},
+      {time:"0:10",amt:null,note:{ru:"Быстро размешать",en:"Quick stir"}},
+      {time:"0:20",amt:null,note:{ru:"Давить быстро и сильно ~15 сек",en:"Press fast and hard ~15 sec"}}
+    ]};},
+    notes:{ru:"Максимальное давление. Разбавить водой = американо, молоком = латте.",en:"Maximum pressure. Dilute with water = americano, milk = latte."}
+  },
+  {
+    id:"aero-cold",emoji:"🧊",name:"Aeropress — Cold Brew",style:"Cold · Quick",
+    meta:{ru:"2–3 мин · Гладкий",en:"2–3 min · Smooth"},
+    ratio:8,dd:20,presets:[15,20,25],
+    grind:25,grindT:{ru:"Мелкий",en:"Fine"},
+    temp:{ru:"Холодная / комнатная",en:"Cold / room temp"},
+    calc(d){const w=d*8;return{w,pours:[
+      {time:"0:00",amt:w,note:{ru:"Холодная/комнатная вода",en:"Cold/room temp water"}},
+      {time:"0:15",amt:null,note:{ru:"Размешивать интенсивно 1–2 мин",en:"Stir vigorously 1–2 min"}},
+      {time:"2:00",amt:null,note:{ru:"Давить медленно",en:"Press slowly"}}
+    ]};},
+    notes:{ru:"Cold brew за 3 минуты. Концентрированный — разбавить водой/льдом.",en:"Cold brew in 3 minutes. Concentrated — dilute with water/ice."}
+  }
+];
+
+let openMethod=null,doses={};
+function getDose(m){return doses[m.id]||m.dd;}
+function setDose(id,v){const n=parseInt(v);if(n>0&&n<200){doses[id]=n;render();}}
+function setPreset(id,v){doses[id]=v;render();}
+function toggle(id){openMethod=openMethod===id?null:id;render();
+  if(openMethod)setTimeout(()=>document.getElementById('m-'+id)?.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+
+function render(){
+  document.getElementById('hTitle').textContent=t(UI.title);
+  document.getElementById('hRecipes').textContent=t(UI.recipes);
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
+
+  document.getElementById('methods').innerHTML=M.map(m=>{
+    const isOpen=openMethod===m.id,dose=getDose(m),data=m.calc(dose);
+    let total=0;
+    return `<div class="method${isOpen?' open':''}" id="m-${m.id}">
+      <div class="m-top" onclick="toggle('${m.id}')">
+        <div class="m-emoji">${m.emoji}</div>
+        <div class="m-body">
+          <div class="m-name">${m.name}</div>
+          <div class="m-style">${m.style}</div>
+          <div class="m-meta">⏱ ${t(m.meta)}</div>
+        </div>
+        <div class="m-arrow">›</div>
+      </div>
+      ${isOpen?`<div class="m-detail">
+        <div class="dose-row">
+          <span class="dose-label">${t(UI.coffee)}</span>
+          <input class="dose-input" type="number" value="${dose}" min="5" max="100"
+            oninput="setDose('${m.id}',this.value)" onclick="event.stopPropagation()">
+          <span class="dose-unit">${lang==='ru'?'г':'g'}</span>
+          <span class="dose-arrow">→</span>
+          <span class="dose-water">${data.w}</span>
+          <span class="dose-water-unit">${lang==='ru'?'мл воды':'ml water'}</span>
+        </div>
+        <div class="presets">${m.presets.map(p=>`<button class="preset${dose===p?' active':''}" onclick="setPreset('${m.id}',${p})">${p} ${lang==='ru'?'г':'g'}</button>`).join('')}</div>
+        <div class="grind-row">
+          <span class="grind-label">${t(UI.grind)}</span>
+          <div class="grind-bar"><div class="grind-fill" style="width:${m.grind}%"></div></div>
+          <span class="grind-text">${t(m.grindT)}</span>
+        </div>
+        <div class="pours">
+          <div class="pour-header">${t(UI.recipe)} · ${t(m.temp)}</div>
+          ${data.pours.map(p=>{if(p.amt)total+=p.amt;return`<div class="pour">
+            <span class="pour-time">${p.time}</span>
+            ${p.amt?`<span class="pour-amount">${p.amt} ${lang==='ru'?'мл':'ml'}</span>`:`<span class="pour-amount" style="opacity:.2">—</span>`}
+            <span class="pour-note">${t(p.note)}</span>
+          </div>`;}).join('')}
+          ${total?`<div class="pour-total">Σ ${total} ${lang==='ru'?'мл':'ml'}</div>`:''}
+        </div>
+        <div class="note">${t(m.notes)}</div>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>
