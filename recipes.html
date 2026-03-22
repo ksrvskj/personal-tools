@@ -37,7 +37,8 @@
 /* Cook view */
 #browseView{display:block}#cookView{display:none}
 body.cooking #browseView{display:none}body.cooking #cookView{display:block}
-.cook-back{position:sticky;top:0;z-index:10;padding:12px 16px;background:linear-gradient(180deg,var(--bg) 80%,transparent);display:flex;align-items:center;gap:8px;cursor:pointer}
+.cook-bar{position:sticky;top:0;z-index:10;padding:12px 16px;background:linear-gradient(180deg,var(--bg) 80%,transparent);display:flex;align-items:center;justify-content:space-between}
+.cook-back{display:flex;align-items:center;gap:8px;cursor:pointer}
 .cook-back-btn{font-size:13px;color:var(--dim);font-weight:600}
 .cook-hero{padding:8px 20px 16px}
 .cook-emoji{font-size:36px;margin-bottom:6px}
@@ -45,10 +46,12 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 .cook-subtitle{font-size:13px;opacity:.4;font-style:italic;margin-top:2px}
 .cook-portions{display:flex;align-items:center;gap:10px;padding:0 20px 14px}
 .cook-portions label{font-size:12px;opacity:.4}
-.pbtns{display:flex;border-radius:8px;overflow:hidden;border:1px solid rgba(255,255,255,.1)}
-.pbtn{padding:8px 16px;font-size:14px;font-weight:600;font-family:'JetBrains Mono',monospace;background:rgba(255,255,255,.03);color:rgba(255,255,255,.3);cursor:pointer;border:none;transition:all .12s}
-.pbtn.active{background:color-mix(in srgb,var(--c) 12%,transparent);color:var(--c)}
-.pbtn:not(:last-child){border-right:1px solid rgba(255,255,255,.06)}
+.stepper{display:inline-flex;align-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+.stepper-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:18px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .12s;user-select:none;-webkit-user-select:none}
+.stepper-btn:active{background:rgba(255,255,255,.08)}
+.stepper-val{width:42px;padding:6px 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--c,#D4A373);background:transparent;border:none;border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06);-moz-appearance:textfield;appearance:textfield}
+.stepper-val::-webkit-inner-spin-button,.stepper-val::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.stepper-val:focus{outline:none;background:rgba(255,255,255,.05)}
 .cook-kbju{display:flex;gap:6px;padding:0 20px 16px;flex-wrap:wrap}
 .ckp{padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.04);font-size:12px;display:flex;gap:4px;align-items:center}
 .ckp .lab{font-size:10px;opacity:.4;text-transform:uppercase;letter-spacing:.3px}
@@ -106,9 +109,15 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 </div>
 
 <div id="cookView">
-  <div class="cook-back" onclick="exitCook()">
-    <span style="font-size:18px;opacity:.4">←</span>
-    <span class="cook-back-btn" id="cookBackLabel"></span>
+  <div class="cook-bar">
+    <div class="cook-back" onclick="exitCook()">
+      <span style="font-size:18px;opacity:.4">←</span>
+      <span class="cook-back-btn" id="cookBackLabel"></span>
+    </div>
+    <div class="lang-toggle" id="cookLangToggle">
+      <button class="lang-btn" onclick="event.stopPropagation();setLang('ru')">RU</button>
+      <button class="lang-btn" onclick="event.stopPropagation();setLang('en')">EN</button>
+    </div>
   </div>
   <div id="cookContent"></div>
 </div>
@@ -494,19 +503,27 @@ const R=[
 let curCat="all",activeTags=new Set(),openCard=null,cookId=null,cookPortion={},stepsDone={},tmrs={};
 
 // ======================== HELPERS ========================
-function sc(v,b,tgt){const s=v*(tgt/b);return s===Math.round(s)?Math.round(s):Math.round(s*10)/10;}
-function fmtIng(ing,b,tgt){let a=ing.pp?ing.a:sc(ing.a,b,tgt);return t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;}
+function sc(v,b,tgt,unit){
+  const raw=v*(tgt/b);
+  const countable=!unit||['','шт','pcs','горсть','handful','щеп.','pinch'].includes(unit);
+  if(countable)return Math.round(raw*2)/2;
+  const small=['ч.л.','tsp','ст.л.','tbsp'].includes(unit);
+  if(small)return Math.round(raw*2)/2;
+  if(raw>=50)return Math.round(raw/5)*5;
+  if(raw>=10)return Math.round(raw);
+  return Math.round(raw*10)/10;
+}
+function fmtIng(ing,b,tgt){let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));return t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;}
 function resolve(s,ings,b,tgt){
   return t(s).replace(/\{(\d+)\}/g,(_,i)=>{
     const ing=ings[+i];if(!ing)return'?';
-    let a=ing.pp?ing.a:sc(ing.a,b,tgt);
+    let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));
     let short=t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;
     return `<span class="hi">${short}</span>`;
   });
 }
 function gc(cat){return CATS.find(c=>c.id===cat)?.color||'#D4A373';}
 function gp(r){return cookPortion[r.id]||r.bp;}
-function pOpts(bp){return bp===1?[1,2,3]:bp===2?[1,2,3,4]:[2,3,4,6];}
 function fmtTm(s){return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 
 // ======================== RENDER ========================
@@ -574,7 +591,8 @@ function exitCook(){
   Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});
   tmrs={};document.body.classList.remove('cooking');cookId=null;updateURL();
 }
-function setCookP(id,n,e){e?.stopPropagation();cookPortion[id]=n;renderCook();}
+function adjP(id,delta){const r=R.find(x=>x.id===id);if(!r)return;const cur=cookPortion[id]||r.bp;cookPortion[id]=Math.min(12,Math.max(1,cur+delta));renderCook();updateURL();}
+function setP(id,val){const n=parseInt(val);if(isNaN(n)||n<1)return;cookPortion[id]=Math.min(12,Math.max(1,n));renderCook();updateURL();}
 function toggleStep(i,e){e?.stopPropagation();stepsDone[i]=!stepsDone[i];renderCook();}
 function startTm(si,secs){
   const k='t'+si;
@@ -587,10 +605,10 @@ function startTm(si,secs){
 
 function renderCook(){
   const r=R.find(x=>x.id===cookId);if(!r)return;
-  const p=gp(r),c=gc(r.cat),opts=pOpts(r.bp);
+  const p=gp(r),c=gc(r.cat);
   let h=`<div style="--c:${c}">`;
   h+=`<div class="cook-hero"><div class="cook-emoji">${r.emoji}</div><div class="cook-title">${t(r.name)}</div>${r.sub?`<div class="cook-subtitle">${t(r.sub)}</div>`:''}<button id="shareBtn" class="share-btn" style="--c:${c}" onclick="event.stopPropagation();shareRecipe()">↗ ${t(UI.share)}</button></div>`;
-  h+=`<div class="cook-portions"><label>${t(UI.portions)}</label><div class="pbtns">${opts.map(n=>`<button class="pbtn${p===n?' active':''}" style="--c:${c}" onclick="setCookP('${r.id}',${n},event)">${n}</button>`).join('')}</div></div>`;
+  h+=`<div class="cook-portions"><label>${t(UI.portions)}</label><div class="stepper" style="--c:${c}"><button class="stepper-btn" onclick="event.stopPropagation();adjP('${r.id}',-1)">−</button><input class="stepper-val" type="number" min="1" max="12" value="${p}" onclick="event.stopPropagation();this.select()" onchange="event.stopPropagation();setP('${r.id}',+this.value)" onkeydown="if(event.key==='Enter'){this.blur()}"><button class="stepper-btn" onclick="event.stopPropagation();adjP('${r.id}',1)">+</button></div><span style="font-size:11px;opacity:.3;margin-left:4px">${UI.pWord(p)}</span></div>`;
   h+=`<div class="cook-kbju">
     <div class="ckp"><span class="lab">${lang==='ru'?'ккал':'kcal'}</span><span class="mono" style="color:${c}">${r.kbju[0]}</span></div>
     <div class="ckp"><span class="lab">${lang==='ru'?'Б':'P'}</span><span class="mono" style="color:var(--vegan)">${r.kbju[1]}${lang==='ru'?' г':' g'}</span></div>
