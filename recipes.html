@@ -9,52 +9,14 @@
 <title>Рецепты / Recipes</title>
 <link rel="stylesheet" href="style.css">
 <style>
-:root{--accent:#D4A373;--card:#1a1a1f;--dim:rgba(255,255,255,.4);--soup:#D4A373;--curry:#6B9080;--pasta:#9B72AA;--bowl:#5B8A9A;--comfort:#C4796B;--vegan:#6B9080;--gf:#D4A373;--fast:#5B8A9A;--hprot:#C4796B}
-
-/* Cards */
-.cards{padding:0 16px 100px}
-.card{border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1px solid color-mix(in srgb,var(--c) 25%,transparent);background:color-mix(in srgb,var(--c) 4%,#1a1a1f);cursor:pointer;transition:all .15s}
-.card:active{transform:scale(0.99)}
-.card-top{display:flex;gap:10px;align-items:center}
-.card-emoji{font-size:24px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border-radius:8px;flex-shrink:0}
-.card-body{flex:1;min-width:0}
-.card-name{font-weight:700;font-size:14px;line-height:1.3}
-.card-sub{font-size:11px;opacity:.4;font-style:italic;margin-top:1px}
-.card-row{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center}
-.card-meta{font-size:11px;opacity:.4}
-.card-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
-.tag-vegan{background:rgba(107,144,128,.12);color:var(--vegan)}
-.tag-gf{background:rgba(212,163,115,.1);color:var(--gf)}
-.tag-fast{background:rgba(91,138,154,.1);color:var(--fast)}
-.tag-hprot{background:rgba(196,121,107,.1);color:var(--hprot)}
-.card-kbju{display:flex;gap:4px;margin-top:5px}
-.kp-k .mono{color:var(--text)}.kp-p .mono{color:var(--vegan)}.kp-f .mono{color:var(--comfort)}.kp-c .mono{color:var(--pasta)}
-.card-preview{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
-.card-preview-list{font-size:12px;line-height:1.7;opacity:.55;columns:2;column-gap:12px}
-.card-cook{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:7px 16px;border-radius:8px;border:1.5px solid color-mix(in srgb,var(--c) 30%,transparent);background:color-mix(in srgb,var(--c) 6%,transparent);color:var(--c);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
-.card-cook:active{transform:scale(0.97)}
-
-/* Cook view */
-#browseView{display:block}#cookView{display:none}
-body.cooking #browseView{display:none}body.cooking #cookView{display:block}
-.cook-bar{position:sticky;top:0;z-index:10;padding:12px 16px;background:linear-gradient(180deg,var(--bg) 80%,transparent);display:flex;align-items:center;justify-content:space-between}
-.cook-back{display:flex;align-items:center;gap:8px;cursor:pointer}
-.cook-back-btn{font-size:13px;color:var(--dim);font-weight:600}
+/* Page-specific: recipe cook mode */
+:root{--accent:#D4A373;--soup:#D4A373;--curry:#6B9080;--pasta:#9B72AA;--skillet:#5B8A9A;--comfort:#C4796B}
 .cook-hero{padding:8px 20px 16px}
 .cook-emoji{font-size:36px;margin-bottom:6px}
 .cook-title{font-size:22px;font-weight:700;line-height:1.3}
 .cook-subtitle{font-size:13px;opacity:.4;font-style:italic;margin-top:2px}
 .cook-portions{display:flex;align-items:center;gap:10px;padding:0 20px 14px}
 .cook-portions label{font-size:12px;opacity:.4}
-.stepper{display:inline-flex;align-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
-.stepper-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:18px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .12s;user-select:none;-webkit-user-select:none}
-.stepper-btn:active{background:rgba(255,255,255,.08)}
-.stepper-val{width:42px;padding:6px 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--c,#D4A373);background:transparent;border:none;border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06);-moz-appearance:textfield;appearance:textfield}
-.stepper-val::-webkit-inner-spin-button,.stepper-val::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
-.stepper-val:focus{outline:none;background:rgba(255,255,255,.05)}
-.cook-kbju{display:flex;gap:6px;padding:0 20px 16px;flex-wrap:wrap}
-.ckp{padding:5px 10px;border-radius:6px;background:rgba(255,255,255,.04);font-size:12px;display:flex;gap:4px;align-items:center}
-.ckp .lab{font-size:10px;opacity:.4;text-transform:uppercase;letter-spacing:.3px}
 .cook-ing{padding:0 20px 16px}
 .cook-ing-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;opacity:.4;margin-bottom:8px}
 .cook-ing-list{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
@@ -75,601 +37,131 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 .cs-tm:active{background:rgba(255,255,255,.08)}
 .cs-td{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--c);min-width:36px}
 .cs-tl{font-size:11px;opacity:.4}
-.cs-tm.run .cs-td{color:#e8e0d4}.cs-tm.fin .cs-td{color:var(--vegan)}
-.cook-tips{padding:0 16px 60px}
+.cs-tm.run .cs-td{color:#e8e0d4}
+.cs-tm.fin .cs-td{color:var(--vegan)}
+.cook-tips{padding:0 16px 12px}
 .cook-tip{font-size:13px;line-height:1.6;font-style:italic;opacity:.5;padding:10px 14px;border-left:2px solid var(--c);border-radius:0 8px 8px 0;background:rgba(255,255,255,.02);margin-bottom:6px}
-.nothing{text-align:center;padding:60px 20px;opacity:.25;font-size:14px}
-.share-btn{margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--c) 25%,transparent);background:color-mix(in srgb,var(--c) 6%,transparent);color:var(--c);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
-.share-btn:active{transform:scale(0.97)}
+.cook-nutrition{padding:12px 20px 60px}
+.cook-nutrition-row{font-size:11px;opacity:.25;font-family:'JetBrains Mono',monospace;text-align:center;letter-spacing:.3px}
+.cook-nutrition-row span{margin:0 6px}
 </style>
 </head>
 <body>
-
 <div id="browseView">
-  <div class="header">
-    <div class="header-top">
-      <div>
-        <div class="header-sub">Batch Cooking</div>
-        <h1 id="hTitle"></h1>
-        <div class="header-desc" id="hDesc"></div>
-        <div class="header-links">
-          <a class="header-link" href="index.html">← Hub</a>
-          <a class="header-link" href="coffee.html">☕ <span id="hCoffee"></span></a>
-        </div>
-      </div>
-      <div class="lang-toggle">
-        <button class="lang-btn" onclick="setLang('ru')">RU</button>
-        <button class="lang-btn" onclick="setLang('en')">EN</button>
-      </div>
-    </div>
-  </div>
+  <div class="header"><div class="header-top"><div>
+    <div class="header-sub">Batch Cooking</div>
+    <h1 id="hTitle"></h1>
+    <div class="header-desc" id="hDesc"></div>
+    <div class="header-links"><a class="header-link" href="index.html">← Hub</a><a class="header-link" href="coffee.html">☕ <span id="hCoffee"></span></a></div>
+  </div><div class="lang-toggle"><button class="lang-btn" onclick="setLang('ru')">RU</button><button class="lang-btn" onclick="setLang('en')">EN</button></div></div></div>
   <div class="filters" id="catBar"></div>
   <div class="tag-filters" id="tagBar"></div>
+  <div class="ing-row" id="ingBar"></div>
   <div class="cards" id="cardList"></div>
 </div>
-
 <div id="cookView">
-  <div class="cook-bar">
-    <div class="cook-back" onclick="exitCook()">
-      <span style="font-size:18px;opacity:.4">←</span>
-      <span class="cook-back-btn" id="cookBackLabel"></span>
-    </div>
-    <div class="lang-toggle" id="cookLangToggle">
-      <button class="lang-btn" onclick="event.stopPropagation();setLang('ru')">RU</button>
-      <button class="lang-btn" onclick="event.stopPropagation();setLang('en')">EN</button>
-    </div>
-  </div>
+  <div class="cook-bar"><div class="cook-back" onclick="exitCook()"><span style="font-size:18px;opacity:.4">←</span><span class="cook-back-btn" id="cookBackLabel"></span></div><div class="lang-toggle" id="cookLangToggle"><button class="lang-btn" onclick="event.stopPropagation();setLang('ru')">RU</button><button class="lang-btn" onclick="event.stopPropagation();setLang('en')">EN</button></div></div>
   <div id="cookContent"></div>
 </div>
-
+<div class="nutrition-toggle" id="nutToggle" onclick="toggleNutrition()" title="Toggle nutrition info">ⓘ</div>
 <script>
-// ======================== I18N ========================
-let lang = localStorage.getItem('lang') || 'ru';
-function setLang(l){ lang=l; localStorage.setItem('lang',l); document.documentElement.lang=l; fullRender(); updateURL(); }
-function t(o){ if(!o) return ''; if(typeof o==='string') return o; return o[lang]||o.ru||o.en||''; }
+let lang=localStorage.getItem('lang')||'ru';
+function setLang(l){lang=l;localStorage.setItem('lang',l);document.documentElement.lang=l;fullRender();updateURL();}
+function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
+const UI={title:{ru:"Рецепты",en:"Recipes"},desc:{ru:"Быстро · Вегетарианский · С белком",en:"Quick · Vegetarian · High protein"},coffee:{ru:"Кофе",en:"Coffee"},cook:{ru:"Готовить →",en:"Cook →"},back:{ru:"Рецепты",en:"Recipes"},portions:{ru:"Порции",en:"Servings"},perPortion:{ru:"на порцию",en:"per serving"},ingredients:{ru:"Ингредиенты",en:"Ingredients"},tips:{ru:"💡 Заметки",en:"💡 Notes"},noMatch:{ru:"Нет рецептов с такими фильтрами",en:"No recipes match these filters"},start:{ru:"старт",en:"start"},pause:{ru:"пауза",en:"pause"},reset:{ru:"заново",en:"reset"},share:{ru:"Поделиться",en:"Share"},copied:{ru:"Ссылка скопирована!",en:"Link copied!"},ingFilter:{ru:"+ Ингредиенты",en:"+ Ingredients"},ingFilterN:{ru:"× Ингредиенты",en:"× Ingredients"},pWord(n){if(lang==='en')return n===1?'serving':'servings';return n===1?'порция':n<5?'порции':'порций';}};
+const CATS=[{id:"all",label:{ru:"Всё",en:"All"},color:"#D4A373"},{id:"soup",label:{ru:"Супы",en:"Soups"},color:"#D4A373"},{id:"curry",label:{ru:"Карри",en:"Curry"},color:"#6B9080"},{id:"pasta",label:{ru:"Паста",en:"Pasta"},color:"#9B72AA"},{id:"skillet",label:{ru:"Сковорода",en:"Skillet"},color:"#5B8A9A"},{id:"comfort",label:"Comfort",color:"#C4796B"}];
+const TAGS=[{id:"vegan",label:"🌱 Vegan",color:"var(--vegan)"},{id:"gf",label:"GF",color:"var(--gf)"},{id:"fast",label:{ru:"⏱ <15м",en:"⏱ <15m"},color:"var(--fast)"},{id:"hprot",label:{ru:"💪 Белок",en:"💪 Protein"},color:"var(--hprot)"}];
+const ING_TAGS=[{id:"buckwheat",label:{ru:"гречка",en:"buckwheat"}},{id:"kale",label:{ru:"кале",en:"kale"}},{id:"lentils",label:{ru:"чечевица",en:"lentils"}},{id:"chickpeas",label:{ru:"нут",en:"chickpeas"}},{id:"beans",label:{ru:"фасоль",en:"beans"}},{id:"tofu",label:{ru:"тофу",en:"tofu"}},{id:"beetroot",label:{ru:"свёкла",en:"beetroot"}},{id:"broccoli",label:{ru:"брокколи",en:"broccoli"}},{id:"potato",label:{ru:"картошка",en:"potato"}}];
 
-const UI = {
-  title:       {ru:"Рецепты", en:"Recipes"},
-  desc:        {ru:"Быстро · Вегетарианский · С белком", en:"Quick · Vegetarian · High protein"},
-  coffee:      {ru:"Кофе", en:"Coffee"},
-  cook:        {ru:"Готовить →", en:"Cook →"},
-  back:        {ru:"Рецепты", en:"Recipes"},
-  portions:    {ru:"Порции", en:"Servings"},
-  perPortion:  {ru:"на порцию", en:"per serving"},
-  ingredients: {ru:"Ингредиенты", en:"Ingredients"},
-  tips:        {ru:"💡 Заметки", en:"💡 Notes"},
-  noMatch:     {ru:"Нет рецептов с такими фильтрами", en:"No recipes match these filters"},
-  start:       {ru:"старт", en:"start"},
-  pause:       {ru:"пауза", en:"pause"},
-  reset:       {ru:"заново", en:"reset"},
-  all:         {ru:"Всё", en:"All"},
-  share:       {ru:"Поделиться", en:"Share"},
-  copied:      {ru:"Ссылка скопирована!", en:"Link copied!"},
-  pWord(n){
-    if(lang==='en') return n===1?'serving':'servings';
-    return n===1?'порция':n<5?'порции':'порций';
-  }
-};
-
-const CATS=[
-  {id:"all",label:{ru:"Всё",en:"All"},color:"#D4A373"},
-  {id:"soup",label:{ru:"Супы",en:"Soups"},color:"#D4A373"},
-  {id:"curry",label:{ru:"Карри",en:"Curry"},color:"#6B9080"},
-  {id:"pasta",label:{ru:"Паста",en:"Pasta"},color:"#9B72AA"},
-  {id:"bowl",label:{ru:"Боулы",en:"Bowls"},color:"#5B8A9A"},
-  {id:"comfort",label:"Comfort",color:"#C4796B"}
-];
-
-const TAGS=[
-  {id:"vegan",label:"🌱 Vegan",color:"var(--vegan)"},
-  {id:"gf",label:"GF",color:"var(--gf)"},
-  {id:"fast",label:{ru:"⏱ <15м",en:"⏱ <15m"},color:"var(--fast)"},
-  {id:"hprot",label:{ru:"💪 Белок",en:"💪 Protein"},color:"var(--hprot)"}
-];
-
-// ======================== RECIPE DATA ========================
 const R=[
-{id:"potato-kale-buckwheat",cat:"bowl",emoji:"🥬",
-  name:{ru:"Картофельно-кале суп с гречкой",en:"Potato-Kale Buckwheat Soup"},
-  sub:{ru:"Caldo verde по-русски",en:"Russian caldo verde"},
-  time:{ru:"25 мин",en:"25 min"},bp:4,kbju:[280,10,6,45],tags:["gf"],
-  ing:[
-    {t:{ru:"Кале",en:"Kale"},a:300,u:{ru:"г",en:"g"}},
-    {t:{ru:"Гречка",en:"Buckwheat"},a:135,u:{ru:"г",en:"g"}},
-    {t:{ru:"Картошка",en:"Potato"},a:200,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},
-    {t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Бульонный кубик",en:"Stock cube"},a:1.5,u:""},
-    {t:{ru:"Вода",en:"Water"},a:1400,u:{ru:"мл",en:"ml"}},
-    {t:{ru:"Масло",en:"Oil"},a:1,u:{ru:"ст.л.",en:"tbsp"}},
-    {t:{ru:"Яйца",en:"Eggs"},a:2,u:"",pp:1}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок на масле 3 мин",en:"Onion + garlic in oil 3 min"}},
-    {s:{ru:"Картошку мелким кубиком + {6} воды + кубик → варить 10 мин",en:"Potato diced small + {6} water + cube → cook 10 min"},tm:600},
-    {s:{ru:"Засыпать {1} гречки, ещё 10 мин",en:"Add {1} buckwheat, 10 more min"},tm:600},
-    {s:{ru:"{0} кале порванную — последние 5 мин",en:"{0} kale torn — last 5 min"},tm:300},
-    {s:{ru:"Перец, зелень. Яйцо отдельно",en:"Pepper, herbs. Egg separately"}}
-  ],
-  tips:[
-    {ru:"Картошка разварится и загустит — не пюре, но приятно",en:"Potato will partly dissolve and thicken — not purée, but nice"},
-    {ru:"Гречка впитает ~300 мл — не жалей воды",en:"Buckwheat absorbs ~300 ml — don't skimp on water"},
-    {ru:"Яйцо: stracciatella в суп или варёное половинками",en:"Egg: stracciatella style in soup or halved boiled egg"}
-  ]
-},
-{id:"tomato-kale-beans",cat:"soup",emoji:"🍅",
-  name:{ru:"Томатный суп с кале и фасолью",en:"Tomato Kale & White Bean Soup"},
-  sub:{ru:"Не пюрировать!",en:"Don't blend!"},
-  time:{ru:"25 мин",en:"25 min"},bp:4,kbju:[220,12,4,32],tags:["vegan","gf"],
-  ing:[
-    {t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Белая фасоль",en:"White beans"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Кале",en:"Kale"},a:175,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Бульонный кубик",en:"Stock cube"},a:1,u:""},
-    {t:{ru:"Вода",en:"Water"},a:550,u:{ru:"мл",en:"ml"}},
-    {t:{ru:"Масло",en:"Oil"},a:1,u:{ru:"ст.л.",en:"tbsp"}},
-    {t:{ru:"Копчёная паприка",en:"Smoked paprika"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Кумин",en:"Cumin"},a:0.5,u:{ru:"ч.л.",en:"tsp"}}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок на {7} масла 3 мин",en:"Onion + garlic in {7} oil 3 min"}},
-    {s:{ru:"{8} паприки, {9} кумина — 30 сек помешать",en:"{8} paprika, {9} cumin — stir 30 sec"}},
-    {s:{ru:"{0} томатов целиком + {6} воды + кубик → 10 мин",en:"{0} tomatoes (all liquid!) + {6} water + cube → 10 min"},tm:600},
-    {s:{ru:"{1} фасоли (слить, промыть) — в суп",en:"{1} beans (drained, rinsed) — into soup"}},
-    {s:{ru:"{2} кале — последние 5 мин",en:"{2} kale — last 5 min"},tm:300},
-    {s:{ru:"Соль, перец, можно лимон",en:"Salt, pepper, squeeze of lemon"}}
-  ],
-  tips:[
-    {ru:"НЕ пюрировать! Фасоль целая, кале кусочками",en:"Do NOT blend! Beans whole, kale in pieces"},
-    {ru:"Копчёная паприка тут главная",en:"Smoked paprika is the star here"},
-    {ru:"Тёртый сыр сверху + хлеб = полноценный обед",en:"Grated cheese on top + bread = full meal"}
-  ]
-},
-{id:"carrot-ginger-lentil",cat:"soup",emoji:"🥕",
-  name:{ru:"Морковь-имбирь-чечевица",en:"Carrot-Ginger-Lentil"},
-  sub:{ru:"Пюре «восстановление»",en:"Recovery purée"},
-  time:{ru:"20 мин",en:"20 min"},bp:4,kbju:[230,13,3,38],tags:["vegan","gf"],
-  ing:[
-    {t:{ru:"Морковь",en:"Carrots"},a:500,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Красная чечевица",en:"Red lentils"},a:135,u:{ru:"г",en:"g"}},
-    {t:{ru:"Имбирь",en:"Ginger"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Куркума",en:"Turmeric"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Вода",en:"Water"},a:1100,u:{ru:"мл",en:"ml"}},
-    {t:{ru:"Лимон",en:"Lemon"},a:0.5,u:""}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок 2–3 мин на масле",en:"Onion + garlic 2–3 min in oil"}},
-    {s:{ru:"{0} моркови + специи + {3} чечевицы + {7} воды",en:"{0} carrots + spices + {3} lentils + {7} water"}},
-    {s:{ru:"Варить 12–15 мин → блендер",en:"Cook 12–15 min → blend"},tm:780},
-    {s:{ru:"Лимон в конце",en:"Lemon at the end"}}
-  ],
-  tips:[{ru:"Скир сверху + тыквенные семечки = белок-апгрейд",en:"Skyr on top + pumpkin seeds = protein upgrade"}]
-},
-{id:"broccoli-spinach",cat:"soup",emoji:"🥦",
-  name:{ru:"Брокколи-шпинат-йогурт",en:"Broccoli-Spinach-Yogurt"},
-  sub:{ru:"Объём без калорий",en:"Volume without calories"},
-  time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[140,12,3,16],tags:["gf","fast"],
-  ing:[
-    {t:{ru:"Брокколи",en:"Broccoli"},a:450,u:{ru:"г",en:"g"}},
-    {t:{ru:"Шпинат",en:"Spinach"},a:80,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},
-    {t:{ru:"Вода",en:"Water"},a:900,u:{ru:"мл",en:"ml"}},
-    {t:{ru:"Мускатный орех",en:"Nutmeg"},a:1,u:{ru:"щеп.",en:"pinch"}},
-    {t:{ru:"Йогурт/скир",en:"Yogurt/skyr"},a:175,u:{ru:"г",en:"g"}}
-  ],
-  steps:[
-    {s:{ru:"Отвари {0} брокколи с луком 10–12 мин",en:"Boil {0} broccoli with onion 10–12 min"},tm:660},
-    {s:{ru:"{1} шпината на 1–2 мин",en:"{1} spinach for 1–2 min"}},
-    {s:{ru:"Блендер → вмешай {5} йогурта (не кипяти!)",en:"Blend → stir in {5} yogurt (don't boil!)"}}
-  ],
-  tips:[{ru:"Очень сытно из-за объёма, калорий мало",en:"Very filling due to volume, low calories"}]
-},
-{id:"cauliflower-curry-soup",cat:"soup",emoji:"🍛",
-  name:{ru:"Цветная капуста-карри",en:"Cauliflower Curry Soup"},
-  sub:{ru:"Без кокоса, но вкус есть",en:"No coconut, but tastes like it"},
-  time:{ru:"20 мин",en:"20 min"},bp:4,kbju:[180,7,4,28],tags:["vegan","gf"],
-  ing:[
-    {t:{ru:"Цветная капуста",en:"Cauliflower"},a:600,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Карри-порошок",en:"Curry powder"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Копчёная паприка",en:"Smoked paprika"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Картофелина",en:"Potato"},a:1,u:""},{t:{ru:"Вода",en:"Water"},a:1000,u:{ru:"мл",en:"ml"}}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок 2–3 мин, {3} карри + {4} паприки 30 сек",en:"Onion + garlic 2–3 min, {3} curry + {4} paprika 30 sec"}},
-    {s:{ru:"{0} капусты + картошка + {6} воды → 12–15 мин",en:"{0} cauliflower + potato + {6} water → 12–15 min"},tm:780},
-    {s:{ru:"Блендер, соль/перец",en:"Blend, salt/pepper"}}
-  ],
-  tips:[{ru:"Белок: нут из банки прямо в тарелку",en:"Protein: canned chickpeas straight into the bowl"}]
-},
-{id:"tomato-paprika-beans",cat:"soup",emoji:"🫘",
-  name:{ru:"Томат-паприка-фасоль",en:"Tomato-Paprika-Bean"},
-  sub:{ru:"Сытость",en:"Filling & cheap"},
-  time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[195,11,2,32],tags:["vegan","gf","fast"],
-  ing:[
-    {t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Белая фасоль",en:"White beans"},a:240,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Копчёная паприка",en:"Smoked paprika"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Орегано",en:"Oregano"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Вода",en:"Water"},a:500,u:{ru:"мл",en:"ml"}}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок, {4} паприки 30 сек",en:"Onion + garlic, {4} paprika 30 sec"}},
-    {s:{ru:"{0} томатов + {6} воды → 10 мин",en:"{0} tomatoes + {6} water → 10 min"},tm:600},
-    {s:{ru:"{1} фасоли → блендер (часть целой)",en:"{1} beans → blend (keep some whole)"}}
-  ],
-  tips:[]
-},
-{id:"beet-cumin",cat:"soup",emoji:"🟣",
-  name:{ru:"Свёкла-тмин-йогурт",en:"Beet-Cumin-Yogurt"},
-  sub:{ru:"Железо и бодрость",en:"Iron boost"},
-  time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[120,5,1,22],tags:["gf","fast"],
-  ing:[
-    {t:{ru:"Готовая свёкла",en:"Cooked beets (vacuum)"},a:450,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Тмин/кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Вода",en:"Water"},a:800,u:{ru:"мл",en:"ml"}},
-    {t:{ru:"Лимон",en:"Lemon"},a:1,u:{ru:"ст.л.",en:"tbsp"}},
-    {t:{ru:"Скир",en:"Skyr"},a:50,u:{ru:"г",en:"g"},pp:1}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок 3 мин, {3} тмина",en:"Onion + garlic 3 min, {3} cumin"}},
-    {s:{ru:"{0} свёклы + {4} воды → 8–10 мин",en:"{0} beets + {4} water → 8–10 min"},tm:540},
-    {s:{ru:"Блендер, {5} лимона в конце",en:"Blend, {5} lemon at the end"}}
-  ],
-  tips:[{ru:"Идеально после месячных — железо + лимон для усвоения",en:"Great for iron replenishment — lemon aids absorption"}]
-},
-// ---- CURRY ----
-{id:"chickpea-spinach-tomato",cat:"curry",emoji:"🫛",
-  name:{ru:"Нут-шпинат-томаты",en:"Chickpea-Spinach-Tomato"},
-  sub:{ru:"Быстрый спорт-карри",en:"Quick sport curry"},
-  time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[250,14,5,35],tags:["vegan","gf","fast"],
-  ing:[
-    {t:{ru:"Нут",en:"Chickpeas"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Шпинат",en:"Spinach"},a:200,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Гарам масала",en:"Garam masala"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок 3 мин, {5} гарам масала + {6} кумина",en:"Onion + garlic 3 min, {5} garam masala + {6} cumin"}},
-    {s:{ru:"{1} томатов → 8–10 мин",en:"{1} tomatoes → 8–10 min"},tm:540},
-    {s:{ru:"{0} нута + {2} шпината → 3–4 мин",en:"{0} chickpeas + {2} spinach → 3–4 min"}},
-    {s:{ru:"Соль, лимон",en:"Salt, lemon"}}
-  ],
-  tips:[{ru:"На рис/булгур или «рис» из цветной капусты",en:"Serve over rice/bulgur or cauliflower 'rice'"}]
-},
-{id:"red-lentil-dal",cat:"curry",emoji:"🍲",
-  name:{ru:"Дал из красной чечевицы",en:"Red Lentil Dal"},
-  sub:{ru:"Ультра-эффективно",en:"Ultra efficient"},
-  time:{ru:"20 мин",en:"20 min"},bp:4,kbju:[260,16,2,42],tags:["vegan","gf"],
-  ing:[
-    {t:{ru:"Красная чечевица",en:"Red lentils"},a:200,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Имбирь",en:"Ginger"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Куркума",en:"Turmeric"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Карри",en:"Curry"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Томатная паста",en:"Tomato paste"},a:1,u:{ru:"ст.л.",en:"tbsp"}},
-    {t:{ru:"Вода",en:"Water"},a:1000,u:{ru:"мл",en:"ml"}}
-  ],
-  steps:[
-    {s:{ru:"Лук + чеснок + {3} имбиря 3 мин, специи",en:"Onion + garlic + {3} ginger 3 min, spices"}},
-    {s:{ru:"{0} чечевицы + {8} воды + {7} том. пасты → 12–15 мин",en:"{0} lentils + {8} water + {7} tomato paste → 12–15 min"},tm:780},
-    {s:{ru:"Соль + лимон",en:"Salt + lemon"}}
-  ],
-  tips:[{ru:"Добавь йогурт/тофу для экстра-белка",en:"Add yogurt/tofu for extra protein"}]
-},
-{id:"tofu-veg-thai",cat:"curry",emoji:"🥡",
-  name:{ru:"Тофу-овощи «почти тай»",en:"Tofu-Veg 'Almost Thai'"},
-  sub:{ru:"Без дорогих паст",en:"No fancy pastes"},
-  time:{ru:"20 мин",en:"20 min"},bp:3,kbju:[290,19,12,25],tags:["vegan","gf"],
-  ing:[
-    {t:{ru:"Тофу",en:"Tofu"},a:275,u:{ru:"г",en:"g"}},
-    {t:{ru:"Овощная смесь",en:"Frozen veg mix"},a:450,u:{ru:"г",en:"g"}},
-    {t:{ru:"Соевый соус",en:"Soy sauce"},a:1.5,u:{ru:"ст.л.",en:"tbsp"}},
-    {t:{ru:"Лайм/лимон",en:"Lime/lemon"},a:0.5,u:""},
-    {t:{ru:"Карри-порошок",en:"Curry powder"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Имбирь",en:"Ginger"},a:1,u:{ru:"ч.л.",en:"tsp"}}
-  ],
-  steps:[
-    {s:{ru:"{0} тофу кубиками → обжарь 5–7 мин",en:"{0} tofu cubed → fry 5–7 min"},tm:360},
-    {s:{ru:"{1} овощей + специи",en:"{1} veg mix + spices"}},
-    {s:{ru:"{2} соевого + вода + лимон → 3–5 мин",en:"{2} soy sauce + water + lemon → 3–5 min"}}
-  ],
-  tips:[]
-},
-// ---- PASTA ----
-{id:"lentil-bolognese",cat:"pasta",emoji:"🍝",
-  name:{ru:"«Болоньезе» из чечевицы",en:"Lentil 'Bolognese'"},
-  sub:{ru:"Вкусно, белок есть",en:"Tasty, good protein"},
-  time:{ru:"20 мин",en:"20 min"},bp:2,kbju:[480,24,4,82],tags:["vegan","hprot"],
-  ing:[
-    {t:{ru:"Паста цельнозерновая",en:"Whole wheat pasta"},a:140,u:{ru:"г",en:"g"}},
-    {t:{ru:"Красная чечевица",en:"Red lentils"},a:135,u:{ru:"г",en:"g"}},
-    {t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Орегано",en:"Oregano"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Паприка",en:"Paprika"},a:1,u:{ru:"ч.л.",en:"tsp"}}
-  ],
-  steps:[
-    {s:{ru:"{0} пасты — вари",en:"{0} pasta — boil"}},
-    {s:{ru:"Лук + чеснок → {2} томатов + специи + {1} чечевицы + вода → 12–15 мин",en:"Onion + garlic → {2} tomatoes + spices + {1} lentils + water → 12–15 min"},tm:780},
-    {s:{ru:"Смешай с пастой",en:"Mix with pasta"}}
-  ],
-  tips:[{ru:"1–2 ст.л. тёртого сыра сверху",en:"1–2 tbsp grated cheese on top"}]
-},
-{id:"pasta-chickpea-lemon",cat:"pasta",emoji:"🍋",
-  name:{ru:"Паста-нут-лимон-чеснок",en:"Pasta-Chickpea-Lemon-Garlic"},
-  sub:{ru:"Когда лень победила",en:"When lazy wins"},
-  time:{ru:"15 мин",en:"15 min"},bp:2,kbju:[440,18,8,72],tags:["vegan","fast"],
-  ing:[
-    {t:{ru:"Паста",en:"Pasta"},a:140,u:{ru:"г",en:"g"}},
-    {t:{ru:"Нут",en:"Chickpeas"},a:400,u:{ru:"г",en:"g"}},
-    {t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Лимон",en:"Lemon"},a:1,u:""},
-    {t:{ru:"Масло",en:"Oil"},a:1,u:{ru:"ч.л.",en:"tsp"}},
-    {t:{ru:"Петрушка/руккола",en:"Parsley/arugula"},a:1,u:{ru:"горсть",en:"handful"}}
-  ],
-  steps:[
-    {s:{ru:"{0} пасты варится",en:"{0} pasta boiling"}},
-    {s:{ru:"Чеснок 30 сек → {1} нута 3–4 мин",en:"Garlic 30 sec → {1} chickpeas 3–4 min"}},
-    {s:{ru:"Пасту + воды от пасты + лимон + зелень",en:"Pasta + pasta water + lemon + herbs"}}
-  ],
-  tips:[]
-},
-{id:"green-pea-pasta",cat:"pasta",emoji:"🟢",
-  name:{ru:"«Зелёная» паста с горошком",en:"Green Pea Pasta"},
-  sub:{ru:"Пюре-соус без сливок",en:"Cream-free purée sauce"},
-  time:{ru:"15 мин",en:"15 min"},bp:2,kbju:[420,22,5,68],tags:["fast","hprot"],
-  ing:[
-    {t:{ru:"Паста",en:"Pasta"},a:140,u:{ru:"г",en:"g"}},
-    {t:{ru:"Зелёный горошек",en:"Green peas (frozen)"},a:275,u:{ru:"г",en:"g"}},
-    {t:{ru:"Шпинат",en:"Spinach"},a:60,u:{ru:"г",en:"g"}},
-    {t:{ru:"Йогурт/скир",en:"Yogurt/skyr"},a:150,u:{ru:"г",en:"g"}},
-    {t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Лимон",en:"Lemon"},a:0.5,u:""}
-  ],
-  steps:[
-    {s:{ru:"{1} горошка 3–4 мин в кипятке",en:"{1} peas 3–4 min in boiling water"}},
-    {s:{ru:"Блендер: горошек + {2} шпината + {3} йогурта + чеснок + лимон",en:"Blend: peas + {2} spinach + {3} yogurt + garlic + lemon"}},
-    {s:{ru:"Смешай с {0} пасты + воды от пасты",en:"Mix with {0} pasta + pasta water"}}
-  ],
-  tips:[{ru:"Можно добавить тофу кубиками",en:"Can add cubed tofu"}]
-},
-// ---- BOWL ----
-{id:"kale-buckwheat-ragout",cat:"bowl",emoji:"🫕",
-  name:{ru:"Рагу: гречка + кале + фасоль",en:"Buckwheat-Kale-Bean Ragout"},
-  sub:{ru:"С вялеными томатами",en:"With sun-dried tomatoes"},
-  time:{ru:"20 мин",en:"20 min"},bp:3,kbju:[340,14,8,50],tags:["gf"],
-  ing:[
-    {t:{ru:"Гречка",en:"Buckwheat"},a:150,u:{ru:"г",en:"g"}},
-    {t:{ru:"Кале",en:"Kale"},a:200,u:{ru:"г",en:"g"}},
-    {t:{ru:"Белая фасоль",en:"White beans"},a:125,u:{ru:"г",en:"g"}},
-    {t:{ru:"Вяленые томаты",en:"Sun-dried tomatoes"},a:6,u:{ru:"шт",en:"pcs"}},
-    {t:{ru:"Масло из-под томатов",en:"Oil from tomato jar"},a:1,u:{ru:"ст.л.",en:"tbsp"}},
-    {t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},
-    {t:{ru:"Лимон",en:"Lemon"},a:0.5,u:""},
-    {t:{ru:"Яйцо",en:"Egg"},a:1,u:"",pp:1}
-  ],
-  steps:[
-    {s:{ru:"{0} гречки + 300 мл воды → 15 мин",en:"{0} buckwheat + 300 ml water → 15 min"},tm:900},
-    {s:{ru:"{4} масла → лук 3 мин",en:"{4} oil → onion 3 min"}},
-    {s:{ru:"Чеснок + {3} вяленых томатов полосками — 1 мин",en:"Garlic + {3} sun-dried tomatoes sliced — 1 min"}},
-    {s:{ru:"{2} фасоли — 2 мин",en:"{2} beans — 2 min"}},
-    {s:{ru:"{1} кале — 5 мин, мешая",en:"{1} kale — 5 min, stirring"},tm:300},
-    {s:{ru:"Гречку туда. Соль, перец, лимон. Яйцо сверху",en:"Add buckwheat. Salt, pepper, lemon. Egg on top"}}
-  ],
-  tips:[
-    {ru:"Масло из-под вяленых томатов заменяет обычное",en:"Oil from sun-dried tomatoes replaces regular oil"},
-    {ru:"Вяленые томаты = специя: немного, но дают умами",en:"Sun-dried tomatoes = spice: small amount, big umami"}
-  ]
-},
-// ---- COMFORT ----
-{id:"rosti-egg",cat:"comfort",emoji:"🥔",
-  name:{ru:"Рёсти с яйцом",en:"Rösti with Egg"},
-  sub:{ru:"Воскресенье восстановления",en:"Recovery Sunday"},
-  time:{ru:"25 мин",en:"25 min"},bp:1,kbju:[520,18,28,48],tags:["gf"],
-  ing:[
-    {t:{ru:"Картошка",en:"Potatoes"},a:300,u:{ru:"г",en:"g"}},
-    {t:{ru:"Яйца",en:"Eggs"},a:2,u:""},
-    {t:{ru:"Масло",en:"Oil/butter"},a:2,u:{ru:"ст.л.",en:"tbsp"}}
-  ],
-  steps:[
-    {s:{ru:"{0} картошки натри крупно, отожми, посоли",en:"Grate {0} potato coarsely, squeeze dry, salt"}},
-    {s:{ru:"{2} масла на сковороду. Картошку ровным слоем, прижми",en:"{2} oil in pan. Spread potato flat, press down"}},
-    {s:{ru:"7 мин — не трогай. Лежи",en:"7 min — don't touch. Lie down"},tm:420},
-    {s:{ru:"Переверни. Ещё масла",en:"Flip (plate method). More oil"}},
-    {s:{ru:"7 мин — не трогай",en:"7 min — don't touch"},tm:420},
-    {s:{ru:"{1} яйца рядом последние 2 мин",en:"{1} eggs alongside, last 2 min"}},
-    {s:{ru:"На тарелку. Соль на желток",en:"Plate. Salt on yolk"}}
-  ],
-  tips:[
-    {ru:"Lvl 1: Лук тёртый + чеснок + копчёная паприка в тесто",en:"Lvl 1: Grated onion + garlic + smoked paprika in batter"},
-    {ru:"Lvl 2: Сыр в тесто + сыр после переворота = чипс",en:"Lvl 2: Cheese inside + cheese after flip = crispy cheese"},
-    {ru:"Lvl 3: Сметана, вяленые томаты, хумус сверху",en:"Lvl 3: Sour cream, sun-dried tomatoes, hummus on top"},
-    {ru:"Lvl 4: Масло из-под томатов. Сыр везде. Кетчуп. Руками",en:"Lvl 4: Tomato oil. Cheese everywhere. Ketchup. Hands. Secret"}
-  ]
-}
+{id:"potato-kale-buckwheat",cat:"soup",emoji:"🥬",name:{ru:"Картофельно-кале суп с гречкой",en:"Potato-Kale Buckwheat Soup"},sub:{ru:"Caldo verde по-русски",en:"Russian caldo verde"},time:{ru:"25 мин",en:"25 min"},bp:4,kbju:[280,10,6,45],tags:["gf"],itags:["buckwheat","kale","potato"],ing:[{t:{ru:"Кале",en:"Kale"},a:300,u:{ru:"г",en:"g"}},{t:{ru:"Гречка",en:"Buckwheat"},a:135,u:{ru:"г",en:"g"}},{t:{ru:"Картошка",en:"Potato"},a:200,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Бульонный кубик",en:"Stock cube"},a:1.5,u:""},{t:{ru:"Вода",en:"Water"},a:1400,u:{ru:"мл",en:"ml"}},{t:{ru:"Масло",en:"Oil"},a:1,u:{ru:"ст.л.",en:"tbsp"}},{t:{ru:"Яйца",en:"Eggs"},a:2,u:"",pp:1}],steps:[{s:{ru:"Лук + чеснок на масле 3 мин",en:"Onion + garlic in oil 3 min"}},{s:{ru:"Картошку мелким кубиком + {6} воды + кубик → варить 10 мин",en:"Potato diced small + {6} water + cube → cook 10 min"},tm:600},{s:{ru:"Засыпать {1} гречки, ещё 10 мин",en:"Add {1} buckwheat, 10 more min"},tm:600},{s:{ru:"{0} кале порванную — последние 5 мин",en:"{0} kale torn — last 5 min"},tm:300},{s:{ru:"Перец, зелень. Яйцо отдельно",en:"Pepper, herbs. Egg separately"}}],tips:[{ru:"Картошка разварится и загустит",en:"Potato will partly dissolve and thicken"},{ru:"Гречка впитает ~300 мл — не жалей воды",en:"Buckwheat absorbs ~300 ml — don't skimp on water"},{ru:"Яйцо: stracciatella в суп или варёное половинками",en:"Egg: stracciatella style or halved boiled"}]},
+{id:"tomato-kale-beans",cat:"soup",emoji:"🍅",name:{ru:"Томатный суп с кале и фасолью",en:"Tomato Kale & White Bean Soup"},sub:{ru:"Не пюрировать!",en:"Don't blend!"},time:{ru:"25 мин",en:"25 min"},bp:4,kbju:[220,12,4,32],tags:["vegan","gf"],itags:["kale","beans"],ing:[{t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Белая фасоль",en:"White beans"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Кале",en:"Kale"},a:175,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Бульонный кубик",en:"Stock cube"},a:1,u:""},{t:{ru:"Вода",en:"Water"},a:550,u:{ru:"мл",en:"ml"}},{t:{ru:"Масло",en:"Oil"},a:1,u:{ru:"ст.л.",en:"tbsp"}},{t:{ru:"Копчёная паприка",en:"Smoked paprika"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Кумин",en:"Cumin"},a:0.5,u:{ru:"ч.л.",en:"tsp"}}],steps:[{s:{ru:"Лук + чеснок на {7} масла 3 мин",en:"Onion + garlic in {7} oil 3 min"}},{s:{ru:"{8} паприки, {9} кумина — 30 сек помешать",en:"{8} paprika, {9} cumin — stir 30 sec"}},{s:{ru:"{0} томатов целиком + {6} воды + кубик → 10 мин",en:"{0} tomatoes (all liquid!) + {6} water + cube → 10 min"},tm:600},{s:{ru:"{1} фасоли (слить, промыть) — в суп",en:"{1} beans (drained, rinsed) — into soup"}},{s:{ru:"{2} кале — последние 5 мин",en:"{2} kale — last 5 min"},tm:300},{s:{ru:"Соль, перец, можно лимон",en:"Salt, pepper, squeeze of lemon"}}],tips:[{ru:"НЕ пюрировать! Фасоль целая, кале кусочками",en:"Do NOT blend! Beans whole, kale in pieces"},{ru:"Копчёная паприка тут главная",en:"Smoked paprika is the star here"},{ru:"Тёртый сыр сверху + хлеб",en:"Grated cheese on top + bread"}]},
+{id:"carrot-ginger-lentil",cat:"soup",emoji:"🥕",name:{ru:"Морковь-имбирь-чечевица",en:"Carrot-Ginger-Lentil"},sub:{ru:"Пюре «восстановление»",en:"Recovery purée"},time:{ru:"20 мин",en:"20 min"},bp:4,kbju:[230,13,3,38],tags:["vegan","gf"],itags:["lentils"],ing:[{t:{ru:"Морковь",en:"Carrots"},a:500,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Красная чечевица",en:"Red lentils"},a:135,u:{ru:"г",en:"g"}},{t:{ru:"Имбирь",en:"Ginger"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Куркума",en:"Turmeric"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Вода",en:"Water"},a:1100,u:{ru:"мл",en:"ml"}},{t:{ru:"Лимон",en:"Lemon"},a:0.5,u:""}],steps:[{s:{ru:"Лук + чеснок 2–3 мин на масле",en:"Onion + garlic 2–3 min in oil"}},{s:{ru:"{0} моркови + специи + {3} чечевицы + {7} воды",en:"{0} carrots + spices + {3} lentils + {7} water"}},{s:{ru:"Варить 12–15 мин → блендер",en:"Cook 12–15 min → blend"},tm:780},{s:{ru:"Лимон в конце",en:"Lemon at the end"}}],tips:[{ru:"Скир сверху + тыквенные семечки",en:"Skyr on top + pumpkin seeds"}]},
+{id:"broccoli-spinach",cat:"soup",emoji:"🥦",name:{ru:"Брокколи-шпинат-йогурт",en:"Broccoli-Spinach-Yogurt"},sub:{ru:"Лёгкий, сытный",en:"Light & filling"},time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[140,12,3,16],tags:["gf","fast"],itags:["broccoli"],ing:[{t:{ru:"Брокколи",en:"Broccoli"},a:450,u:{ru:"г",en:"g"}},{t:{ru:"Шпинат",en:"Spinach"},a:80,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Вода",en:"Water"},a:900,u:{ru:"мл",en:"ml"}},{t:{ru:"Мускатный орех",en:"Nutmeg"},a:1,u:{ru:"щеп.",en:"pinch"}},{t:{ru:"Йогурт/скир",en:"Yogurt/skyr"},a:175,u:{ru:"г",en:"g"}}],steps:[{s:{ru:"Отвари {0} брокколи с луком 10–12 мин",en:"Boil {0} broccoli with onion 10–12 min"},tm:660},{s:{ru:"{1} шпината на 1–2 мин",en:"{1} spinach for 1–2 min"}},{s:{ru:"Блендер → вмешай {5} йогурта (не кипяти!)",en:"Blend → stir in {5} yogurt (don't boil!)"}}],tips:[{ru:"Сытно из-за объёма",en:"Filling due to volume"}]},
+{id:"cauliflower-curry-soup",cat:"soup",emoji:"🍛",name:{ru:"Цветная капуста-карри",en:"Cauliflower Curry Soup"},sub:{ru:"Без кокоса, но вкус есть",en:"No coconut, but tastes like it"},time:{ru:"20 мин",en:"20 min"},bp:4,kbju:[180,7,4,28],tags:["vegan","gf"],itags:["potato"],ing:[{t:{ru:"Цветная капуста",en:"Cauliflower"},a:600,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Карри-порошок",en:"Curry powder"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Копчёная паприка",en:"Smoked paprika"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Картофелина",en:"Potato"},a:1,u:""},{t:{ru:"Вода",en:"Water"},a:1000,u:{ru:"мл",en:"ml"}}],steps:[{s:{ru:"Лук + чеснок 2–3 мин, {3} карри + {4} паприки 30 сек",en:"Onion + garlic 2–3 min, {3} curry + {4} paprika 30 sec"}},{s:{ru:"{0} капусты + картошка + {6} воды → 12–15 мин",en:"{0} cauliflower + potato + {6} water → 12–15 min"},tm:780},{s:{ru:"Блендер, соль/перец",en:"Blend, salt/pepper"}}],tips:[{ru:"Нут из банки прямо в тарелку",en:"Canned chickpeas straight into the bowl"}]},
+{id:"tomato-paprika-beans",cat:"soup",emoji:"🫘",name:{ru:"Томат-паприка-фасоль",en:"Tomato-Paprika-Bean"},sub:{ru:"Быстрая классика",en:"Quick classic"},time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[195,11,2,32],tags:["vegan","gf","fast"],itags:["beans"],ing:[{t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Белая фасоль",en:"White beans"},a:240,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Копчёная паприка",en:"Smoked paprika"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Орегано",en:"Oregano"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Вода",en:"Water"},a:500,u:{ru:"мл",en:"ml"}}],steps:[{s:{ru:"Лук + чеснок, {4} паприки 30 сек",en:"Onion + garlic, {4} paprika 30 sec"}},{s:{ru:"{0} томатов + {6} воды → 10 мин",en:"{0} tomatoes + {6} water → 10 min"},tm:600},{s:{ru:"{1} фасоли → блендер (часть целой)",en:"{1} beans → blend (keep some whole)"}}],tips:[]},
+{id:"beet-cumin",cat:"soup",emoji:"🟣",name:{ru:"Свёкла-тмин-йогурт",en:"Beet-Cumin-Yogurt"},sub:{ru:"Железо и бодрость",en:"Iron boost"},time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[120,5,1,22],tags:["gf","fast"],itags:["beetroot"],ing:[{t:{ru:"Готовая свёкла",en:"Cooked beets (vacuum)"},a:450,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Тмин/кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Вода",en:"Water"},a:800,u:{ru:"мл",en:"ml"}},{t:{ru:"Лимон",en:"Lemon"},a:1,u:{ru:"ст.л.",en:"tbsp"}},{t:{ru:"Скир",en:"Skyr"},a:50,u:{ru:"г",en:"g"},pp:1}],steps:[{s:{ru:"Лук + чеснок 3 мин, {3} тмина",en:"Onion + garlic 3 min, {3} cumin"}},{s:{ru:"{0} свёклы + {4} воды → 8–10 мин",en:"{0} beets + {4} water → 8–10 min"},tm:540},{s:{ru:"Блендер, {5} лимона в конце",en:"Blend, {5} lemon at the end"}}],tips:[{ru:"Железо + лимон для усвоения",en:"Iron — lemon aids absorption"}]},
+{id:"chickpea-spinach-tomato",cat:"curry",emoji:"🫛",name:{ru:"Нут-шпинат-томаты",en:"Chickpea-Spinach-Tomato"},sub:{ru:"Быстрый спорт-карри",en:"Quick sport curry"},time:{ru:"15 мин",en:"15 min"},bp:4,kbju:[250,14,5,35],tags:["vegan","gf","fast"],itags:["chickpeas"],ing:[{t:{ru:"Нут",en:"Chickpeas"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Шпинат",en:"Spinach"},a:200,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Гарам масала",en:"Garam masala"},a:1.5,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}}],steps:[{s:{ru:"Лук + чеснок 3 мин, {5} гарам масала + {6} кумина",en:"Onion + garlic 3 min, {5} garam masala + {6} cumin"}},{s:{ru:"{1} томатов → 8–10 мин",en:"{1} tomatoes → 8–10 min"},tm:540},{s:{ru:"{0} нута + {2} шпината → 3–4 мин",en:"{0} chickpeas + {2} spinach → 3–4 min"}},{s:{ru:"Соль, лимон",en:"Salt, lemon"}}],tips:[{ru:"На рис/булгур или «рис» из цветной капусты",en:"Serve over rice/bulgur or cauliflower 'rice'"}]},
+{id:"red-lentil-dal",cat:"curry",emoji:"🍲",name:{ru:"Дал из красной чечевицы",en:"Red Lentil Dal"},sub:{ru:"Ультра-эффективно",en:"Ultra efficient"},time:{ru:"20 мин",en:"20 min"},bp:4,kbju:[260,16,2,42],tags:["vegan","gf"],itags:["lentils"],ing:[{t:{ru:"Красная чечевица",en:"Red lentils"},a:200,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Имбирь",en:"Ginger"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Куркума",en:"Turmeric"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Кумин",en:"Cumin"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Карри",en:"Curry"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Томатная паста",en:"Tomato paste"},a:1,u:{ru:"ст.л.",en:"tbsp"}},{t:{ru:"Вода",en:"Water"},a:1000,u:{ru:"мл",en:"ml"}}],steps:[{s:{ru:"Лук + чеснок + {3} имбиря 3 мин, специи",en:"Onion + garlic + {3} ginger 3 min, spices"}},{s:{ru:"{0} чечевицы + {8} воды + {7} том. пасты → 12–15 мин",en:"{0} lentils + {8} water + {7} tomato paste → 12–15 min"},tm:780},{s:{ru:"Соль + лимон",en:"Salt + lemon"}}],tips:[{ru:"Добавь йогурт/тофу для экстра-белка",en:"Add yogurt/tofu for extra protein"}]},
+{id:"tofu-veg-thai",cat:"curry",emoji:"🥡",name:{ru:"Тофу-овощи «почти тай»",en:"Tofu-Veg 'Almost Thai'"},sub:{ru:"Без дорогих паст",en:"No fancy pastes"},time:{ru:"20 мин",en:"20 min"},bp:3,kbju:[290,19,12,25],tags:["vegan","gf"],itags:["tofu"],ing:[{t:{ru:"Тофу",en:"Tofu"},a:275,u:{ru:"г",en:"g"}},{t:{ru:"Овощная смесь",en:"Frozen veg mix"},a:450,u:{ru:"г",en:"g"}},{t:{ru:"Соевый соус",en:"Soy sauce"},a:1.5,u:{ru:"ст.л.",en:"tbsp"}},{t:{ru:"Лайм/лимон",en:"Lime/lemon"},a:0.5,u:""},{t:{ru:"Карри-порошок",en:"Curry powder"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Имбирь",en:"Ginger"},a:1,u:{ru:"ч.л.",en:"tsp"}}],steps:[{s:{ru:"{0} тофу кубиками → обжарь 5–7 мин",en:"{0} tofu cubed → fry 5–7 min"},tm:360},{s:{ru:"{1} овощей + специи",en:"{1} veg mix + spices"}},{s:{ru:"{2} соевого + вода + лимон → 3–5 мин",en:"{2} soy sauce + water + lemon → 3–5 min"}}],tips:[]},
+{id:"lentil-bolognese",cat:"pasta",emoji:"🍝",name:{ru:"«Болоньезе» из чечевицы",en:"Lentil 'Bolognese'"},sub:{ru:"Вкусно, белок есть",en:"Tasty, good protein"},time:{ru:"20 мин",en:"20 min"},bp:2,kbju:[480,24,4,82],tags:["vegan","hprot"],itags:["lentils"],ing:[{t:{ru:"Паста цельнозерновая",en:"Whole wheat pasta"},a:140,u:{ru:"г",en:"g"}},{t:{ru:"Красная чечевица",en:"Red lentils"},a:135,u:{ru:"г",en:"g"}},{t:{ru:"Томаты в банке",en:"Canned tomatoes"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Орегано",en:"Oregano"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Паприка",en:"Paprika"},a:1,u:{ru:"ч.л.",en:"tsp"}}],steps:[{s:{ru:"{0} пасты — вари",en:"{0} pasta — boil"}},{s:{ru:"Лук + чеснок → {2} томатов + специи + {1} чечевицы + вода → 12–15 мин",en:"Onion + garlic → {2} tomatoes + spices + {1} lentils + water → 12–15 min"},tm:780},{s:{ru:"Смешай с пастой",en:"Mix with pasta"}}],tips:[{ru:"1–2 ст.л. тёртого сыра сверху",en:"1–2 tbsp grated cheese on top"}]},
+{id:"pasta-chickpea-lemon",cat:"pasta",emoji:"🍋",name:{ru:"Паста-нут-лимон-чеснок",en:"Pasta-Chickpea-Lemon-Garlic"},sub:{ru:"Когда лень победила",en:"When lazy wins"},time:{ru:"15 мин",en:"15 min"},bp:2,kbju:[440,18,8,72],tags:["vegan","fast"],itags:["chickpeas"],ing:[{t:{ru:"Паста",en:"Pasta"},a:140,u:{ru:"г",en:"g"}},{t:{ru:"Нут",en:"Chickpeas"},a:400,u:{ru:"г",en:"g"}},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Лимон",en:"Lemon"},a:1,u:""},{t:{ru:"Масло",en:"Oil"},a:1,u:{ru:"ч.л.",en:"tsp"}},{t:{ru:"Петрушка/руккола",en:"Parsley/arugula"},a:1,u:{ru:"горсть",en:"handful"}}],steps:[{s:{ru:"{0} пасты варится",en:"{0} pasta boiling"}},{s:{ru:"Чеснок 30 сек → {1} нута 3–4 мин",en:"Garlic 30 sec → {1} chickpeas 3–4 min"}},{s:{ru:"Пасту + воды от пасты + лимон + зелень",en:"Pasta + pasta water + lemon + herbs"}}],tips:[]},
+{id:"green-pea-pasta",cat:"pasta",emoji:"🟢",name:{ru:"«Зелёная» паста с горошком",en:"Green Pea Pasta"},sub:{ru:"Пюре-соус без сливок",en:"Cream-free purée sauce"},time:{ru:"15 мин",en:"15 min"},bp:2,kbju:[420,22,5,68],tags:["fast","hprot"],itags:[],ing:[{t:{ru:"Паста",en:"Pasta"},a:140,u:{ru:"г",en:"g"}},{t:{ru:"Зелёный горошек",en:"Green peas (frozen)"},a:275,u:{ru:"г",en:"g"}},{t:{ru:"Шпинат",en:"Spinach"},a:60,u:{ru:"г",en:"g"}},{t:{ru:"Йогурт/скир",en:"Yogurt/skyr"},a:150,u:{ru:"г",en:"g"}},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Лимон",en:"Lemon"},a:0.5,u:""}],steps:[{s:{ru:"{1} горошка 3–4 мин в кипятке",en:"{1} peas 3–4 min in boiling water"}},{s:{ru:"Блендер: горошек + {2} шпината + {3} йогурта + чеснок + лимон",en:"Blend: peas + {2} spinach + {3} yogurt + garlic + lemon"}},{s:{ru:"Смешай с {0} пасты + воды от пасты",en:"Mix with {0} pasta + pasta water"}}],tips:[{ru:"Можно добавить тофу кубиками",en:"Can add cubed tofu"}]},
+{id:"kale-buckwheat-ragout",cat:"skillet",emoji:"🫕",name:{ru:"Рагу: гречка + кале + фасоль",en:"Buckwheat-Kale-Bean Ragout"},sub:{ru:"С вялеными томатами",en:"With sun-dried tomatoes"},time:{ru:"20 мин",en:"20 min"},bp:3,kbju:[340,14,8,50],tags:["gf"],itags:["buckwheat","kale","beans"],ing:[{t:{ru:"Гречка",en:"Buckwheat"},a:150,u:{ru:"г",en:"g"}},{t:{ru:"Кале",en:"Kale"},a:200,u:{ru:"г",en:"g"}},{t:{ru:"Белая фасоль",en:"White beans"},a:125,u:{ru:"г",en:"g"}},{t:{ru:"Вяленые томаты",en:"Sun-dried tomatoes"},a:6,u:{ru:"шт",en:"pcs"}},{t:{ru:"Масло из-под томатов",en:"Oil from tomato jar"},a:1,u:{ru:"ст.л.",en:"tbsp"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:3,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Лимон",en:"Lemon"},a:0.5,u:""},{t:{ru:"Яйцо",en:"Egg"},a:1,u:"",pp:1}],steps:[{s:{ru:"{0} гречки + 300 мл воды → 15 мин",en:"{0} buckwheat + 300 ml water → 15 min"},tm:900},{s:{ru:"{4} масла → лук 3 мин",en:"{4} oil → onion 3 min"}},{s:{ru:"Чеснок + {3} вяленых томатов полосками — 1 мин",en:"Garlic + {3} sun-dried tomatoes sliced — 1 min"}},{s:{ru:"{2} фасоли — 2 мин",en:"{2} beans — 2 min"}},{s:{ru:"{1} кале — 5 мин, мешая",en:"{1} kale — 5 min, stirring"},tm:300},{s:{ru:"Гречку туда. Соль, перец, лимон. Яйцо сверху",en:"Add buckwheat. Salt, pepper, lemon. Egg on top"}}],tips:[{ru:"Масло из-под вяленых томатов заменяет обычное",en:"Oil from sun-dried tomatoes replaces regular oil"},{ru:"Вяленые томаты = специя: немного, но дают умами",en:"Sun-dried tomatoes = spice: small amount, big umami"}]},
+{id:"rosti-egg",cat:"comfort",emoji:"🥔",name:{ru:"Рёсти с яйцом",en:"Rösti with Egg"},sub:{ru:"Воскресенье восстановления",en:"Recovery Sunday"},time:{ru:"25 мин",en:"25 min"},bp:1,kbju:[520,18,28,48],tags:["gf"],itags:["potato"],ing:[{t:{ru:"Картошка",en:"Potatoes"},a:300,u:{ru:"г",en:"g"}},{t:{ru:"Яйца",en:"Eggs"},a:2,u:""},{t:{ru:"Масло",en:"Oil/butter"},a:2,u:{ru:"ст.л.",en:"tbsp"}}],steps:[{s:{ru:"{0} картошки натри крупно, отожми, посоли",en:"Grate {0} potato coarsely, squeeze dry, salt"}},{s:{ru:"{2} масла на сковороду. Картошку ровным слоем, прижми",en:"{2} oil in pan. Spread potato flat, press down"}},{s:{ru:"7 мин — не трогай. Лежи",en:"7 min — don't touch. Lie down"},tm:420},{s:{ru:"Переверни. Ещё масла",en:"Flip (plate method). More oil"}},{s:{ru:"7 мин — не трогай",en:"7 min — don't touch"},tm:420},{s:{ru:"{1} яйца рядом последние 2 мин",en:"{1} eggs alongside, last 2 min"}},{s:{ru:"На тарелку. Соль на желток",en:"Plate. Salt on yolk"}}],tips:[{ru:"Lvl 1: Лук тёртый + чеснок + копчёная паприка в тесто",en:"Lvl 1: Grated onion + garlic + smoked paprika in batter"},{ru:"Lvl 2: Сыр в тесто + сыр после переворота = чипс",en:"Lvl 2: Cheese inside + cheese after flip = crispy cheese"},{ru:"Lvl 3: Сметана, вяленые томаты, хумус сверху",en:"Lvl 3: Sour cream, sun-dried tomatoes, hummus on top"},{ru:"Lvl 4: Масло из-под томатов. Сыр везде. Кетчуп. Руками",en:"Lvl 4: Tomato oil. Cheese everywhere. Ketchup. Hands. Secret"}]}
 ];
 
-// ======================== STATE ========================
-let curCat="all",activeTags=new Set(),openCard=null,cookId=null,cookPortion={},stepsDone={},tmrs={};
+let curCat="all",activeTags=new Set(),activeIngs=new Set(),ingOpen=false,openCard=null,cookId=null,cookPortion={},stepsDone={},tmrs={};
+let hideNutrition=localStorage.getItem('hideNutrition')==='1';
 
-// ======================== HELPERS ========================
-function sc(v,b,tgt,unit){
-  const raw=v*(tgt/b);
-  const countable=!unit||['','шт','pcs','горсть','handful','щеп.','pinch'].includes(unit);
-  if(countable)return Math.round(raw*2)/2;
-  const small=['ч.л.','tsp','ст.л.','tbsp'].includes(unit);
-  if(small)return Math.round(raw*2)/2;
-  if(raw>=50)return Math.round(raw/5)*5;
-  if(raw>=10)return Math.round(raw);
-  return Math.round(raw*10)/10;
-}
+function sc(v,b,tgt,unit){const raw=v*(tgt/b);const countable=!unit||['','шт','pcs','горсть','handful','щеп.','pinch'].includes(unit);if(countable)return Math.round(raw*2)/2;const small=['ч.л.','tsp','ст.л.','tbsp'].includes(unit);if(small)return Math.round(raw*2)/2;if(raw>=50)return Math.round(raw/5)*5;if(raw>=10)return Math.round(raw);return Math.round(raw*10)/10;}
 function fmtIng(ing,b,tgt){let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));return t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;}
-function resolve(s,ings,b,tgt){
-  return t(s).replace(/\{(\d+)\}/g,(_,i)=>{
-    const ing=ings[+i];if(!ing)return'?';
-    let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));
-    let short=t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;
-    return `<span class="hi">${short}</span>`;
-  });
-}
+function resolve(s,ings,b,tgt){return t(s).replace(/\{(\d+)\}/g,(_,i)=>{const ing=ings[+i];if(!ing)return'?';let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));let short=t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;return`<span class="hi">${short}</span>`;});}
 function gc(cat){return CATS.find(c=>c.id===cat)?.color||'#D4A373';}
 function gp(r){return cookPortion[r.id]||r.bp;}
 function fmtTm(s){return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 
-// ======================== RENDER ========================
+function toggleNutrition(){hideNutrition=!hideNutrition;localStorage.setItem('hideNutrition',hideNutrition?'1':'0');applyNutrition();}
+function applyNutrition(){document.body.classList.toggle('hide-nutrition',hideNutrition);document.getElementById('nutToggle')?.classList.toggle('off',hideNutrition);}
+
 function fullRender(){
-  document.getElementById('hTitle').textContent=t(UI.title);
-  document.getElementById('hDesc').textContent=t(UI.desc);
-  document.getElementById('hCoffee').textContent=t(UI.coffee);
-  document.getElementById('cookBackLabel').textContent=t(UI.back);
+  document.getElementById('hTitle').textContent=t(UI.title);document.getElementById('hDesc').textContent=t(UI.desc);document.getElementById('hCoffee').textContent=t(UI.coffee);document.getElementById('cookBackLabel').textContent=t(UI.back);
   document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent.toLowerCase()===lang));
-  renderBrowse();
-  if(cookId)renderCook();
+  applyNutrition();renderBrowse();if(cookId)renderCook();
 }
 
 function renderBrowse(){
-  document.getElementById('catBar').innerHTML=CATS.map(c=>
-    `<button class="fbtn${curCat===c.id?' active':''}" style="--c:${c.color}" onclick="setCat('${c.id}')">${t(c.label)}</button>`
-  ).join('');
-  document.getElementById('tagBar').innerHTML=TAGS.map(tg=>
-    `<button class="tbtn${activeTags.has(tg.id)?' on':''}" style="--c:${tg.color}" onclick="toggleTag('${tg.id}')">${t(tg.label)}</button>`
-  ).join('');
+  document.getElementById('catBar').innerHTML=CATS.map(c=>`<button class="fbtn${curCat===c.id?' active':''}" style="--c:${c.color}" onclick="setCat('${c.id}')">${t(c.label)}</button>`).join('');
+  let tagHtml=TAGS.map(tg=>`<button class="tbtn${activeTags.has(tg.id)?' on':''}" style="--c:${tg.color}" onclick="toggleTag('${tg.id}')">${t(tg.label)}</button>`).join('');
+  const ingCount=activeIngs.size;
+  tagHtml+=`<button class="ing-toggle${ingCount>0?' has-active':''}" onclick="toggleIngPanel()">${ingCount>0?`${t(UI.ingFilterN)} (${ingCount})`:t(UI.ingFilter)}</button>`;
+  document.getElementById('tagBar').innerHTML=tagHtml;
+  const ingBar=document.getElementById('ingBar');
+  ingBar.className='ing-row'+(ingOpen?' open':'');
+  ingBar.innerHTML=ING_TAGS.map(ig=>`<button class="ibtn${activeIngs.has(ig.id)?' on':''}" onclick="toggleIng('${ig.id}')">${t(ig.label)}</button>`).join('');
   let items=curCat==='all'?R:R.filter(r=>r.cat===curCat);
   if(activeTags.size)items=items.filter(r=>[...activeTags].every(tg=>r.tags.includes(tg)));
+  if(activeIngs.size)items=items.filter(r=>[...activeIngs].every(ig=>(r.itags||[]).includes(ig)));
   const list=document.getElementById('cardList');
   if(!items.length){list.innerHTML=`<div class="nothing">${t(UI.noMatch)}</div>`;return;}
-  list.innerHTML=items.map(r=>{
-    const c=gc(r.cat),isOpen=openCard===r.id;
-    return `<div class="card${isOpen?' open':''}" style="--c:${c}" onclick="toggleCard('${r.id}')">
-      <div class="card-top">
-        <div class="card-emoji">${r.emoji}</div>
-        <div class="card-body">
-          <div class="card-name">${t(r.name)}</div>
-          ${r.sub?`<div class="card-sub">${t(r.sub)}</div>`:''}
-          <div class="card-row">
-            <span class="card-meta">⏱ ${t(r.time)}</span>
-            <span class="card-meta">🍽 ${r.bp} ${UI.pWord(r.bp)}</span>
-            ${r.tags.map(tg=>`<span class="card-tag tag-${tg}">${tg==='vegan'?'🌱':tg==='gf'?'GF':tg==='fast'?'⏱':tg==='hprot'?'💪':tg}</span>`).join('')}
-          </div>
-          <div class="card-kbju">
-            <span class="kp kp-k"><span class="mono">${r.kbju[0]}</span> ${lang==='ru'?'ккал':'kcal'}</span>
-            <span class="kp kp-p">${lang==='ru'?'Б':'P'} <span class="mono">${r.kbju[1]}</span></span>
-            <span class="kp kp-f">${lang==='ru'?'Ж':'F'} <span class="mono">${r.kbju[2]}</span></span>
-            <span class="kp kp-c">${lang==='ru'?'У':'C'} <span class="mono">${r.kbju[3]}</span></span>
-          </div>
-        </div>
-      </div>
-      ${isOpen?`<div class="card-preview" onclick="event.stopPropagation()">
-        <div class="card-preview-list">${r.ing.map(i=>`${t(i.t)}${t(i.u)?' · '+fmtIng(i,r.bp,r.bp):''}`).join('<br>')}</div>
-        <button class="card-cook" style="--c:${c}" onclick="event.stopPropagation();enterCook('${r.id}')">${t(UI.cook)}</button>
-      </div>`:''}
-    </div>`;
+  list.innerHTML=items.map(r=>{const c=gc(r.cat),isOpen=openCard===r.id;
+    return`<div class="card${isOpen?' open':''}" style="--c:${c}" onclick="toggleCard('${r.id}')"><div class="card-top"><div class="card-emoji">${r.emoji}</div><div class="card-body"><div class="card-name">${t(r.name)}</div>${r.sub?`<div class="card-sub">${t(r.sub)}</div>`:''}<div class="card-row"><span class="card-meta">⏱ ${t(r.time)}</span><span class="card-meta">🍽 ${r.bp} ${UI.pWord(r.bp)}</span><span class="card-protein">${lang==='ru'?'Б':'P'} ${r.kbju[1]}${lang==='ru'?'г':'g'}</span>${r.tags.map(tg=>`<span class="card-tag tag-${tg}">${tg==='vegan'?'🌱':tg==='gf'?'GF':tg==='fast'?'⏱':tg==='hprot'?'💪':tg}</span>`).join('')}</div></div></div>${isOpen?`<div class="card-preview" onclick="event.stopPropagation()"><div class="card-preview-list">${r.ing.map(i=>`${t(i.t)}${t(i.u)?' · '+fmtIng(i,r.bp,r.bp):''}`).join('<br>')}</div><button class="card-cook" style="--c:${c}" onclick="event.stopPropagation();enterCook('${r.id}')">${t(UI.cook)}</button></div>`:''}</div>`;
   }).join('');
 }
 
 function setCat(id){curCat=id;openCard=null;renderBrowse();}
 function toggleTag(id){activeTags.has(id)?activeTags.delete(id):activeTags.add(id);openCard=null;renderBrowse();}
+function toggleIngPanel(){ingOpen=!ingOpen;renderBrowse();}
+function toggleIng(id){activeIngs.has(id)?activeIngs.delete(id):activeIngs.add(id);openCard=null;renderBrowse();}
 function toggleCard(id){openCard=openCard===id?null:id;renderBrowse();}
 
-// ======================== COOK ========================
-function enterCook(id){
-  cookId=id;stepsDone={};
-  Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});
-  tmrs={};document.body.classList.add('cooking');window.scrollTo(0,0);renderCook();updateURL();
-}
-function exitCook(){
-  Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});
-  tmrs={};document.body.classList.remove('cooking');cookId=null;updateURL();
-}
+function enterCook(id){cookId=id;stepsDone={};Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});tmrs={};document.body.classList.add('cooking');window.scrollTo(0,0);renderCook();updateURL();}
+function exitCook(){Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});tmrs={};document.body.classList.remove('cooking');cookId=null;updateURL();}
 function adjP(id,delta){const r=R.find(x=>x.id===id);if(!r)return;const cur=cookPortion[id]||r.bp;cookPortion[id]=Math.min(12,Math.max(1,cur+delta));renderCook();updateURL();}
 function setP(id,val){const n=parseInt(val);if(isNaN(n)||n<1)return;cookPortion[id]=Math.min(12,Math.max(1,n));renderCook();updateURL();}
 function toggleStep(i,e){e?.stopPropagation();stepsDone[i]=!stepsDone[i];renderCook();}
-function startTm(si,secs){
-  const k='t'+si;
-  if(tmrs[k]?.iv){clearInterval(tmrs[k].iv);tmrs[k].iv=null;renderCook();return;}
-  if(!tmrs[k])tmrs[k]={left:secs,total:secs,iv:null};
-  if(tmrs[k].left<=0){tmrs[k].left=secs;renderCook();return;}
-  tmrs[k].iv=setInterval(()=>{tmrs[k].left--;if(tmrs[k].left<=0){clearInterval(tmrs[k].iv);tmrs[k].iv=null;}renderCook();},1000);
-  renderCook();
-}
+function startTm(si,secs){const k='t'+si;if(tmrs[k]?.iv){clearInterval(tmrs[k].iv);tmrs[k].iv=null;renderCook();return;}if(!tmrs[k])tmrs[k]={left:secs,total:secs,iv:null};if(tmrs[k].left<=0){tmrs[k].left=secs;renderCook();return;}tmrs[k].iv=setInterval(()=>{tmrs[k].left--;if(tmrs[k].left<=0){clearInterval(tmrs[k].iv);tmrs[k].iv=null;}renderCook();},1000);renderCook();}
 
 function renderCook(){
-  const r=R.find(x=>x.id===cookId);if(!r)return;
-  const p=gp(r),c=gc(r.cat);
+  const r=R.find(x=>x.id===cookId);if(!r)return;const p=gp(r),c=gc(r.cat);
   let h=`<div style="--c:${c}">`;
   h+=`<div class="cook-hero"><div class="cook-emoji">${r.emoji}</div><div class="cook-title">${t(r.name)}</div>${r.sub?`<div class="cook-subtitle">${t(r.sub)}</div>`:''}<button id="shareBtn" class="share-btn" style="--c:${c}" onclick="event.stopPropagation();shareRecipe()">↗ ${t(UI.share)}</button></div>`;
   h+=`<div class="cook-portions"><label>${t(UI.portions)}</label><div class="stepper" style="--c:${c}"><button class="stepper-btn" onclick="event.stopPropagation();adjP('${r.id}',-1)">−</button><input class="stepper-val" type="number" min="1" max="12" value="${p}" onclick="event.stopPropagation();this.select()" onchange="event.stopPropagation();setP('${r.id}',+this.value)" onkeydown="if(event.key==='Enter'){this.blur()}"><button class="stepper-btn" onclick="event.stopPropagation();adjP('${r.id}',1)">+</button></div><span style="font-size:11px;opacity:.3;margin-left:4px">${UI.pWord(p)}</span></div>`;
-  h+=`<div class="cook-kbju">
-    <div class="ckp"><span class="lab">${lang==='ru'?'ккал':'kcal'}</span><span class="mono" style="color:${c}">${r.kbju[0]}</span></div>
-    <div class="ckp"><span class="lab">${lang==='ru'?'Б':'P'}</span><span class="mono" style="color:var(--vegan)">${r.kbju[1]}${lang==='ru'?' г':' g'}</span></div>
-    <div class="ckp"><span class="lab">${lang==='ru'?'Ж':'F'}</span><span class="mono" style="color:var(--comfort)">${r.kbju[2]}${lang==='ru'?' г':' g'}</span></div>
-    <div class="ckp"><span class="lab">${lang==='ru'?'У':'C'}</span><span class="mono" style="color:var(--pasta)">${r.kbju[3]}${lang==='ru'?' г':' g'}</span></div>
-    <div class="ckp" style="opacity:.35"><span class="lab">${t(UI.perPortion)}</span></div>
-  </div>`;
   h+=`<div class="cook-ing"><div class="cook-ing-title">${t(UI.ingredients)} · ${p} ${UI.pWord(p)}</div><div class="cook-ing-list">${r.ing.map(i=>`<div class="ci">${t(i.t)} <span class="ci-a">${fmtIng(i,r.bp,p)}</span>${i.pp?` /${lang==='ru'?'порц':'serv'}`:''}</div>`).join('')}</div></div>`;
   h+=`<div class="cook-steps">`;
-  r.steps.forEach((st,i)=>{
-    const done=stepsDone[i],k='t'+i,tm=tmrs[k];
-    h+=`<div class="cs${done?' done':''}"><div class="cs-top"><div class="cs-n${done?' dn':''}">${done?'✓':i+1}</div><div class="cs-t">${resolve(st.s,r.ing,r.bp,p)}`;
-    if(st.tm){
-      const left=tm?tm.left:st.tm,run=tm?.iv,fin=tm&&tm.left<=0;
-      h+=`<div class="cs-tm${run?' run':''}${fin?' fin':''}" onclick="event.stopPropagation();startTm(${i},${st.tm})"><span class="cs-td">${fin?'✓':fmtTm(left)}</span><span class="cs-tl">${fin?t(UI.reset):run?t(UI.pause):t(UI.start)}</span></div>`;
-    }
-    h+=`</div><button class="cs-ck${done?' on':''}" onclick="toggleStep(${i},event)">${done?'✓':''}</button></div></div>`;
-  });
+  r.steps.forEach((st,i)=>{const done=stepsDone[i],k='t'+i,tm=tmrs[k];h+=`<div class="cs${done?' done':''}"><div class="cs-top"><div class="cs-n${done?' dn':''}">${done?'✓':i+1}</div><div class="cs-t">${resolve(st.s,r.ing,r.bp,p)}`;if(st.tm){const left=tm?tm.left:st.tm,run=tm?.iv,fin=tm&&tm.left<=0;h+=`<div class="cs-tm${run?' run':''}${fin?' fin':''}" onclick="event.stopPropagation();startTm(${i},${st.tm})"><span class="cs-td">${fin?'✓':fmtTm(left)}</span><span class="cs-tl">${fin?t(UI.reset):run?t(UI.pause):t(UI.start)}</span></div>`;}h+=`</div><button class="cs-ck${done?' on':''}" onclick="toggleStep(${i},event)">${done?'✓':''}</button></div></div>`;});
   h+=`</div>`;
   if(r.tips?.length){h+=`<div class="cook-tips">${r.tips.map(tp=>`<div class="cook-tip" style="--c:${c}">${t(tp)}</div>`).join('')}</div>`;}
+  h+=`<div class="cook-nutrition"><div class="cook-nutrition-row"><span>${r.kbju[0]} ${lang==='ru'?'ккал':'kcal'}</span>·<span>${lang==='ru'?'Б':'P'} ${r.kbju[1]}${lang==='ru'?'г':'g'}</span>·<span>${lang==='ru'?'Ж':'F'} ${r.kbju[2]}${lang==='ru'?'г':'g'}</span>·<span>${lang==='ru'?'У':'C'} ${r.kbju[3]}${lang==='ru'?'г':'g'}</span><span style="opacity:.5">/ ${t(UI.perPortion)}</span></div></div>`;
   h+=`</div>`;
   document.getElementById('cookContent').innerHTML=h;
 }
 
-// ======================== URL PARAMS ========================
-function readURL(){
-  const params=new URLSearchParams(location.search);
-  if(params.get('lang')&&['ru','en'].includes(params.get('lang'))){
-    lang=params.get('lang');localStorage.setItem('lang',lang);
-  }
-  document.documentElement.lang=lang;
-  if(params.get('r')){
-    const recipe=R.find(x=>x.id===params.get('r'));
-    if(recipe)enterCook(recipe.id);
-  }
-}
-function updateURL(){
-  const params=new URLSearchParams();
-  if(cookId)params.set('r',cookId);
-  if(lang!=='ru')params.set('lang',lang);
-  const qs=params.toString();
-  history.replaceState(null,'',qs?'?'+qs:location.pathname);
-}
-function shareRecipe(){
-  const params=new URLSearchParams();
-  params.set('r',cookId);
-  if(lang!=='ru')params.set('lang',lang);
-  const url=location.origin+location.pathname+'?'+params;
-  if(navigator.share){
-    navigator.share({url}).catch(()=>{});
-  } else if(navigator.clipboard){
-    navigator.clipboard.writeText(url).then(()=>{
-      const btn=document.getElementById('shareBtn');
-      if(btn){const orig=btn.textContent;btn.textContent=t(UI.copied);setTimeout(()=>btn.textContent=orig,1500);}
-    });
-  }
-}
+function readURL(){const p=new URLSearchParams(location.search);if(p.get('lang')&&['ru','en'].includes(p.get('lang'))){lang=p.get('lang');localStorage.setItem('lang',lang);}if(p.get('clean')==='1'){hideNutrition=true;localStorage.setItem('hideNutrition','1');}document.documentElement.lang=lang;if(p.get('r')){const recipe=R.find(x=>x.id===p.get('r'));if(recipe)enterCook(recipe.id);}}
+function updateURL(){const p=new URLSearchParams();if(cookId)p.set('r',cookId);if(lang!=='ru')p.set('lang',lang);const qs=p.toString();history.replaceState(null,'',qs?'?'+qs:location.pathname);}
+function shareRecipe(){const p=new URLSearchParams();p.set('r',cookId);if(lang!=='ru')p.set('lang',lang);const url=location.origin+location.pathname+'?'+p;if(navigator.share){navigator.share({url}).catch(()=>{});}else if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{const btn=document.getElementById('shareBtn');if(btn){const orig=btn.textContent;btn.textContent=t(UI.copied);setTimeout(()=>btn.textContent=orig,1500);}});}}
 
-// ======================== INIT ========================
-readURL();
-fullRender();
+readURL();fullRender();
 window.addEventListener('popstate',()=>{if(cookId)exitCook();});
 </script>
 </body>

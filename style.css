@@ -1,10 +1,9 @@
 /* ========== SHARED BASE STYLES ========== */
-/* Each page sets --accent for its color theme */
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=JetBrains+Mono:wght@500;600&display=swap');
 
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--bg:#121215;--text:#e8e0d4}
+:root{--bg:#121215;--text:#e8e0d4;--vegan:#6B9080;--gf:#D4A373;--fast:#5B8A9A;--hprot:#C4796B}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden}
 .mono{font-family:'JetBrains Mono',monospace}
 
@@ -24,7 +23,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neu
 .lang-btn.active{background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent)}
 .lang-btn:first-child{border-right:1px solid rgba(255,255,255,.06)}
 
-/* Filters (shared pattern) */
+/* Filters */
 .filters{padding:8px 16px 6px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .filters::-webkit-scrollbar{display:none}
 .fbtn{flex-shrink:0;padding:6px 12px;border-radius:8px;border:1.5px solid rgba(255,255,255,.08);background:rgba(255,255,255,.02);color:rgba(255,255,255,.35);font-size:11px;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
@@ -36,3 +35,68 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans','Helvetica Neu
 /* KBJU pills */
 .kp{font-size:10px;padding:2px 6px;border-radius:4px;background:rgba(255,255,255,.04)}
 .kp .mono{font-weight:600}
+
+/* Dietary tags */
+.card-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.tag-vegan{background:rgba(107,144,128,.12);color:var(--vegan)}
+.tag-gf{background:rgba(212,163,115,.1);color:var(--gf)}
+.tag-fast{background:rgba(91,138,154,.1);color:var(--fast)}
+.tag-hprot{background:rgba(196,121,107,.1);color:var(--hprot)}
+
+/* Ingredient filter (expandable) */
+.ing-toggle{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.3);font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
+.ing-toggle.has-active{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}
+.ing-row{padding:2px 16px 10px;display:none;gap:5px;flex-wrap:wrap}
+.ing-row.open{display:flex}
+.ibtn{padding:3px 9px;border-radius:5px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.3);font-size:10px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .12s}
+.ibtn.on{border-color:rgba(91,138,154,.4);color:var(--fast);background:rgba(91,138,154,.08)}
+
+/* Cards (shared base) */
+.cards{padding:0 16px 100px}
+.card{border-radius:12px;padding:12px 14px;margin-bottom:8px;border:1px solid color-mix(in srgb,var(--c) 25%,transparent);background:color-mix(in srgb,var(--c) 4%,#1a1a1f);cursor:pointer;transition:all .15s}
+.card:active{transform:scale(0.99)}
+.card-top{display:flex;gap:10px;align-items:center}
+.card-emoji{font-size:24px;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border-radius:8px;flex-shrink:0}
+.card-body{flex:1;min-width:0}
+.card-name{font-weight:700;font-size:14px;line-height:1.3}
+.card-sub{font-size:11px;opacity:.4;font-style:italic;margin-top:1px}
+.card-row{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center}
+.card-meta{font-size:11px;opacity:.4}
+.card-protein{font-size:11px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(107,144,128,.1);color:var(--vegan)}
+.card-preview{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.06)}
+.card-preview-list{font-size:12px;line-height:1.7;opacity:.55;columns:2;column-gap:12px}
+.card-cook{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:7px 16px;border-radius:8px;border:1.5px solid color-mix(in srgb,var(--c) 30%,transparent);background:color-mix(in srgb,var(--c) 6%,transparent);color:var(--c);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.card-cook:active{transform:scale(0.97)}
+
+/* Stepper */
+.stepper{display:inline-flex;align-items:center;border-radius:8px;border:1px solid rgba(255,255,255,.1);overflow:hidden}
+.stepper-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:18px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .12s;user-select:none;-webkit-user-select:none}
+.stepper-btn:active{background:rgba(255,255,255,.08)}
+.stepper-val{width:42px;padding:6px 0;text-align:center;font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:var(--c,var(--accent));background:transparent;border:none;border-left:1px solid rgba(255,255,255,.06);border-right:1px solid rgba(255,255,255,.06);-moz-appearance:textfield;appearance:textfield}
+.stepper-val::-webkit-inner-spin-button,.stepper-val::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.stepper-val:focus{outline:none;background:rgba(255,255,255,.05)}
+
+/* View switching (browse/cook pattern) */
+#browseView{display:block}
+#cookView{display:none}
+body.cooking #browseView{display:none}
+body.cooking #cookView{display:block}
+
+/* Cook bar */
+.cook-bar{position:sticky;top:0;z-index:10;padding:12px 16px;background:linear-gradient(180deg,var(--bg) 80%,transparent);display:flex;align-items:center;justify-content:space-between}
+.cook-back{display:flex;align-items:center;gap:8px;cursor:pointer}
+.cook-back-btn{font-size:13px;color:rgba(255,255,255,.4);font-weight:600}
+
+/* Nutrition toggle (global) */
+.nutrition-toggle{position:fixed;bottom:16px;right:16px;width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.08);background:rgba(18,18,21,.9);color:rgba(255,255,255,.25);font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:20;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:all .15s}
+.nutrition-toggle:active{transform:scale(0.9)}
+.nutrition-toggle.off{color:rgba(255,255,255,.1);border-color:rgba(255,255,255,.04)}
+body.hide-nutrition .cook-nutrition,
+body.hide-nutrition .card-protein{display:none}
+
+/* Share button */
+.share-btn{margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--c) 25%,transparent);background:color-mix(in srgb,var(--c) 6%,transparent);color:var(--c);font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.share-btn:active{transform:scale(0.97)}
+
+/* Empty state */
+.nothing{text-align:center;padding:60px 20px;opacity:.25;font-size:14px}
