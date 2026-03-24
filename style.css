@@ -267,6 +267,8 @@ body.hide-nutrition .cook-nutrition,body.hide-nutrition .card-protein{display:no
 .note{font-size:12px;line-height:1.6;font-style:italic;opacity:.45;padding:10px 14px;border-left:2px solid var(--br,var(--accent));border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--br,var(--accent)) 3%,transparent);margin-top:8px}
 
 /* Coffee brew timer */
-.brew-timer{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:12px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
-.brew-timer-btn{padding:6px 14px;border-radius:6px;border:1px solid var(--br-dim,rgba(139,90,43,.25));background:var(--br-bg,rgba(139,90,43,.08));color:var(--br,var(--accent));font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .12s}
-.brew-timer-btn:active{transform:scale(0.97)}
+.brew-timer{display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 14px;margin-bottom:16px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+.brew-timer .timer-ring{width:64px;height:64px}
+.brew-timer .timer-inner{width:52px;height:52px;font-size:15px}
+.brew-timer-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;opacity:.3;font-weight:600}
+.brew-running{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--br,var(--accent));font-weight:600}

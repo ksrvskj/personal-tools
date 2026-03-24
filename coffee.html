@@ -131,7 +131,6 @@ function toggleBrew(id){
   updateBrewRing(id);
 }
 function updateBrewRing(id){
-  const el=document.getElementById('brew-'+id);if(!el)return;
   const b=brewTimers[id],m=M.find(x=>x.id===id);if(!b||!m)return;
   const dose=getDose(m),data=m.calc(dose);
   const times=data.pours.map(p=>parseTime(p.time));
@@ -140,19 +139,26 @@ function updateBrewRing(id){
   const pct=Math.min((b.elapsed/totalEst)*100,100);
   const done=b.elapsed>=totalEst;
   if(done&&b.iv){clearInterval(b.iv);b.iv=null;b.done=true;}
-  const ring=el.querySelector('.timer-ring');
-  const inner=el.querySelector('.timer-inner');
-  const hint=el.querySelector('.timer-hint');
-  ring.style.background=`conic-gradient(${done?'var(--vegan)':'var(--br,var(--accent))'} ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
-  inner.style.color=done?'var(--vegan)':'var(--text)';
-  inner.textContent=done?'\u2713':fmtTime(b.elapsed);
-  hint.textContent=done?(lang==='ru'?'готово — нажми для сброса':'done — tap to reset'):b.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start');
+  // update brew ring if expanded
+  const el=document.getElementById('brew-'+id);
+  if(el){
+    const ring=el.querySelector('.timer-ring');
+    const inner=el.querySelector('.timer-inner');
+    const hint=el.querySelector('.timer-hint');
+    ring.style.background=`conic-gradient(${done?'var(--vegan)':'var(--br,var(--accent))'} ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
+    inner.style.color=done?'var(--vegan)':'var(--text)';
+    inner.textContent=done?'\u2713':fmtTime(b.elapsed);
+    hint.textContent=done?(lang==='ru'?'готово — нажми для сброса':'done — tap to reset'):b.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start');
+  }
   // highlight active pour
   const pours=document.querySelectorAll('#m-'+id+' .pour');
   pours.forEach((p,i)=>{
     const start=times[i],next=times[i+1]||totalEst;
     p.classList.toggle('active',b.iv&&b.elapsed>=start&&b.elapsed<next);
   });
+  // update collapsed card meta
+  const meta=document.querySelector('#m-'+id+' .m-meta .brew-running');
+  if(meta)meta.textContent=done?'\u2713':fmtTime(b.elapsed);
 }
 
 function render(){
@@ -163,13 +169,13 @@ function render(){
   document.getElementById('methods').innerHTML=M.map((m,idx)=>{
     const isOpen=openMethod===m.id,dose=getDose(m),data=m.calc(dose);
     let total=0;
-    return `<div class="method${isOpen?' open':''}" id="m-${m.id}" style="animation:fadeUp .3s ease ${idx*.05}s both">
+    return `<div class="method${isOpen?' open':''}" id="m-${m.id}">
       <div class="m-top" onclick="toggle('${m.id}')">
         <div class="m-emoji">${m.emoji}</div>
         <div class="m-body">
           <div class="m-name">${m.name}</div>
           <div class="m-style">${m.style}</div>
-          <div class="m-meta">⏱ ${t(m.meta)}</div>
+          <div class="m-meta">⏱ ${t(m.meta)}${brewTimers[m.id]?.iv?` · <span class="brew-running">${fmtTime(brewTimers[m.id].elapsed)}</span>`:brewTimers[m.id]?.done?` · <span class="brew-running">✓</span>`:''}</div>
         </div>
         <div class="m-arrow">›</div>
       </div>
@@ -190,10 +196,11 @@ function render(){
           <span class="grind-text">${t(m.grindT)}</span>
         </div>
         <div class="brew-timer" id="brew-${m.id}">
+          <span class="brew-timer-label">${lang==='ru'?'Таймер':'Timer'}</span>
           <div class="timer-ring" onclick="toggleBrew('${m.id}')" style="background:conic-gradient(var(--br,var(--accent)) 0%, rgba(255,255,255,0.1) 0%)">
-            <div class="timer-inner">${brewTimers[m.id]?fmtTime(brewTimers[m.id].elapsed):'0:00'}</div>
+            <div class="timer-inner" style="color:${brewTimers[m.id]?.done?'var(--vegan)':'var(--text)'}">${brewTimers[m.id]?fmtTime(brewTimers[m.id].elapsed):'0:00'}</div>
           </div>
-          <span class="timer-hint">${lang==='ru'?'старт':'tap to start'}</span>
+          <span class="timer-hint">${brewTimers[m.id]?.done?(lang==='ru'?'готово — нажми для сброса':'done — tap to reset'):brewTimers[m.id]?.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start')}</span>
         </div>
         <div class="pours">
           <div class="pour-header">${t(UI.recipe)} · ${t(m.temp)}</div>

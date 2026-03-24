@@ -189,7 +189,7 @@ function render(){
     const timerKey=currentTier+'-'+ex.id;
     if(!timers[timerKey]&&ex.time)timers[timerKey]={left:ex.time,total:ex.time,running:false,interval:null};
 
-    html+=`<div class="ex-card bg-${cat}${isDone?' done':''}" style="animation:fadeUp .3s ease ${i*.04}s both">
+    html+=`<div class="ex-card bg-${cat}${isDone?' done':''}">
       <div class="ex-top">
         <div class="ex-svg">${makeSVG(ex.svg)}</div>
         <div class="ex-body">
