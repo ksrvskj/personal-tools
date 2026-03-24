@@ -5,15 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#121215">
+<meta name="theme-color" content="#0f0f12">
 <title>Рецепты / Recipes</title>
 <link rel="stylesheet" href="style.css">
 <style>
 /* Page-specific: recipe cook mode */
-:root{--accent:#D4A373;--soup:#D4A373;--curry:#6B9080;--pasta:#9B72AA;--skillet:#5B8A9A;--comfort:#C4796B}
+:root{--accent:#c9a87e}
 .cook-hero{padding:8px 20px 16px}
-.cook-emoji{font-size:36px;margin-bottom:6px}
-.cook-title{font-size:22px;font-weight:700;line-height:1.3}
+.cook-title{font-size:22px;font-weight:600;line-height:1.3}
 .cook-subtitle{font-size:13px;opacity:.4;font-style:italic;margin-top:2px}
 .cook-portions{display:flex;align-items:center;gap:10px;padding:0 20px 14px}
 .cook-portions label{font-size:12px;opacity:.4}
@@ -24,20 +23,20 @@
 .ci::before{content:"·";position:absolute;left:2px;opacity:.3;font-weight:bold}
 .ci-a{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px}
 .cook-steps{padding:0 16px 20px}
-.cs{border-radius:12px;padding:16px;margin-bottom:10px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06)}
+.cs{border-radius:var(--radius);padding:16px;margin-bottom:10px;background:var(--surface);border:1px solid rgba(255,255,255,.06)}
 .cs.done{opacity:.5}
 .cs-top{display:flex;gap:12px;align-items:flex-start}
-.cs-n{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--c)}
-.cs-n.dn{background:rgba(107,144,128,.15);color:var(--vegan)}
+.cs-n{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--c)}
+.cs-n.dn{background:rgba(127,166,147,.12);color:var(--vegan)}
 .cs-t{flex:1;font-size:15px;line-height:1.6}
 .cs-t .hi{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;padding:1px 5px;border-radius:4px;background:color-mix(in srgb,var(--c) 8%,transparent);color:var(--c)}
 .cs-ck{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.15);background:none;color:rgba(255,255,255,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .15s}
-.cs-ck.on{border-color:var(--vegan);background:var(--vegan);color:#1a1a1f}
+.cs-ck.on{border-color:var(--vegan);background:var(--vegan);color:var(--bg)}
 .cs-tm{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.04);cursor:pointer;user-select:none}
 .cs-tm:active{background:rgba(255,255,255,.08)}
 .cs-td{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--c);min-width:36px}
 .cs-tl{font-size:11px;opacity:.4}
-.cs-tm.run .cs-td{color:#e8e0d4}
+.cs-tm.run .cs-td{color:var(--text)}
 .cs-tm.fin .cs-td{color:var(--vegan)}
 .cook-tips{padding:0 16px 12px}
 .cook-tip{font-size:13px;line-height:1.6;font-style:italic;opacity:.5;padding:10px 14px;border-left:2px solid var(--c);border-radius:0 8px 8px 0;background:rgba(255,255,255,.02);margin-bottom:6px}
@@ -69,7 +68,9 @@ let lang=localStorage.getItem('lang')||'ru';
 function setLang(l){lang=l;localStorage.setItem('lang',l);document.documentElement.lang=l;fullRender();updateURL();}
 function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
 const UI={title:{ru:"Рецепты",en:"Recipes"},desc:{ru:"Быстро · Вегетарианский · С белком",en:"Quick · Vegetarian · High protein"},coffee:{ru:"Кофе",en:"Coffee"},cook:{ru:"Готовить →",en:"Cook →"},back:{ru:"Рецепты",en:"Recipes"},portions:{ru:"Порции",en:"Servings"},perPortion:{ru:"на порцию",en:"per serving"},ingredients:{ru:"Ингредиенты",en:"Ingredients"},tips:{ru:"💡 Заметки",en:"💡 Notes"},noMatch:{ru:"Нет рецептов с такими фильтрами",en:"No recipes match these filters"},start:{ru:"старт",en:"start"},pause:{ru:"пауза",en:"pause"},reset:{ru:"заново",en:"reset"},share:{ru:"Поделиться",en:"Share"},copied:{ru:"Ссылка скопирована!",en:"Link copied!"},ingFilter:{ru:"+ Ингредиенты",en:"+ Ingredients"},ingFilterN:{ru:"× Ингредиенты",en:"× Ingredients"},pWord(n){if(lang==='en')return n===1?'serving':'servings';return n===1?'порция':n<5?'порции':'порций';}};
-const CATS=[{id:"all",label:{ru:"Всё",en:"All"},color:"#D4A373"},{id:"soup",label:{ru:"Супы",en:"Soups"},color:"#D4A373"},{id:"curry",label:{ru:"Карри",en:"Curry"},color:"#6B9080"},{id:"pasta",label:{ru:"Паста",en:"Pasta"},color:"#9B72AA"},{id:"skillet",label:{ru:"Сковорода",en:"Skillet"},color:"#5B8A9A"},{id:"comfort",label:"Comfort",color:"#C4796B"}];
+const CATS=[{id:"all",label:{ru:"Всё",en:"All"},color:"#c9a87e"},{id:"soup",label:{ru:"Супы",en:"Soups"},color:"#c9a87e"},{id:"curry",label:{ru:"Карри",en:"Curry"},color:"#7fa693"},{id:"pasta",label:{ru:"Паста",en:"Pasta"},color:"#b49ac4"},{id:"skillet",label:{ru:"Сковорода",en:"Skillet"},color:"#7faab4"},{id:"comfort",label:"Comfort",color:"#c4917e"}];
+const CAT_ICONS={soup:`<svg viewBox="0 0 24 24"><path d="M5 10h14v8a3 3 0 01-3 3H8a3 3 0 01-3-3v-8z"/><path d="M3 10h18"/><path d="M8 5c0 1.5 1 2.5 1 4"/><path d="M12 4c0 1.5 1 2.5 1 4"/><path d="M16 5c0 1.5 1 2.5 1 4"/></svg>`,curry:`<svg viewBox="0 0 24 24"><path d="M12 21c-4 0-8-2-8-6v-2h16v2c0 4-4 6-8 6z"/><path d="M4 13c0-4 3.5-7 8-7s8 3 8 7"/><path d="M9 6c0-1.5 1-3 3-3s3 1.5 3 3"/></svg>`,pasta:`<svg viewBox="0 0 24 24"><path d="M4 16c0 2.2 3.6 4 8 4s8-1.8 8-4"/><path d="M4 16V8"/><path d="M20 16V8"/><path d="M4 8c0 2.2 3.6 4 8 4s8-1.8 8-4"/><path d="M4 8c0-2.2 3.6-4 8-4s8 1.8 8 4"/></svg>`,skillet:`<svg viewBox="0 0 24 24"><ellipse cx="10" cy="13" rx="8" ry="5"/><path d="M18 13h4"/><path d="M6 9v-3"/><path d="M10 8v-4"/><path d="M14 9v-3"/></svg>`,comfort:`<svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z"/></svg>`};
+function catIconInner(cat){const m=(CAT_ICONS[cat]||CAT_ICONS.soup).match(/<svg[^>]*>([\s\S]*)<\/svg>/);return m?m[1]:'';}
 const TAGS=[{id:"vegan",label:"🌱 Vegan",color:"var(--vegan)"},{id:"gf",label:"GF",color:"var(--gf)"},{id:"fast",label:{ru:"⏱ <15м",en:"⏱ <15m"},color:"var(--fast)"},{id:"hprot",label:{ru:"💪 Белок",en:"💪 Protein"},color:"var(--hprot)"}];
 const ING_TAGS=[{id:"buckwheat",label:{ru:"гречка",en:"buckwheat"}},{id:"kale",label:{ru:"кале",en:"kale"}},{id:"lentils",label:{ru:"чечевица",en:"lentils"}},{id:"chickpeas",label:{ru:"нут",en:"chickpeas"}},{id:"beans",label:{ru:"фасоль",en:"beans"}},{id:"tofu",label:{ru:"тофу",en:"tofu"}},{id:"beetroot",label:{ru:"свёкла",en:"beetroot"}},{id:"broccoli",label:{ru:"брокколи",en:"broccoli"}},{id:"potato",label:{ru:"картошка",en:"potato"}}];
 
@@ -97,7 +98,7 @@ let hideNutrition=localStorage.getItem('hideNutrition')==='1';
 function sc(v,b,tgt,unit){const raw=v*(tgt/b);const countable=!unit||['','шт','pcs','горсть','handful','щеп.','pinch'].includes(unit);if(countable)return Math.round(raw*2)/2;const small=['ч.л.','tsp','ст.л.','tbsp'].includes(unit);if(small)return Math.round(raw*2)/2;if(raw>=50)return Math.round(raw/5)*5;if(raw>=10)return Math.round(raw);return Math.round(raw*10)/10;}
 function fmtIng(ing,b,tgt){let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));return t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;}
 function resolve(s,ings,b,tgt){return t(s).replace(/\{(\d+)\}/g,(_,i)=>{const ing=ings[+i];if(!ing)return'?';let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));let short=t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;return`<span class="hi">${short}</span>`;});}
-function gc(cat){return CATS.find(c=>c.id===cat)?.color||'#D4A373';}
+function gc(cat){return CATS.find(c=>c.id===cat)?.color||'#c9a87e';}
 function gp(r){return cookPortion[r.id]||r.bp;}
 function fmtTm(s){return`${Math.floor(s/60)}:${String(s%60).padStart(2,'0')}`;}
 
@@ -125,7 +126,7 @@ function renderBrowse(){
   const list=document.getElementById('cardList');
   if(!items.length){list.innerHTML=`<div class="nothing">${t(UI.noMatch)}</div>`;return;}
   list.innerHTML=items.map(r=>{const c=gc(r.cat),isOpen=openCard===r.id;
-    return`<div class="card${isOpen?' open':''}" style="--c:${c}" onclick="toggleCard('${r.id}')"><div class="card-top"><div class="card-emoji">${r.emoji}</div><div class="card-body"><div class="card-name">${t(r.name)}</div>${r.sub?`<div class="card-sub">${t(r.sub)}</div>`:''}<div class="card-row"><span class="card-meta">⏱ ${t(r.time)}</span><span class="card-meta">🍽 ${r.bp} ${UI.pWord(r.bp)}</span><span class="card-protein">${lang==='ru'?'Б':'P'} ${r.kbju[1]}${lang==='ru'?'г':'g'}</span>${r.tags.map(tg=>`<span class="card-tag tag-${tg}">${tg==='vegan'?'🌱':tg==='gf'?'GF':tg==='fast'?'⏱':tg==='hprot'?'💪':tg}</span>`).join('')}</div></div></div>${isOpen?`<div class="card-preview" onclick="event.stopPropagation()"><div class="card-preview-list">${r.ing.map(i=>`${t(i.t)}${t(i.u)?' · '+fmtIng(i,r.bp,r.bp):''}`).join('<br>')}</div><button class="card-cook" style="--c:${c}" onclick="event.stopPropagation();enterCook('${r.id}')">${t(UI.cook)}</button></div>`:''}</div>`;
+    return`<div class="card${isOpen?' open':''}" style="--c:${c}" onclick="toggleCard('${r.id}')"><div class="card-top"><div class="card-icon" style="--c:${c}">${CAT_ICONS[r.cat]||CAT_ICONS.soup}</div><div class="card-body"><div class="card-name">${t(r.name)}</div>${r.sub?`<div class="card-sub">${t(r.sub)}</div>`:''}<div class="card-row"><span class="card-meta">⏱ ${t(r.time)}</span><span class="card-meta">🍽 ${r.bp} ${UI.pWord(r.bp)}</span><span class="card-protein">${lang==='ru'?'Б':'P'} ${r.kbju[1]}${lang==='ru'?'г':'g'}</span>${r.tags.map(tg=>`<span class="card-tag tag-${tg}">${tg==='vegan'?'🌱':tg==='gf'?'GF':tg==='fast'?'⏱':tg==='hprot'?'💪':tg}</span>`).join('')}</div></div></div>${isOpen?`<div class="card-preview" onclick="event.stopPropagation()"><div class="card-preview-list">${r.ing.map(i=>`${t(i.t)}${t(i.u)?' · '+fmtIng(i,r.bp,r.bp):''}`).join('<br>')}</div><button class="card-cook" style="--c:${c}" onclick="event.stopPropagation();enterCook('${r.id}')">${t(UI.cook)}</button></div>`:''}</div>`;
   }).join('');
 }
 
@@ -145,7 +146,7 @@ function startTm(si,secs){const k='t'+si;if(tmrs[k]?.iv){clearInterval(tmrs[k].i
 function renderCook(){
   const r=R.find(x=>x.id===cookId);if(!r)return;const p=gp(r),c=gc(r.cat);
   let h=`<div style="--c:${c}">`;
-  h+=`<div class="cook-hero"><div class="cook-emoji">${r.emoji}</div><div class="cook-title">${t(r.name)}</div>${r.sub?`<div class="cook-subtitle">${t(r.sub)}</div>`:''}<button id="shareBtn" class="share-btn" style="--c:${c}" onclick="event.stopPropagation();shareRecipe()">↗ ${t(UI.share)}</button></div>`;
+  h+=`<div class="cook-hero"><div class="card-icon" style="--c:${c};width:42px;height:42px;border-radius:12px"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:${c};stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round">${catIconInner(r.cat)}</svg></div><div class="cook-title">${t(r.name)}</div>${r.sub?`<div class="cook-subtitle">${t(r.sub)}</div>`:''}<button id="shareBtn" class="share-btn" style="--c:${c}" onclick="event.stopPropagation();shareRecipe()">↗ ${t(UI.share)}</button></div>`;
   h+=`<div class="cook-portions"><label>${t(UI.portions)}</label><div class="stepper" style="--c:${c}"><button class="stepper-btn" onclick="event.stopPropagation();adjP('${r.id}',-1)">−</button><input class="stepper-val" type="number" min="1" max="12" value="${p}" onclick="event.stopPropagation();this.select()" onchange="event.stopPropagation();setP('${r.id}',+this.value)" onkeydown="if(event.key==='Enter'){this.blur()}"><button class="stepper-btn" onclick="event.stopPropagation();adjP('${r.id}',1)">+</button></div><span style="font-size:11px;opacity:.3;margin-left:4px">${UI.pWord(p)}</span></div>`;
   h+=`<div class="cook-ing"><div class="cook-ing-title">${t(UI.ingredients)} · ${p} ${UI.pWord(p)}</div><div class="cook-ing-list">${r.ing.map(i=>`<div class="ci">${t(i.t)} <span class="ci-a">${fmtIng(i,r.bp,p)}</span>${i.pp?` /${lang==='ru'?'порц':'serv'}`:''}</div>`).join('')}</div></div>`;
   h+=`<div class="cook-steps">`;

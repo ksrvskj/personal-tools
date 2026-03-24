@@ -4,19 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#121215">
+<meta name="theme-color" content="#0f0f12">
 <title>Кофе / Coffee</title>
 <link rel="stylesheet" href="style.css">
 <style>
 :root{--accent:#8B5A2B;--br:#8B5A2B;--br-dim:rgba(139,90,43,.25);--br-bg:rgba(139,90,43,.08)}
 
 .methods{padding:0 16px 60px}
-.method{border-radius:12px;margin-bottom:10px;border:1px solid var(--br-dim);background:#1c1915;overflow:hidden}
+.method{border-radius:var(--radius);margin-bottom:10px;border:1px solid var(--br-dim);background:var(--surface);overflow:hidden}
 .m-top{display:flex;gap:12px;align-items:center;padding:14px 16px;cursor:pointer}
 .m-top:active{opacity:.8}
-.m-emoji{font-size:26px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border-radius:8px;flex-shrink:0}
+.m-emoji{font-size:26px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);flex-shrink:0}
 .m-body{flex:1;min-width:0}
-.m-name{font-weight:700;font-size:15px}
+.m-name{font-weight:500;font-size:15px}
 .m-style{font-size:11px;color:var(--br);font-weight:600;text-transform:uppercase;letter-spacing:.8px;margin-top:1px}
 .m-meta{font-size:11px;opacity:.35;margin-top:2px}
 .m-arrow{color:rgba(255,255,255,.2);font-size:18px;flex-shrink:0;transition:transform .2s}
@@ -43,7 +43,7 @@
 .grind-fill{height:100%;border-radius:3px;background:var(--br);transition:width .3s}
 .grind-text{font-size:11px;font-weight:600;color:var(--br);min-width:70px;text-align:right}
 
-.pours{border-radius:10px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);overflow:hidden;margin-bottom:12px}
+.pours{border-radius:var(--radius-sm);background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);overflow:hidden;margin-bottom:12px}
 .pour-header{padding:10px 14px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--br);opacity:.7;border-bottom:1px solid rgba(255,255,255,.04)}
 .pour{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.03)}
 .pour:last-child{border-bottom:none}
