@@ -23,6 +23,13 @@
   --gf:#c9a87e;
   --fast:#7faab4;
   --hprot:#c4917e;
+  --comfort:#c4917e;
+  --batch:#c9a87e;
+  --breakfast:#c4917e;
+  --grains:#9b928a;
+  --ferment:#7fa693;
+  --baking:#b49ac4;
+  --slow:#7faab4;
   --accent:#c9a87e;
   --radius:16px;
   --radius-sm:10px;
@@ -52,8 +59,7 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .lang-btn:first-child{border-right:1px solid rgba(255,255,255,.05)}
 
 /* ===== FILTERS ===== */
-.filters{padding:8px 16px 6px;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;position:relative;z-index:1}
-.filters::-webkit-scrollbar{display:none}
+.filters{padding:8px 16px 6px;display:flex;gap:6px;flex-wrap:wrap;overflow-x:visible;position:relative;z-index:1}
 .fbtn{display:inline-flex;align-items:center;gap:4px;flex-shrink:0;padding:6px 10px;border-radius:8px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.3);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
 .fbtn svg{width:13px;height:13px;stroke:var(--c);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.55;transition:opacity .15s}
 .fbtn.active{border-color:color-mix(in srgb,var(--c) 30%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent);color:var(--c)}
@@ -65,12 +71,14 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .tbtn.on svg{opacity:1}
 
 /* ===== DIETARY TAGS ===== */
-.card-tag{display:inline-flex;align-items:center;gap:2px;font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.card-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.card-tag{display:inline-flex;align-items:center;gap:2px}
 .card-tag svg{width:10px;height:10px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .tag-vegan{background:rgba(127,166,147,.1);color:var(--vegan)}
 .tag-gf{background:rgba(201,168,126,.08);color:var(--gf)}
 .tag-fast{background:rgba(127,170,180,.1);color:var(--fast)}
 .tag-hprot{background:rgba(196,145,126,.1);color:var(--hprot)}
+.tag-comfort{background:rgba(196,145,126,.1);color:var(--hprot)}
 
 /* ===== INGREDIENT FILTER ===== */
 .ing-toggle{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);font-size:11px;font-weight:400;cursor:pointer;font-family:inherit;transition:all .15s}
@@ -177,92 +185,12 @@ body.hide-nutrition .cook-nutrition,body.hide-nutrition .card-protein{display:no
 /* Brew timer */
 .brew-timer{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .brew-timer-label{font-size:11px;opacity:.4;font-weight:400}
-.timer-wrap{display:flex;align-items:center;gap:10px;margin-top:8px}
+.timer-wrap{position:relative}
 .timer-ring{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s}
 .timer-ring:active{transform:scale(0.95)}
 .timer-inner{width:36px;height:36px;border-radius:50%;background:var(--surface);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600}
 .timer-hint{font-size:10px;opacity:.3}
 .brew-running{color:var(--accent);font-family:'JetBrains Mono',monospace;font-weight:600}
-
-/* ===== CHECK BUTTON ===== */
-.check-btn{width:28px;height:28px;border-radius:50%;border:2px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;transition:all .2s}
-.check-btn.checked{border-color:var(--vegan);background:var(--vegan);color:var(--bg)}
-
-/* ===== UTILITY ===== */
-.hidden{display:none}
-.bottom-bar{position:fixed;bottom:0;left:0;right:0;padding:12px 20px;background:linear-gradient(transparent,var(--bg) 30%);text-align:center}
-.bottom-bar div{font-size:11px;opacity:.3}
-
-/* ===== RECIPES: COOK MODE ===== */
-.cook-hero{padding:8px 20px 16px}
-.cook-title{font-size:22px;font-weight:600;line-height:1.3}
-.cook-subtitle{font-size:13px;opacity:.4;font-style:italic;margin-top:2px}
-.cook-portions{display:flex;align-items:center;gap:10px;padding:0 20px 14px}
-.cook-portions label{font-size:12px;opacity:.4}
-.cook-ing{padding:0 20px 16px}
-.cook-ing-title{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;opacity:.4;margin-bottom:8px}
-.cook-ing-list{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
-.ci{font-size:13px;line-height:1.5;padding-left:14px;position:relative}
-.ci::before{content:"·";position:absolute;left:2px;opacity:.3;font-weight:bold}
-.ci-a{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:12px;margin-left:4px}
-.cook-steps{padding:0 16px 20px}
-.cs{border-radius:var(--radius);padding:16px;margin-bottom:10px;background:var(--surface);border:1px solid rgba(255,255,255,.06)}
-.cs.done{opacity:.5}
-.cs-top{display:flex;gap:12px;align-items:flex-start}
-.cs-n{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0;background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--c)}
-.cs-n.dn{background:rgba(127,166,147,.12);color:var(--vegan)}
-.cs-t{flex:1;font-size:15px;line-height:1.6}
-.cs-t .hi{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:13px;padding:1px 5px;border-radius:4px;background:color-mix(in srgb,var(--c) 8%,transparent);color:var(--c)}
-.cs-top .check-btn{flex-shrink:0}
-.cook-tips{padding:0 16px 12px}
-.cook-tip{font-size:13px;line-height:1.6;font-style:italic;opacity:.5;padding:10px 14px;border-left:2px solid var(--c);border-radius:0 8px 8px 0;background:rgba(255,255,255,.02);margin-bottom:6px}
-.cook-nutrition{padding:12px 20px 60px}
-.cook-nutrition-row{font-size:11px;opacity:.25;font-family:'JetBrains Mono',monospace;text-align:center;letter-spacing:.3px}
-.cook-nutrition-row span{margin:0 6px}
-
-/* ===== WORKOUT ===== */
-.tiers{display:flex;gap:8px;padding:0 20px 16px}
-.tier-btn{flex:1;padding:10px 8px;border-radius:10px;border:2px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03);color:rgba(255,255,255,.4);font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;font-family:inherit;text-align:center}
-.tier-btn.active-min{border-color:var(--cool);background:rgba(127,166,147,.08);color:var(--cool)}
-.tier-btn.active-regular{border-color:var(--warm);background:rgba(201,168,126,.08);color:var(--warm)}
-.tier-btn.active-full{border-color:var(--pasta);background:rgba(180,154,196,.08);color:var(--pasta)}
-.tier-emoji{margin-bottom:3px;display:flex;align-items:center;justify-content:center}
-.tier-emoji svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.tier-time{font-size:10px;opacity:.7;margin-top:1px}
-.exercises{padding:0 16px 90px}
-.ex-card{border-radius:var(--radius);padding:14px 16px;margin-bottom:10px;border:1px solid;transition:all .3s ease}
-.ex-card.done{opacity:.6}
-.ex-top{display:flex;align-items:flex-start;gap:12px}
-.ex-svg{flex-shrink:0;background:rgba(255,255,255,.03);border-radius:var(--radius-sm);padding:2px}
-.ex-svg svg{color:rgba(255,255,255,.6)}
-.ex-body{flex:1;min-width:0}
-.ex-cat{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:2px}
-.ex-name{font-weight:500;font-size:15px;color:var(--text);margin-bottom:2px}
-.ex-name.done{text-decoration:line-through}
-.ex-sets{font-size:13px;font-weight:600;margin-bottom:6px}
-.ex-cue{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5;font-style:italic}
-.ex-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0}
-.swap-btn{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.15);background:transparent;color:rgba(255,255,255,.4);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center}
-.swap-panel{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.08)}
-.swap-label{font-size:11px;color:rgba(255,255,255,.4);margin-bottom:6px;font-weight:600;text-transform:uppercase;letter-spacing:.8px}
-.swap-options{display:flex;flex-wrap:wrap;gap:6px}
-.swap-opt{padding:5px 10px;border-radius:6px;border:1px solid;background:rgba(255,255,255,.03);color:var(--text);font-size:12px;cursor:pointer;font-family:inherit}
-.cat-core{color:var(--warm)}
-.cat-glutes{color:var(--cool)}
-.cat-upper{color:var(--pasta)}
-.cat-mobility{color:var(--skillet)}
-.bg-core{background:var(--surface);border-color:rgba(201,168,126,.14)}
-.bg-glutes{background:var(--surface);border-color:rgba(127,166,147,.14)}
-.bg-upper{background:var(--surface);border-color:rgba(180,154,196,.14)}
-.bg-mobility{background:var(--surface);border-color:rgba(127,170,180,.14)}
-.sets-core{color:var(--warm)}
-.sets-glutes{color:var(--cool)}
-.sets-upper{color:var(--pasta)}
-.sets-mobility{color:var(--skillet)}
-.swap-border-core{border-color:rgba(201,168,126,.25)}
-.swap-border-glutes{border-color:rgba(127,166,147,.25)}
-.swap-border-upper{border-color:rgba(180,154,196,.25)}
-.swap-border-mobility{border-color:rgba(127,170,180,.25)}
 
 /* ===== ANIMATION ===== */
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
