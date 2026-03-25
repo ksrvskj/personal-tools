@@ -57,11 +57,13 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .fbtn{flex-shrink:0;padding:6px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.3);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s;font-family:inherit;white-space:nowrap}
 .fbtn.active{border-color:color-mix(in srgb,var(--c) 30%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent);color:var(--c)}
 .tag-filters{padding:4px 16px 10px;display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:1}
-.tbtn{padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);font-size:11px;font-weight:400;cursor:pointer;transition:all .15s;font-family:inherit}
+.tbtn{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:6px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);font-size:11px;font-weight:400;cursor:pointer;transition:all .15s;font-family:inherit}
+.tbtn svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .tbtn.on{border-color:color-mix(in srgb,var(--c) 30%,transparent);color:var(--c);background:color-mix(in srgb,var(--c) 6%,transparent)}
 
 /* ===== DIETARY TAGS ===== */
-.card-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.card-tag{display:inline-flex;align-items:center;gap:2px;font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+.card-tag svg{width:10px;height:10px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .tag-vegan{background:rgba(127,166,147,.1);color:var(--vegan)}
 .tag-gf{background:rgba(201,168,126,.08);color:var(--gf)}
 .tag-fast{background:rgba(127,170,180,.1);color:var(--fast)}
@@ -90,7 +92,8 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .card-sub{font-size:11px;opacity:.35;font-style:italic;margin-top:1px;font-weight:300}
 .card-row{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center}
 .card-meta{font-size:11px;opacity:.35;font-weight:400}
-.card-protein{font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(127,166,147,.08);color:var(--vegan)}
+.card-protein{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(127,166,147,.08);color:var(--vegan)}
+.card-protein svg{width:11px;height:11px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .card-preview{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05)}
 .card-preview-list{font-size:12px;line-height:1.7;opacity:.45;columns:2;column-gap:12px;font-weight:300}
 .card-cook{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:7px 16px;border-radius:8px;border:1px solid color-mix(in srgb,var(--c) 20%,transparent);background:color-mix(in srgb,var(--c) 5%,transparent);color:var(--c);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
