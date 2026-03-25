@@ -85,7 +85,7 @@ const R=[
 {id:"mushroom-risotto",cat:"slow",name:{ru:"Ризотто с грибами",en:"Mushroom Risotto"},sub:{ru:"40 мин у плиты, медитация",en:"40 min at the stove, meditation"},time:{ru:"45 мин",en:"45 min"},bp:3,kbju:[380,10,12,55],tags:["gf"],itags:[],ing:[{t:{ru:"Рис арборио/ризотто",en:"Arborio/risotto rice"},a:250,u:{ru:"г",en:"g"}},{t:{ru:"Грибы (шампиньоны или лесные)",en:"Mushrooms (button or wild)"},a:300,u:{ru:"г",en:"g"}},{t:{ru:"Лук",en:"Onion"},a:1,u:""},{t:{ru:"Чеснок",en:"Garlic"},a:2,u:{ru:"зуб.",en:"cloves"}},{t:{ru:"Бульон горячий",en:"Hot stock"},a:900,u:{ru:"мл",en:"ml"}},{t:{ru:"Белое вино (опц.)",en:"White wine (opt.)"},a:100,u:{ru:"мл",en:"ml"}},{t:{ru:"Пармезан",en:"Parmesan"},a:50,u:{ru:"г",en:"g"}},{t:{ru:"Масло сливочное",en:"Butter"},a:30,u:{ru:"г",en:"g"}},{t:{ru:"Масло оливковое",en:"Olive oil"},a:2,u:{ru:"ст.л.",en:"tbsp"}}],steps:[{s:{ru:"{4} бульон держать горячим на соседней конфорке",en:"{4} stock — keep hot on adjacent burner"}},{s:{ru:"{1} грибов нарезать, обжарить на {8} масле до золота. Убрать",en:"Slice {1} mushrooms, fry in {8} oil until golden. Set aside"},tm:420},{s:{ru:"Лук + чеснок мелко, 3 мин на том же масле",en:"Onion + garlic finely diced, 3 min in same oil"}},{s:{ru:"{0} риса — добавить, мешать 2 мин (рис станет прозрачным по краям)",en:"{0} rice — add, stir 2 min (edges become translucent)"}},{s:{ru:"Вино — влить, мешать пока не впитается",en:"Wine — add, stir until absorbed"}},{s:{ru:"Бульон по 1 половнику, мешать. Следующий — когда впитался предыдущий. 18–20 мин",en:"Stock one ladle at a time, stir. Next when previous absorbed. 18–20 min"},tm:1140},{s:{ru:"Грибы вернуть. Снять с огня",en:"Return mushrooms. Remove from heat"}},{s:{ru:"{7} масла + {6} пармезана — вмешать. Накрыть на 2 мин",en:"{7} butter + {6} parmesan — fold in. Cover 2 min"},tm:120}],tips:[{ru:"Главное правило: мешать, мешать, мешать. Крахмал выходит и создаёт кремовость",en:"Key rule: stir, stir, stir. Starch releases and creates creaminess"},{ru:"Бульон ГОРЯЧИЙ — холодный останавливает готовку",en:"Stock must be HOT — cold stops the cooking"},{ru:"Готово когда al dente + кремовая консистенция (волной растекается на тарелке)",en:"Done when al dente + creamy (waves when you tilt the plate)"},{ru:"Вег: заменить пармезан на nutritional yeast 2 ст.л.",en:"Veg: replace parmesan with nutritional yeast 2 tbsp"}]}
 ];
 
-let curTop="batch",curSub=null,activeTags=new Set(),activeIngs=new Set(),ingOpen=false,openCard=null,cookId=null,cookPortion={},stepsDone={},tmrs={};
+let curTop="batch",curSub=null,batchOpen=true,activeTags=new Set(),activeIngs=new Set(),ingOpen=false,openCard=null,cookId=null,cookPortion={},stepsDone={},tmrs={};
 let hideNutrition=localStorage.getItem('hideNutrition')==='1';
 
 function sc(v,b,tgt,unit){const raw=v*(tgt/b);const countable=!unit||['','шт','pcs','горсть','handful','щеп.','pinch'].includes(unit);if(countable)return Math.round(raw*2)/2;const small=['ч.л.','tsp','ст.л.','tbsp'].includes(unit);if(small)return Math.round(raw*2)/2;if(raw>=50)return Math.round(raw/5)*5;if(raw>=10)return Math.round(raw);return Math.round(raw*10)/10;}
@@ -115,12 +115,13 @@ function renderBrowse(){
   // Top-level categories
   document.getElementById('catBar').innerHTML=TOP_CATS.map(c=>{
     const icon=ICONS.cat[c.id]||'';
-    return`<button class="fbtn${curTop===c.id?' active':''}" style="--c:${c.color}" onclick="setTop('${c.id}')">${icon}${t(c.label)}</button>`;
+    const arrow=c.id==='batch'?`<span class="batch-arrow${batchOpen&&curTop==='batch'?' open':''}">\u203A</span>`:'';
+    return`<button class="fbtn${curTop===c.id?' active':''}" style="--c:${c.color}" onclick="setTop('${c.id}')">${icon}${t(c.label)}${arrow}</button>`;
   }).join('');
 
-  // Subcategories (only when batch selected)
+  // Subcategories (only when batch selected + expanded)
   const subBar=document.getElementById('subBar');
-  if(curTop==='batch'){
+  if(curTop==='batch'&&batchOpen){
     subBar.innerHTML=`<button class="fbtn${curSub===null?' active':''}" style="--c:${getTopColor('batch')}" onclick="setSub(null)">${lang==='ru'?'Всё':'All'}</button>`+SUB_CATS.map(s=>
       `<button class="fbtn${curSub===s.id?' active':''}" style="--c:${getTopColor('batch')}" onclick="setSub('${s.id}')">${ICONS.cat[s.id]||''}${t(s.label)}</button>`
     ).join('');
@@ -157,7 +158,7 @@ function renderBrowse(){
   }).join('');
 }
 
-function setTop(id){curTop=id;curSub=null;openCard=null;renderBrowse();}
+function setTop(id){if(curTop===id&&id==='batch'){batchOpen=!batchOpen;if(!batchOpen)curSub=null;}else{curTop=id;curSub=null;batchOpen=id==='batch';}openCard=null;renderBrowse();}
 function setSub(id){curSub=id;openCard=null;renderBrowse();}
 function toggleTag(id){activeTags.has(id)?activeTags.delete(id):activeTags.add(id);openCard=null;renderBrowse();}
 function toggleIngPanel(){ingOpen=!ingOpen;renderBrowse();}

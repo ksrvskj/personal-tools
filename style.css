@@ -64,6 +64,8 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .fbtn svg{width:13px;height:13px;stroke:var(--c);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.55;transition:opacity .15s}
 .fbtn.active{border-color:color-mix(in srgb,var(--c) 30%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent);color:var(--c)}
 .fbtn.active svg{opacity:1}
+.batch-arrow{display:inline-block;font-size:13px;opacity:.4;transition:transform .2s;margin-left:1px}
+.batch-arrow.open{transform:rotate(90deg)}
 .tag-filters{padding:4px 16px 10px;display:flex;gap:6px;flex-wrap:wrap;position:relative;z-index:1}
 .tbtn{display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);font-size:11px;font-weight:400;cursor:pointer;transition:all .15s;font-family:inherit}
 .tbtn svg{width:12px;height:12px;stroke:var(--c);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;opacity:.6;transition:opacity .15s}
