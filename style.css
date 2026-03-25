@@ -139,17 +139,19 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 .cook-back-btn{font-size:13px;color:rgba(255,255,255,.35);font-weight:500}
 
 /* ===== COOK MODE CONTENT ===== */
-.cook-hero{padding:16px 16px 12px;display:flex;flex-wrap:wrap;align-items:center;gap:12px}
-.cook-title{font-size:20px;font-weight:600;color:var(--text);flex:1;min-width:0}
-.cook-subtitle{width:100%;font-size:12px;font-style:italic;opacity:.35;margin-top:-6px;font-weight:300}
+.cook-hero{padding:16px 16px 4px;display:flex;align-items:center;gap:12px}
+.cook-hero-text{flex:1;min-width:0}
+.cook-title{font-size:20px;font-weight:600;color:var(--text)}
+.cook-subtitle{font-size:12px;font-style:italic;opacity:.35;margin-top:2px;font-weight:300}
+.cook-actions{padding:0 16px 12px}
 .cook-portions{padding:8px 16px 12px;display:flex;align-items:center;gap:10px}
 .cook-portions label{font-size:13px;opacity:.5}
 .cook-ing{padding:0 16px 12px}
-.cook-ing-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--c,var(--accent));opacity:.5;margin-bottom:8px}
+.cook-ing-title{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:1px;color:var(--c);opacity:.5;margin-bottom:8px}
 .cook-ing-list{columns:2;column-gap:12px}
 .ci{font-size:13px;line-height:1.8;opacity:.55;break-inside:avoid}
 .ci-a{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--text);opacity:1}
-.hi{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--c,var(--warm))}
+.hi{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--c)}
 .cook-steps{padding:0 16px}
 .cs{padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)}
 .cs:last-child{border-bottom:none}
@@ -161,7 +163,7 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 .check-btn{width:28px;height:28px;border-radius:6px;border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);color:rgba(255,255,255,.15);font-size:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-family:inherit;transition:all .12s}
 .check-btn.checked{border-color:var(--vegan);color:var(--vegan);background:color-mix(in srgb,var(--vegan) 6%,transparent)}
 .cook-tips{padding:12px 16px}
-.cook-tip{font-size:12px;line-height:1.6;font-style:italic;opacity:.4;padding:8px 14px;border-left:2px solid var(--c,var(--accent));border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--c,var(--accent)) 3%,transparent);margin-bottom:6px}
+.cook-tip{font-size:12px;line-height:1.6;font-style:italic;opacity:.4;padding:8px 14px;border-left:2px solid var(--c);border-radius:0 8px 8px 0;background:color-mix(in srgb,var(--c) 3%,transparent);margin-bottom:6px}
 .cook-nutrition{padding:12px 16px 80px}
 .cook-nutrition-row{font-size:12px;opacity:.3;display:flex;gap:8px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace}
 
@@ -172,8 +174,8 @@ body.cooking #browseView{display:none}body.cooking #cookView{display:block}
 body.hide-nutrition .cook-nutrition,body.hide-nutrition .card-protein{display:none}
 
 /* ===== SHARE ===== */
-.share-btn{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--c) 16%,transparent);background:color-mix(in srgb,var(--c) 4%,transparent);color:var(--c);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s}
-.share-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.share-btn{display:inline-flex;align-items:center;gap:5px;padding:6px 14px;border-radius:8px;border:1px solid color-mix(in srgb,var(--c) 16%,transparent);background:color-mix(in srgb,var(--c) 4%,transparent);color:var(--c);font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;transition:all .15s;-webkit-appearance:none;appearance:none}
+.share-btn svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .share-btn:active{transform:scale(0.97)}
 
 /* ===== EMPTY STATE ===== */
