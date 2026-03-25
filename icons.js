@@ -1,6 +1,15 @@
 /* ========== ICON LIBRARY ========== */
 /* All SVGs: viewBox 0 0 24 24 · stroke-based · stroke-width 1.5 · round caps/joins · no fill */
 /* Usage: <script src="icons.js"></script> then ICONS.hub.workout, ICONS.cat.soup, etc. */
+/*
+ * APPROVED ICONS (v6 final):
+ * - breakfast: muesli bowl + yoghurt carton
+ * - grains: saucepan with horizontal handle + grain dots
+ * - baking: compact whisk + barrel rolling pin (side by side)
+ * - ferment: jar with lid + pickles (thick vertical strokes)
+ * - slow: cloche dome with knob + plate base
+ * - comfort tag: small heart (no plate)
+ */
 
 const ICONS = {
 
@@ -11,7 +20,7 @@ const ICONS = {
     coffee: `<svg viewBox="0 0 24 24"><path d="M5 9h12v8a3 3 0 01-3 3H8a3 3 0 01-3-3V9z"/><path d="M17 11h1.5a2.5 2.5 0 010 5H17"/><path d="M8 5c0-1 .5-2 1.5-2"/><path d="M12 5c0-1 .5-2 1.5-2"/></svg>`
   },
 
-  // ===== RECIPE CATEGORIES — TOP LEVEL =====
+  // ===== RECIPE CATEGORIES =====
   cat: {
     // Batch subcategories
     soup: `<svg viewBox="0 0 24 24"><path d="M4 11h16v7a3 3 0 01-3 3H7a3 3 0 01-3-3v-7z"/><path d="M2 11h20"/><path d="M8 4c0 2 2 3 0 5"/><path d="M12 3c0 2 2 3 0 5"/><path d="M16 4c0 2 2 3 0 5"/></svg>`,
@@ -21,11 +30,21 @@ const ICONS = {
 
     // Top-level categories
     batch: `<svg viewBox="0 0 24 24"><path d="M4 11h16v7a3 3 0 01-3 3H7a3 3 0 01-3-3v-7z"/><path d="M2 11h20"/><path d="M8 4c0 2 2 3 0 5"/><path d="M12 3c0 2 2 3 0 5"/><path d="M16 4c0 2 2 3 0 5"/></svg>`,
-    breakfast: `<svg viewBox="0 0 24 24"><ellipse cx="12" cy="18" rx="8" ry="3"/><ellipse cx="12" cy="14" rx="7" ry="2.5"/><ellipse cx="12" cy="10.5" rx="6" ry="2"/><path d="M18 14v4"/><path d="M6 14v4"/><path d="M17 10.5v3.5"/><path d="M7 10.5v3.5"/><path d="M14 6c1.5 0 3 .8 3 2s-1 1.5-2 1"/></svg>`,
-    grains: `<svg viewBox="0 0 24 24"><path d="M3 12a9 5 0 0018 0"/><path d="M3 12c0 5 4 9 9 9s9-4 9-9"/><circle cx="9" cy="14" r=".8" stroke-width="1.5"/><circle cx="12" cy="13" r=".8" stroke-width="1.5"/><circle cx="15" cy="14" r=".8" stroke-width="1.5"/><circle cx="10.5" cy="16.5" r=".6" stroke-width="1.5"/><circle cx="13.5" cy="16.5" r=".6" stroke-width="1.5"/></svg>`,
-    ferment: `<svg viewBox="0 0 24 24"><rect x="5" y="6" width="14" height="14" rx="2"/><path d="M8 6V4h8v2"/><path d="M5 9h14"/><circle cx="9" cy="13" r=".7" stroke-width="1.5"/><circle cx="12" cy="15" r=".5" stroke-width="1.5"/><circle cx="14" cy="12" r=".6" stroke-width="1.5"/></svg>`,
-    baking: `<svg viewBox="0 0 24 24"><path d="M4 18h16"/><path d="M5 18l1-10h12l1 10"/><path d="M6 8c0-3 2.5-5 6-5s6 2 6 5"/><path d="M9 12l3-2 3 2"/></svg>`,
-    slow: `<svg viewBox="0 0 24 24"><path d="M12 22c-4 0-7-2.5-7-6 0-4 3-6 4-9 .5 2 2 3 2 3s1.5-2.5 1-5c3 2 4 5 4 8 0 3.5-2 5.5-4.5 5.5"/><path d="M12 22c-1.5 0-3-1-3-3 0-2 1.5-3 2-4.5.3 1 1 1.5 1 1.5s.5-1 .5-2c1 1 1.5 2.5 1.5 4 0 2-1 3-2 3z"/><path d="M4 22h16"/></svg>`
+
+    // Breakfast: muesli bowl (left) + yoghurt carton (right)
+    breakfast: `<svg viewBox="0 0 24 24"><path d="M1 12a7 3.5 0 0014 0"/><path d="M1 12c0 3.5 3 6.5 7 6.5s7-3 7-6.5"/><circle cx="5" cy="13.5" r=".6" stroke-width="1.5"/><circle cx="8" cy="13" r=".6" stroke-width="1.5"/><circle cx="11" cy="13.5" r=".6" stroke-width="1.5"/><circle cx="6.5" cy="15.5" r=".5" stroke-width="1.5"/><circle cx="9.5" cy="15" r=".5" stroke-width="1.5"/><rect x="17" y="5" width="5.5" height="13" rx="1"/><path d="M17 8.5h5.5"/><path d="M17 5l2.75-2 2.75 2"/></svg>`,
+
+    // Grains: saucepan with horizontal handle + grain dots inside
+    grains: `<svg viewBox="0 0 24 24"><path d="M3 10h14v7a3 3 0 01-3 3H6a3 3 0 01-3-3v-7z"/><path d="M3 10h14"/><path d="M17 13h5"/><circle cx="8" cy="13" r=".7" stroke-width="1.5"/><circle cx="11" cy="12.5" r=".7" stroke-width="1.5"/><circle cx="14" cy="13" r=".7" stroke-width="1.5"/><circle cx="9.5" cy="15.5" r=".5" stroke-width="1.5"/><circle cx="12.5" cy="15" r=".5" stroke-width="1.5"/></svg>`,
+
+    // Ferment: jar with lid + pickles (thick vertical strokes)
+    ferment: `<svg viewBox="0 0 24 24"><path d="M6 5h12v14a2 2 0 01-2 2H8a2 2 0 01-2-2V5z"/><path d="M8 5V3.5a1 1 0 011-1h6a1 1 0 011 1V5"/><path d="M6 8h12"/><path d="M9 11v5" stroke-width="2" stroke-linecap="round"/><path d="M12 10v6" stroke-width="2" stroke-linecap="round"/><path d="M15 11v5" stroke-width="2" stroke-linecap="round"/></svg>`,
+
+    // Baking: compact whisk (left) + barrel rolling pin (right)
+    baking: `<svg viewBox="0 0 24 24"><path d="M5 22v-4"/><path d="M5 18c-2.5 0-4-3-4-6.5S3.5 6 6 6"/><path d="M5 18c2.5 0 4-3 4-6.5S8.5 6 6 6"/><path d="M5 18c-1.3 0-2.2-3-2.2-6.5S5 6 6 6"/><path d="M5 18c1.3 0 2.2-3 2.2-6.5S7 6 6 6"/><circle cx="18" cy="2.5" r="1"/><path d="M18 3.5v1"/><path d="M16 4.5c-1 2-1 11 0 13"/><path d="M20 4.5c1 2 1 11 0 13"/><path d="M18 17.5v1"/><circle cx="18" cy="19.5" r="1"/></svg>`,
+
+    // Slow: cloche dome with knob + plate base
+    slow: `<svg viewBox="0 0 24 24"><path d="M3 16h18"/><path d="M4 16c0-6 3.5-10 8-10s8 4 8 10"/><path d="M12 6v-2"/><path d="M5 16v1.5a2 2 0 002 2h10a2 2 0 002-2V16"/></svg>`
   },
 
   // ===== COFFEE METHODS =====
@@ -48,8 +67,7 @@ const ICONS = {
     gf: `<svg viewBox="0 0 24 24"><path d="M12 21v-9"/><path d="M9 15l3-3 3 3"/><path d="M10 11l2-2 2 2"/><path d="M11 8l1-1 1 1"/><path d="M6 19L18 5" stroke-width="1.3"/></svg>`,
     fast: `<svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5"/><path d="M10 2h4"/><path d="M12 2v2"/></svg>`,
     protein: `<svg viewBox="0 0 24 24"><path d="M6.5 9v6"/><path d="M17.5 9v6"/><path d="M4 10v4"/><path d="M20 10v4"/><path d="M6.5 12h11"/></svg>`,
-    comfort: `<svg viewBox="0 0 24 24"><path d="M12 20c0 0-8-5.5-8-10.5a4.5 4.5 0 019 0 4.5 4.5 0 019 0c0 5-8 10.5-8 10.5z"/></svg>`,
-    hp: `<svg viewBox="0 0 24 24"><path d="M6.5 9v6"/><path d="M17.5 9v6"/><path d="M4 10v4"/><path d="M20 10v4"/><path d="M6.5 12h11"/></svg>`
+    comfort: `<svg viewBox="0 0 24 24"><path d="M12 20c0 0-8-5.5-8-10.5a4.5 4.5 0 019 0 4.5 4.5 0 019 0c0 5-8 10.5-8 10.5z"/></svg>`
   },
 
   // ===== UI =====
