@@ -77,7 +77,7 @@ function fullRender(){
 }
 
 function renderBrowse(){
-  document.getElementById('catBar').innerHTML=CATS.map(c=>`<button class="fbtn${curCat===c.id?' active':''}" style="--c:${c.color}" onclick="setCat('${c.id}')">${t(c.label)}</button>`).join('');
+  document.getElementById('catBar').innerHTML=CATS.map(c=>`<button class="fbtn${curCat===c.id?' active':''}" style="--c:${c.color}" onclick="setCat('${c.id}')">${ICONS.cat[c.id]||''}${t(c.label)}</button>`).join('');
   let tagHtml=TAGS.map(tg=>`<button class="tbtn${activeTags.has(tg.id)?' on':''}" style="--c:${tg.color}" onclick="toggleTag('${tg.id}')">${TAG_ICON[tg.id]||''}${t(tg.label)}</button>`).join('');
   const ingCount=activeIngs.size;
   tagHtml+=`<button class="ing-toggle${ingOpen?' open':''}${ingCount>0?' has-active':''}" onclick="toggleIngPanel()">${ingCount>0?`${t(UI.ingFilterN)} (${ingCount})`:t(UI.ingFilter)}</button>`;
