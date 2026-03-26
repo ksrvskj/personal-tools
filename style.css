@@ -238,3 +238,4 @@ body.hide-nutrition .cook-nutrition,body.hide-nutrition .card-protein{display:no
 /* ===== ANIMATION ===== */
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
+@media(min-width:480px){body{max-width:430px;margin:0 auto;border-left:1px solid rgba(255,255,255,.03);border-right:1px solid rgba(255,255,255,.03)}}
