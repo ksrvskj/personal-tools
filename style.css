@@ -60,12 +60,12 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 
 /* ===== FILTERS ===== */
 /* Icon-only top category buttons */
-.cat-bar{padding:10px 16px 16px;display:flex;gap:10px;position:relative;z-index:1}
+.cat-bar{padding:10px 70px 16px 16px;display:flex;gap:10px;position:relative;z-index:1}
 .cat-btn{width:44px;height:44px;border-radius:var(--radius-sm);border:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;position:relative;flex-shrink:0}
 .cat-btn svg{width:22px;height:22px;stroke:rgba(255,255,255,.3);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;transition:stroke .15s}
 .cat-btn.active{border-color:color-mix(in srgb,var(--c) 30%,transparent);background:color-mix(in srgb,var(--c) 8%,transparent)}
 .cat-btn.active svg{stroke:var(--c)}
-.cat-label{font-size:9px;font-weight:500;color:var(--c);position:absolute;bottom:-13px;left:50%;transform:translateX(-50%);white-space:nowrap;display:none}
+.cat-label{font-size:9px;font-weight:500;color:var(--c);position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:6px;white-space:nowrap;display:none}
 .cat-btn.active .cat-label{display:block}
 .cat-expand{position:absolute;top:2px;right:2px;font-size:8px;color:rgba(255,255,255,.25);transition:transform .2s;line-height:1}
 .cat-expand.open{transform:rotate(90deg)}

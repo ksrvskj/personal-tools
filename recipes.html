@@ -34,7 +34,7 @@
 let lang=localStorage.getItem('lang')||'ru';
 function setLang(l){lang=l;localStorage.setItem('lang',l);document.documentElement.lang=l;fullRender();updateURL();}
 function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
-const UI={title:{ru:"Рецепты",en:"Recipes"},desc:{ru:"Быстро · Вегетарианский · С белком",en:"Quick · Vegetarian · High protein"},coffee:{ru:"Кофе",en:"Coffee"},cook:{ru:"Готовить →",en:"Cook →"},back:{ru:"Рецепты",en:"Recipes"},portions:{ru:"Порции",en:"Servings"},perPortion:{ru:"на порцию",en:"per serving"},ingredients:{ru:"Ингредиенты",en:"Ingredients"},tips:{ru:"Заметки",en:"Notes"},noMatch:{ru:"Нет рецептов с такими фильтрами",en:"No recipes match these filters"},start:{ru:"старт",en:"start"},pause:{ru:"пауза",en:"pause"},reset:{ru:"заново",en:"reset"},share:{ru:"Поделиться",en:"Share"},copied:{ru:"Ссылка скопирована!",en:"Link copied!"},ingFilter:{ru:"+ Ингредиенты",en:"+ Ingredients"},ingFilterN:{ru:"× Ингредиенты",en:"× Ingredients"},pWord(n){if(lang==='en')return n===1?'serving':'servings';return n===1?'порция':n<5?'порции':'порций';}};
+const UI={title:{ru:"Рецепты",en:"Recipes"},desc:{ru:"Быстро · Вегетарианский · С белком",en:"Quick · Vegetarian · High protein"},coffee:{ru:"Кофе",en:"Coffee"},cook:{ru:"Готовить →",en:"Cook →"},back:{ru:"Рецепты",en:"Recipes"},portions:{ru:"Порции",en:"Servings"},perPortion:{ru:"на порцию",en:"per serving"},ingredients:{ru:"Ингредиенты",en:"Ingredients"},tips:{ru:"Заметки",en:"Notes"},noMatch:{ru:"Нет рецептов с такими фильтрами",en:"No recipes match these filters"},start:{ru:"старт",en:"start"},pause:{ru:"пауза",en:"pause"},reset:{ru:"заново",en:"reset"},share:{ru:"Поделиться",en:"Share"},copied:{ru:"Ссылка скопирована!",en:"Link copied!"},pWord(n){if(lang==='en')return n===1?'serving':'servings';return n===1?'порция':n<5?'порции':'порций';}};
 
 const TOP_CATS=[
   {id:"batch",label:{ru:"Основное",en:"Batch"},color:"#c9a87e"},
@@ -134,7 +134,8 @@ function renderBrowse(){
   // Tags
   let tagHtml=TAGS.map(tg=>`<button class="tbtn${activeTags.has(tg.id)?' on':''}" style="--c:${tg.color}" onclick="toggleTag('${tg.id}')">${t(tg.label)}${TAG_ICON[tg.id]||''}</button>`).join('');
   const ingCount=activeIngs.size;
-  tagHtml+=`<button class="ing-toggle${ingOpen?' open':''}${ingCount>0?' has-active':''}" onclick="toggleIngPanel()">${ingCount>0?`${t(UI.ingFilterN)} (${ingCount})`:t(UI.ingFilter)}</button>`;
+  const ingPrefix=ingOpen?'−':'+';const ingLabel=ingCount>0?`${ingPrefix} ${lang==='ru'?'Ингредиенты':'Ingredients'} (${ingCount})`:`${ingPrefix} ${lang==='ru'?'Ингредиенты':'Ingredients'}`;
+  tagHtml+=`<button class="ing-toggle${ingOpen?' open':''}${ingCount>0?' has-active':''}" onclick="toggleIngPanel()">${ingLabel}</button>`;
   document.getElementById('tagBar').innerHTML=tagHtml;
   const ingBar=document.getElementById('ingBar');
   ingBar.className='ing-row'+(ingOpen?' open':'');
