@@ -236,9 +236,14 @@ a:hover { color:var(--accent-hover); text-decoration-color:var(--accent-hover); 
 .content blockquote { background:var(--quote-bg); border-left:2.5px solid var(--border); padding:18px 22px; margin:22px 0; border-radius:0 4px 4px 0; font-size:0.9rem; }
 .content blockquote p:last-child { margin-bottom:0; }
 
-.source-quote { background:var(--source-bg); border-left:2.5px solid var(--source-border); padding:22px 24px; margin:26px 0; border-radius:0 4px 4px 0; }
-.source-label { font-family:var(--ui); font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--source-border); margin-bottom:10px; }
-.source-quote p { font-size:0.9rem; line-height:1.72; }
+.source-quote { background:var(--source-bg); border-left:2.5px solid var(--source-border); padding:22px 24px; margin:26px 0; border-radius:0 4px 4px 0; position:relative; overflow:hidden; }
+.source-quote::before {
+  content:'»'; position:absolute; top:10px; right:16px;
+  font-size:3rem; line-height:1; font-family:Georgia,serif;
+  color:var(--source-border); opacity:.15; pointer-events:none;
+}
+.source-label { font-family:var(--ui); font-size:10.5px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:var(--source-border); margin-bottom:10px; position:relative; z-index:1; }
+.source-quote p { font-size:0.9rem; line-height:1.72; position:relative; z-index:1; }
 .source-quote p:last-of-type { margin-bottom:0; }
 
 .draft-note { background:var(--draft-bg); border:1px dashed var(--draft-border); padding:14px 18px; margin:20px 0; border-radius:3px; font-family:var(--ui); font-size:13px; color:#8B7730; line-height:1.5; }
@@ -260,16 +265,143 @@ a:hover { color:var(--accent-hover); text-decoration-color:var(--accent-hover); 
 .authors-list { display:flex; flex-wrap:wrap; gap:6px 20px; font-family:var(--ui); font-size:15px; font-weight:600; }
 .authors-list .anon { color:var(--text-muted); font-weight:400; font-style:italic; }
 
+/* ── Regular list ────────────────────── */
+.content ul.plain-list { list-style:none; padding:0; margin:16px 0 24px; }
+.content ul.plain-list li { padding:4px 0 4px 20px; position:relative; font-size:0.93rem; line-height:1.65; }
+.content ul.plain-list li::before { content:'—'; position:absolute; left:0; color:var(--accent); }
+
+/* ── Definition list (aliases) ──────── */
+.def-list { margin:24px 0; }
+.def-item { display:flex; align-items:baseline; gap:0; padding:9px 0; border-bottom:1px solid var(--border-light); font-size:0.92rem; flex-wrap:wrap; }
+.def-item:last-child { border-bottom:none; }
+.def-term { font-weight:700; color:var(--text); white-space:nowrap; }
+.def-arrow { color:var(--text-muted); padding:0 8px; font-size:0.8em; }
+.def-desc { color:var(--text-secondary); font-size:0.9rem; }
+
+/* ── Figure with caption ────────────── */
+.content figure { margin:28px 0; }
+.content figure img { width:100%; border-radius:4px; border:1px solid var(--border); display:block; }
+.content figcaption { font-family:var(--ui); font-size:12px; color:var(--text-muted); margin-top:10px; font-style:italic; line-height:1.5; }
+
+/* ── Collapsible block ──────────────── */
+.collapsible { margin:24px 0; border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+.collapsible summary {
+  padding:14px 20px; font-family:var(--ui); font-size:13px; font-weight:600;
+  color:var(--text-secondary); cursor:pointer; background:var(--bg-warm);
+  list-style:none; display:flex; align-items:center; gap:8px;
+  transition:background .1s; -webkit-tap-highlight-color:transparent;
+}
+.collapsible summary::-webkit-details-marker { display:none; }
+.collapsible summary::before { content:'▸'; font-size:11px; color:var(--accent); transition:transform .15s; }
+.collapsible[open] summary::before { transform:rotate(90deg); }
+.collapsible summary:hover { background:var(--border-light); }
+.collapsible .collapsible-body { padding:16px 20px; font-size:0.92rem; line-height:1.72; }
+.collapsible .collapsible-body p:last-child { margin-bottom:0; }
+
+/* ── Explainer box ──────────────────── */
+.explainer {
+  margin:28px 0; padding:22px 24px; border-radius:6px;
+  background:var(--bg-warm); border:1px solid var(--border);
+  border-top:3px solid var(--accent); position:relative;
+}
+.explainer-label {
+  font-family:var(--ui); font-size:10.5px; font-weight:700;
+  letter-spacing:1px; text-transform:uppercase;
+  color:var(--accent); margin-bottom:10px;
+}
+.explainer p { font-size:0.92rem; }
+.explainer p:last-child { margin-bottom:0; }
+
+/* ── Timeline ───────────────────────── */
+.timeline { margin:28px 0; padding-left:24px; border-left:2px solid var(--accent); }
+.timeline-item { padding:0 0 24px 0; position:relative; }
+.timeline-item:last-child { padding-bottom:0; }
+.timeline-item::before {
+  content:''; position:absolute; left:-29px; top:6px;
+  width:10px; height:10px; border-radius:50%;
+  background:var(--bg); border:2px solid var(--accent);
+}
+.timeline-date { font-family:var(--ui); font-size:12px; font-weight:700; color:var(--accent); letter-spacing:0.5px; margin-bottom:4px; }
+.timeline-text { font-size:0.92rem; line-height:1.6; }
+.timeline-text p { margin-bottom:0.5em; }
+.timeline-text p:last-child { margin-bottom:0; }
+
+/* ── Footnotes (popover) ─────────────── */
+.fn-ref { font-size:0.75em; vertical-align:super; line-height:0; position:relative; display:inline; }
+.fn-ref a { text-decoration:none; color:var(--accent); font-family:var(--ui); font-weight:600; cursor:pointer; }
+.fn-ref a:hover { text-decoration:underline; }
+
+.fn-popup {
+  display:none; position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+  width:280px; max-width:85vw; padding:14px 16px;
+  background:var(--bg-warm); color:var(--text); border:1px solid var(--border);
+  font-size:0.8rem; line-height:1.55; font-family:var(--ui); font-weight:400;
+  border-radius:6px; box-shadow:0 4px 20px rgba(0,0,0,.12);
+  z-index:50; pointer-events:none;
+}
+.fn-popup::after {
+  content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:6px solid transparent; border-top-color:var(--border);
+}
+/* Flipped: show below when near top */
+.fn-ref.flip .fn-popup { bottom:auto; top:calc(100% + 8px); }
+.fn-ref.flip .fn-popup::after { top:auto; bottom:100%; border-top-color:transparent; border-bottom-color:var(--border); }
+/* Anchor right when near right edge */
+.fn-ref.anchor-right .fn-popup { left:auto; right:-8px; transform:none; }
+.fn-ref.anchor-right .fn-popup::after { left:auto; right:16px; transform:none; }
+/* Anchor left when near left edge */
+.fn-ref.anchor-left .fn-popup { left:-8px; transform:none; }
+.fn-ref.anchor-left .fn-popup::after { left:16px; transform:none; }
+
+.fn-ref.active .fn-popup { display:block; pointer-events:auto; }
+@media (hover:hover) { .fn-ref:hover .fn-popup { display:block; pointer-events:auto; } }
+
+@media (max-width:500px) {
+  .fn-popup { left:-8px; transform:none; width:min(260px, 85vw); }
+  .fn-popup::after { left:16px; transform:none; }
+  .fn-ref.flip .fn-popup { left:-8px; transform:none; }
+  .fn-ref.flip .fn-popup::after { left:16px; transform:none; }
+  .fn-ref.anchor-right .fn-popup { left:auto; right:-8px; }
+  .fn-ref.anchor-right .fn-popup::after { left:auto; right:16px; }
+}
+
+/* Keep bottom footnotes as fallback for accessibility */
+.footnotes { margin-top:36px; padding-top:20px; border-top:1px solid var(--border-light); }
+.footnotes-title { font-family:var(--ui); font-size:10.5px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.footnote-item { font-size:0.82rem; color:var(--text-secondary); line-height:1.6; padding:4px 0 4px 0; display:flex; gap:8px; }
+.footnote-num { font-family:var(--ui); font-weight:700; color:var(--accent); flex-shrink:0; min-width:16px; }
+.footnote-back { text-decoration:none; color:var(--text-muted); margin-left:4px; }
+.footnote-back:hover { color:var(--accent); }
+
+/* ── Tablet: no sidebar, wider content ── */
 @media (max-width:960px) {
-  .page { grid-template-columns:1fr; padding:24px 20px 100px; gap:0; }
+  .page { grid-template-columns:1fr; padding:32px 32px 100px; gap:0; max-width:var(--measure); }
   .sidebar { display:none; }
   .toc-inline { display:block; }
   .mobile-bar { display:block; }
-  .article-title { font-size:1.45rem; }
-  html { font-size:16px; scroll-padding-top:56px; }
-  .back-to-top { bottom:20px; right:20px; width:36px; height:36px; font-size:15px; }
-  .settings-footer { padding:28px 20px calc(40px + env(safe-area-inset-bottom, 0px)); }
+  .article-title { font-size:1.6rem; }
+  .back-to-top { bottom:24px; right:24px; width:38px; height:38px; font-size:16px; }
+  .settings-footer { padding:28px 24px calc(40px + env(safe-area-inset-bottom, 0px)); }
   .ctrl-btn { padding:5px 10px; font-size:10px; }
+  .explainer { padding:20px 22px; }
+  .collapsible summary { padding:12px 18px; }
+  .collapsible .collapsible-body { padding:14px 18px; }
+}
+
+/* ── Phone: tighter spacing ────────── */
+@media (max-width:640px) {
+  .page { padding:20px 16px 100px; }
+  html { font-size:16px; scroll-padding-top:56px; }
+  .article-title { font-size:1.4rem; }
+  .back-to-top { bottom:20px; right:16px; width:36px; height:36px; font-size:15px; }
+  .settings-footer { padding:24px 16px calc(36px + env(safe-area-inset-bottom, 0px)); }
+  .preface { padding:22px 20px; }
+  .source-quote { padding:18px 18px; }
+  .explainer { padding:16px 18px; }
+  .key-points { padding:20px 20px; }
+  .timeline { padding-left:18px; }
+  .timeline-item::before { left:-23px; width:8px; height:8px; }
+  .def-arrow { padding:0 6px; font-size:0.7em; }
 }
 </style>
 </head>
@@ -294,6 +426,8 @@ a:hover { color:var(--accent-hover); text-decoration-color:var(--accent-hover); 
       <li><a href="#ch1">1. Равновесие Нэша и борщ</a></li>
       <li><a href="#ch4">4. Косинусная мера сходства</a></li>
       <li><a href="#ch6">6. Стратегические клиенты</a></li>
+      <li><a href="#ch7">7. Инвентаризация столовой</a></li>
+      <li><a href="#ch8">8. Хронология</a></li>
       <li><a href="#conclusion">Заключение</a></li>
     </ol>
   </div>
@@ -316,6 +450,8 @@ a:hover { color:var(--accent-hover); text-decoration-color:var(--accent-hover); 
       <li><a href="#ch1">1. Равновесие Нэша и борщ</a></li>
       <li><a href="#ch4">4. Косинусная мера сходства</a></li>
       <li><a href="#ch6">6. Стратегические клиенты</a></li>
+      <li><a href="#ch7">7. Инвентаризация столовой</a></li>
+      <li><a href="#ch8">8. Хронология</a></li>
       <li><a href="#conclusion">Заключение</a></li>
     </ol>
   </nav>
@@ -339,7 +475,9 @@ a:hover { color:var(--accent-hover); text-decoration-color:var(--accent-hover); 
     <li><a href="#ch1">1. Равновесие Нэша и борщ</a></li>
     <li><a href="#ch4">4. Косинусная мера сходства</a></li>
     <li><a href="#ch6">6. Стратегические клиенты</a></li>
-    <li><a href="#conclusion">Заключение</a></li>
+    <li><a href="#ch7">7. Инвентаризация столовой</a></li>
+      <li><a href="#ch8">8. Хронология</a></li>
+      <li><a href="#conclusion">Заключение</a></li>
   </ol>
 </nav>
 
@@ -443,6 +581,136 @@ a:hover { color:var(--accent-hover); text-decoration-color:var(--accent-hover); 
 
 <hr class="section-rule">
 
+<section id="ch7">
+  <h2><span class="chapter-num">7.</span> Инвентаризация содержимого столовой: что мы обнаружили и что нас обнаружило</h2>
+  <p>В ходе полевого исследования мы провели инвентаризацию объектов, обнаруженных в столовой Математического института в период с октября 2024 по март 2025. Результаты систематизированы ниже.<span class="fn-ref"><a href="#fn1" id="fnref1" data-fn="fn1">1</a><span class="fn-popup">Инвентаризация проводилась в рабочие дни с 12:00 до 13:30, что может вносить систематическую ошибку: максимальная концентрация аспирантов и минимальная концентрация борща.</span></span></p>
+
+  <h3>Объекты, обнаруженные на столах</h3>
+  <ul class="plain-list">
+    <li>Четырнадцать чашек с остатками кофе различной степени археологической ценности</li>
+    <li>Один экземпляр «Теории вероятностей» Ширяева, используемый как подставка под монитор</li>
+    <li>Записка «не трогать, это мой обед», датированная маем 2023 года, прикреплённая к контейнеру с неопознаваемым содержимым</li>
+    <li>Три ноутбука в спящем режиме, владельцы которых, предположительно, давно защитились и уехали</li>
+    <li>Распечатка статьи с arXiv, на полях которой написано «ЭТО НЕПРАВДА» красным маркером</li>
+  </ul>
+
+  <p>Отдельного внимания заслуживает система неформальных идентификаторов, которую посетители столовой используют для обозначения друг друга. Мы зафиксировали следующие позывные.<span class="fn-ref"><a href="#fn2" id="fnref2" data-fn="fn2">2</a><span class="fn-popup">Позывные реконструированы по переписке в WhatsApp-группе «MI lunch complaints (official)». Подлинность подтверждается 340 непрочитанными сообщениями.</span></span></p>
+
+  <div class="def-list">
+    <div class="def-item">
+      <div class="def-term">Кот</div><span class="def-arrow">→</span><div class="def-desc">Рыжий, Шрёдингер, «тот который спит на ксероксе», Р.</div>
+    </div>
+    <div class="def-item">
+      <div class="def-term">Чайка</div><span class="def-arrow">→</span><div class="def-desc">Лариса, Л., «которая украла мой брудже», seagull@nielsbohrweg</div>
+    </div>
+    <div class="def-item">
+      <div class="def-term">Повар</div><span class="def-arrow">→</span><div class="def-desc">Герт, Г., Chef, «человек-борщ»</div>
+    </div>
+    <div class="def-item">
+      <div class="def-term">Призрак</div><span class="def-arrow">→</span><div class="def-desc">PhD-3, «видели в 2022, потом нет», maybe_graduated@math</div>
+    </div>
+    <div class="def-item">
+      <div class="def-term">Велосипед</div><span class="def-arrow">→</span><div class="def-desc">Чёрный Trek у входа, стоит с 2019, вероятно памятник</div>
+    </div>
+  </div>
+
+  <figure>
+    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='300' viewBox='0 0 640 300'%3E%3Crect fill='%23F4F2ED' width='640' height='300'/%3E%3Ctext x='320' y='140' text-anchor='middle' font-family='Georgia' font-size='16' fill='%23999'%3EФотография предположительно борща%3C/text%3E%3Ctext x='320' y='170' text-anchor='middle' font-family='Georgia' font-size='13' fill='%23bbb'%3E(или гаспачо%2C экспертиза не завершена)%3C/text%3E%3C/svg%3E" alt="Предполагаемая фотография борща из столовой MI">
+    <figcaption>Фотография, отправленная повару анонимным источником 14 ноября 2024 года. На снимке — предположительно борщ. Опознать блюдо по такой фотографии невозможно, хотя мы находим некоторое сходство на наш субъективный взгляд. Источник: личная переписка в Signal.</figcaption>
+  </figure>
+
+  <p>Мы обратились к руководству столовой с просьбой прокомментировать фотографию. Ответа не последовало. Мы пытались связаться повторно, но, к сожалению, столовая нам не ответила.</p>
+
+  <div class="explainer">
+    <div class="explainer-label">Контекст</div>
+    <p>Столовая Математического института Лейденского университета расположена на первом этаже здания на Ниелс-Борвег, 1. Формально это не столовая, а «кофейная зона с возможностью разогрева еды» (<a href="https://en.wikipedia.org/wiki/Microwave_oven" target="_blank">микроволновка</a>). Тем не менее, де-факто она функционирует как основной пункт питания для сотрудников и аспирантов института. Ближайший «Альберт Хейн» находится в 4 минутах пешком, что в условиях голландского дождя эквивалентно 4 часам субъективного времени.</p>
+    <p>Для понимания дальнейшего изложения важно знать, что в столовой есть ровно одна кофемашина. Это не метафора. Это <a href="https://en.wikipedia.org/wiki/Single_point_of_failure" target="_blank">единая точка отказа</a> всей системы.</p>
+  </div>
+
+  <p>Далее мы приведём полный протокол заседания кафедры по вопросу столовой. Текст длинный, но в нём содержатся важные детали.</p>
+
+  <details class="collapsible">
+    <summary>Полный протокол заседания кафедры от 12 декабря 2024 года</summary>
+    <div class="collapsible-body">
+      <p>Присутствовали: 7 человек (из них 2 проснулись к середине заседания). Председательствовал: ведущий научный сотрудник, пожелавший остаться анонимным (все знают, кто это).</p>
+      <p>Слушали: о запахе кулинарных экспериментов аспирантов, распространяющемся по второму этажу.</p>
+      <p>Выступили: три человека. Первый предложил запретить разогрев рыбы. Второй предложил запретить разогрев всего, кроме рыбы. Третий предложил вынести микроволновку на парковку.</p>
+      <p>Постановили: (а) направить меморандум управляющей компании; (б) купить освежитель воздуха; (в) рассмотреть вопрос на следующем заседании. Следующее заседание назначено на февраль. Февраль какого года не уточнено.</p>
+      <p>Особое мнение: один из участников заявил, что запах карри — это не проблема, а культурное обогащение. Заявление занесено в протокол.</p>
+    </div>
+  </details>
+
+  <div class="why-matters">
+    <div class="wm-title">Почему это важно</div>
+    <p>Инвентаризация содержимого столовой позволяет верифицировать свидетельства очевидцев. Если Повар утверждает, что борщ был, а Чайка утверждает, что борща не было, фотография может стать решающим аргументом. Впрочем, как мы показали, по фотографии опознать блюдо невозможно.<span class="fn-ref"><a href="#fn3" id="fnref3" data-fn="fn3">3</a><span class="fn-popup">Косинусная мера сходства между фотографией и эталонным борщом составила 0.12 — «возможно, это вообще томатный суп».</span></span></p>
+  </div>
+
+  <div class="footnotes">
+    <div class="footnotes-title">Примечания</div>
+    <div class="footnote-item" id="fn1">
+      <span class="footnote-num">1</span>
+      <span>Инвентаризация проводилась в рабочие дни с 12:00 до 13:30, что может вносить систематическую ошибку: в это время в столовой максимальная концентрация аспирантов и минимальная концентрация борща. <a href="#fnref1" class="footnote-back">↩</a></span>
+    </div>
+    <div class="footnote-item" id="fn2">
+      <span class="footnote-num">2</span>
+      <span>Позывные реконструированы по переписке в WhatsApp-группе «MI lunch complaints (official)». Подлинность переписки подтверждается тем, что в ней 340 непрочитанных сообщений, что характерно для групповых чатов учёных. <a href="#fnref2" class="footnote-back">↩</a></span>
+    </div>
+    <div class="footnote-item" id="fn3">
+      <span class="footnote-num">3</span>
+      <span>Косинусная мера сходства между фотографией и эталонным борщом составила 0.12, что классифицируется как «возможно, это вообще томатный суп». <a href="#fnref3" class="footnote-back">↩</a></span>
+    </div>
+  </div>
+</section>
+
+<hr class="section-rule">
+
+<section id="ch8">
+  <h2><span class="chapter-num">8.</span> Хронология Великого Борщевого Инцидента</h2>
+  <p>Ниже приведена реконструкция событий, известных нам из открытых источников, переписок, прослушек кофемашины и показаний свидетелей. Хронология составлена максимально просто, для условного манчестерского стоматолога, случайно наткнувшегося на этот текст и не имеющего представления о нидерландской академической среде.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-date">Сентябрь 2024</div>
+      <div class="timeline-text"><p>Повар столовой объявляет, что по пятницам будет готовить суп. Аспиранты воспринимают новость со сдержанным оптимизмом. Некоторые впервые узнают, что столовая работает по пятницам.</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">3 октября 2024</div>
+      <div class="timeline-text"><p>Первый борщ. Очередь из 23 человек. Борщ закончился за 18 минут. Салат-бар нетронут. Начинается эпоха стратегического поведения.</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">17 октября 2024</div>
+      <div class="timeline-text"><p>Инцидент с кофемашиной. Кто-то (позывной: Призрак) пролил борщ на кофемашину. Кофемашина выведена из строя на три дня. Продуктивность института падает на 40%.</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Ноябрь 2024</div>
+      <div class="timeline-text"><p>Чайка (чайка-птица, не позывной) залетает в столовую через открытое окно. Уносит чей-то брудже. Пострадавший пишет гневное письмо в рассылку института. Письмо набирает больше ответов, чем любой научный семинар за последние два года.</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">14 ноября 2024</div>
+      <div class="timeline-text"><p>Анонимный источник отправляет фотографию борща. Подлинность фотографии оспаривается.</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">12 декабря 2024</div>
+      <div class="timeline-text"><p>Экстренное заседание кафедры по вопросу запахов. Решение не принято. Меморандум направлен. Ответа нет.</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Январь 2025</div>
+      <div class="timeline-text"><p>Повар уходит в отпуск. Борщ отсутствует четыре пятницы подряд. Некоторые аспиранты обнаруживают существование «Альберт Хейн».</p></div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Март 2025</div>
+      <div class="timeline-text"><p>Повар возвращается. Объявляет, что борщ будет только по чётным пятницам. Аспиранты делятся на два лагеря: принявших новую реальность и продолжающих приходить каждую пятницу «на всякий случай». Равновесие Нэша не достигнуто.</p></div>
+    </div>
+  </div>
+
+  <div class="explainer">
+    <div class="explainer-label">Контекст</div>
+    <p>«Брудже» (broodje) — голландский сэндвич, обычно с сыром, ветчиной или чем-то неопознаваемым из «Альберт Хейн». Является основной единицей питания нидерландского академического работника. Во множественном числе — «broodjes». Средняя цена — €3.50, что по голландским меркам считается приемлемым, а по любым другим — абсурдным для двух кусков хлеба с сыром.</p>
+  </div>
+</section>
+
+<hr class="section-rule">
+
 <section id="conclusion">
   <h2>Заключение</h2>
   <p>Подводя итоги, мы можем утверждать следующее: стратегическое поведение клиентов в системах массового обслуживания с конечным запасом описывается моделью, которую мы пока не до конца формализовали, но зато красиво оформили типографически. Как справедливо отмечал Гораций: «Начавший — уже сделал половину дела». Мы начали, и это уже кое-что.</p>
@@ -508,7 +776,11 @@ const mobileChapter=document.getElementById('mobileChapter');
 const mobileProgress=document.getElementById('mobileProgress');
 const mobileDropdown=document.getElementById('mobileDropdown');
 const tocBtn=document.getElementById('mobileBarToc');
-let lastY=0, barVisible=false, dropdownOpen=false;
+let lastY=window.scrollY, barVisible=false, dropdownOpen=false;
+
+// Reset scroll tracking when tab/app becomes visible again
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) lastY=window.scrollY; });
+window.addEventListener('focus',()=>{ lastY=window.scrollY; });
 
 // Back to top
 btt.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
@@ -602,7 +874,7 @@ document.getElementById('tocMobileList').addEventListener('click',e=>{
 });
 
 // Track current section: desktop TOC + mobile chapter name + mobile highlight
-const sectionNames={'preface':'О нестационарных очередях','intro':'Предуведомление','who':'Кто мы такие','why':'Зачем мы это сделали','summary':'Тезисно','ch1':'1. Равновесие Нэша и борщ','ch4':'4. Косинусная мера сходства','ch6':'6. Стратегические клиенты','conclusion':'Заключение'};
+const sectionNames={'preface':'О нестационарных очередях','intro':'Предуведомление','who':'Кто мы такие','why':'Зачем мы это сделали','summary':'Тезисно','ch1':'1. Равновесие Нэша и борщ','ch4':'4. Косинусная мера сходства','ch6':'6. Стратегические клиенты','ch7':'7. Инвентаризация столовой','ch8':'8. Хронология','conclusion':'Заключение'};
 const sections=document.querySelectorAll('section[id]');
 const deskLinks=document.querySelectorAll('#tocDesktopList a');
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){
@@ -621,6 +893,35 @@ const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersec
   }
 }})},{rootMargin:'-15% 0px -70% 0px'});
 sections.forEach(s=>obs.observe(s));
+
+// Footnote popovers - position detection
+function updateFnPositions(){
+  document.querySelectorAll('.fn-ref').forEach(ref=>{
+    const rect=ref.getBoundingClientRect();
+    const vw=window.innerWidth;
+    ref.classList.toggle('flip',rect.top<160);
+    ref.classList.toggle('anchor-right',rect.left>vw-180);
+    ref.classList.toggle('anchor-left',rect.left<140);
+  });
+}
+window.addEventListener('scroll',updateFnPositions,{passive:true});
+window.addEventListener('resize',updateFnPositions,{passive:true});
+updateFnPositions();
+
+document.querySelectorAll('.fn-ref a[data-fn]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const ref=a.closest('.fn-ref');
+    const wasActive=ref.classList.contains('active');
+    document.querySelectorAll('.fn-ref.active').forEach(r=>r.classList.remove('active'));
+    if(!wasActive) ref.classList.add('active');
+  });
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.fn-ref')){
+    document.querySelectorAll('.fn-ref.active').forEach(r=>r.classList.remove('active'));
+  }
+});
 </script>
 </body>
 </html>
