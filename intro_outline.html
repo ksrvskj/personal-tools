@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet">
+<title>Introduction — the argument in outline</title>
+<style>
+:root{
+  /* Neutrals — kept in sync with paper_map.html (same names, same values). */
+  --surface:#FAF8F2; --page:#F4F1EA; --panel:#FCFBF6;
+  --ink:#1A1A1A; --ink-mute:#5A5246; --muted:#9C958A;
+  --grid:#EAE6DA; --line:#E2DDD0; --edge:#D8D2C4; --edge-soft:#C9C2B2; --edge-strong:#C6BFAE;
+  /* Accents: base links + one colour per source status (textbook/carried/result — see cardHTML and STL). */
+  --blue:#227150; --blue-soft:#E3EEE7; --red:#B13A2E; --gold:#8A6D2E;
+  --textbook:#6E8A4E; --carried:#8A6D2E; --result:#B13A2E;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--surface);color:var(--ink);
+  font:14px/1.62 var(--mono);-webkit-font-smoothing:antialiased}
+::selection{background:var(--blue-soft);color:var(--ink)}
+a{color:var(--blue);text-decoration:none}
+a:hover{color:var(--red)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+header{background:var(--surface);border-bottom:1px solid var(--grid)}
+.hero-copy{max-width:860px;margin:0 auto;padding:44px 30px 30px}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--blue);margin-bottom:20px}
+.lead,.frame{font-size:14.5px;line-height:1.66;color:var(--ink);max-width:74ch;margin:0 0 14px}
+.frame{margin:0}
+.lead .em,.frame .em{color:var(--blue);font-weight:700}
+figure.map{margin:32px auto 2px;text-align:center;max-width:640px}
+figure.map figcaption{font-style:italic;font-size:12px;color:var(--ink-mute);margin-top:12px}
+
+.bar{position:sticky;top:0;z-index:8;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:10px 30px;background:rgba(250,248,242,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--grid)}
+.bar button{font-family:var(--mono);font-weight:500;border:1px solid var(--line);background:var(--surface);
+  border-radius:3px;padding:5px 13px;cursor:pointer;font-size:12px;color:var(--ink);letter-spacing:.02em;transition:.13s}
+.bar button:hover{border-color:var(--blue);color:var(--blue)}
+.bar button.act{background:var(--blue);border-color:var(--blue);color:var(--surface)}
+.bar button b{font-weight:700}
+.bar .hint{font-style:italic;font-size:12px;color:var(--ink-mute)}
+.bar nav{margin-left:auto;display:flex;gap:14px;align-items:center;font-size:12px;flex-wrap:wrap}
+.bar nav a{color:var(--ink-mute);letter-spacing:.02em}
+.bar nav a:hover{color:var(--blue)}
+.bar nav a.xlink{color:var(--blue);font-weight:700}
+
+.prefnote{max-width:860px;margin:0 auto;padding:14px 30px 0;font-style:italic;font-size:12.5px;color:var(--ink-mute)}
+
+main{max-width:860px;margin:0 auto;padding:10px 30px 90px}
+section{margin-top:44px;scroll-margin-top:56px}
+.sec-h{position:relative;display:flex;align-items:baseline;gap:14px;padding:2px 0 10px 16px;margin:0 0 16px;border-bottom:1px solid var(--line)}
+.sec-h::before{content:"";position:absolute;left:0;top:0;bottom:8px;width:3px;background:var(--blue)}
+.sec-h .num{font-size:12px;color:var(--blue);font-weight:700;letter-spacing:.1em}
+.sec-h .ttl{font-size:23px;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin:0}
+.sec-h .gloss{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);margin-left:auto;text-align:right}
+
+.move{border-left:2px solid var(--grid);padding:0 0 0 18px;margin:20px 0}
+.move.key{border-left-color:var(--blue)}
+.mh{font-style:italic;color:var(--ink-mute);font-size:13px;margin:0 0 9px}
+.mh label{font-style:normal;margin-left:6px;font-size:12px;color:var(--ink)}
+.mh input{accent-color:var(--blue);vertical-align:-1px;margin-right:2px}
+.spine p{font-size:14.5px;line-height:1.62;color:var(--ink);margin:0 0 9px;padding-left:24px;text-indent:-24px}
+.spine p:last-child{margin-bottom:0}
+.spine p:not(.anchor):not(.opt)::before{content:"—";color:var(--blue);font-weight:700;margin-right:12px;text-indent:0;display:inline-block}
+.spine p.opt{color:var(--ink-mute);font-size:13.5px;padding-left:0;text-indent:0}
+.spine p.opt::before{content:"possible addition";font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--gold);border:1px solid var(--gold);border-radius:2px;padding:2px 5px;margin-right:10px;vertical-align:1px}
+.anchor{border-left:2px solid var(--blue);padding:2px 0 2px 14px!important;text-indent:0!important;font-style:italic;color:var(--ink)}
+
+.cite{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.02em;color:var(--blue);
+  background:var(--blue-soft);border:1px solid transparent;border-radius:3px;padding:1px 6px;cursor:pointer;
+  white-space:nowrap;margin:0 2px;text-indent:0;display:inline-flex;align-items:center;gap:4px;vertical-align:1px;line-height:1.5;transition:.12s}
+.cite::after{content:"+";font-weight:700;opacity:.7}
+.cite:hover{border-color:var(--blue)}
+.cite:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.cite.open{background:var(--blue);color:var(--surface)}
+.cite.open::after{content:"–"}
+
+.srcwrap:not(:empty){margin-top:12px;border-top:1px dashed var(--line);padding-top:12px;display:flex;flex-direction:column;gap:10px}
+.srccard{background:var(--page);border-left:3px solid var(--muted);padding:11px 15px}
+.srccard .sc-h{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.srccard .sc-t{font-weight:700;font-size:13.5px;color:var(--ink)}
+.srccard .sc-s{margin-left:auto;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-mute)}
+.srccard .sc-c{font-style:italic;font-size:12.5px;color:var(--ink-mute);margin-bottom:6px}
+.srccard .sc-g{font-size:13px;line-height:1.58;color:var(--ink)}
+.srccard.st-textbook{border-left-color:var(--textbook)}.srccard.st-carried{border-left-color:var(--carried)}
+.srccard.st-result{border-left-color:var(--result)}
+
+footer{max-width:860px;margin:44px auto 0;padding:20px 30px 46px;text-align:center;border-top:1px solid var(--grid)}
+.foot-note{font-style:italic;font-size:12.5px;color:var(--ink-mute)}
+
+::-webkit-scrollbar{height:11px;width:11px}
+::-webkit-scrollbar-thumb{background:var(--edge);border-radius:999px;border:3px solid var(--surface)}
+::-webkit-scrollbar-thumb:hover{background:var(--edge-strong)}
+
+.altB{display:none}
+body.optB .altA{display:none}
+body.optB .altB{display:block}
+@media print{.bar{position:static}.cite{border:1px solid var(--line)}}
+@media(max-width:640px){.bar nav{width:100%;margin-left:0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hero-copy">
+    <h1 class="sr-only">Introduction — the argument in outline</h1>
+    <div class="eyebrow">Thesis introduction · an outline for reading</div>
+    <p class="lead">This introduction does two things: it places the work within its field, and it relates its three studies. The three fall into two branches: two free the law of what a job brings, the third turns the arrival into a decision. Each a separate problem, and all from one classical root.</p>
+    <p class="frame">The narrative turns on one idea. Classical queueing theory takes the demand as <span class="em">given twice over</span>: given in <span class="em">law</span> (the distribution of what each job brings) and given in <span class="em">arrival</span> (that the job comes at all is no one's decision). The modern work has loosened each of the two givens in turn; this thesis takes up both.</p>
+    <figure class="map">
+      <svg viewBox="0 0 620 205" width="100%" style="max-width:600px" role="img" aria-label="the classical model splits into two directions; the three studies fall two on the law and one on the arrival">
+        <defs><marker id="a" markerWidth="7" markerHeight="7" refX="5.5" refY="3.5" orient="auto"><path d="M0,0 L6,3.5 L0,7 z" style="fill:var(--ink-mute)"/></marker></defs>
+        <rect x="180" y="6" width="260" height="42" rx="2" stroke-width="1.4" style="fill:var(--panel);stroke:var(--blue)"/>
+        <text x="310" y="24" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="13" font-weight="700" style="fill:var(--ink)">the classical model</text>
+        <text x="310" y="40" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" style="fill:var(--ink-mute)">the law and the arrival &mdash; both given</text>
+        <path d="M255,48 C215,80 150,80 132,104" fill="none" stroke-width="1.3" marker-end="url(#a)" style="stroke:var(--edge-soft)"/>
+        <path d="M365,48 C420,80 470,80 488,104" fill="none" stroke-width="1.3" marker-end="url(#a)" style="stroke:var(--edge-soft)"/>
+        <text x="150" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" font-weight="700" letter-spacing="1" style="fill:var(--blue)">FREE THE LAW</text>
+        <text x="470" y="84" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="9.5" font-weight="700" letter-spacing="1" style="fill:var(--blue)">FREE THE ARRIVAL</text>
+        <rect x="18" y="108" width="234" height="34" rx="2" style="fill:var(--panel);stroke:var(--edge)"/>
+        <text x="135" y="129" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" style="fill:var(--ink)">Ch. 2 &mdash; exact transforms</text>
+        <rect x="18" y="150" width="234" height="34" rx="2" style="fill:var(--panel);stroke:var(--edge)"/>
+        <text x="135" y="171" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" style="fill:var(--ink)">Ch. 3 &mdash; scaling limits</text>
+        <rect x="378" y="129" width="224" height="34" rx="2" style="fill:var(--panel);stroke:var(--edge)"/>
+        <text x="490" y="150" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="11.5" style="fill:var(--ink)">Ch. 1 &mdash; strategic joining</text>
+      </svg>
+    </figure>
+  </div>
+</header>
+
+<div class="bar">
+  <button id="srcBtn" onclick="toggleSrc()">Sources &mdash; <b id="srcState">on click</b></button>
+  <span class="hint">click any source to unfold it below the step</span>
+  <nav>
+    <a href="#s1">§1 field</a><a href="#s2">§2 directions</a><a href="#s3">§3 the law</a><a href="#s4">§4 arrival</a><a href="#s5">§5 thesis</a>
+    <a href="paper_map.html" class="xlink">Paper 2 map →</a>
+  </nav>
+</div>
+<div class="prefnote">The sources here are working notes: what each step leans on, kept for checking; they are not the reference list of the final text.</div>
+<main>
+
+<!-- §1 -->
+<section id="s1" data-screen-label="§1 · The field">
+  <div class="sec-h"><span class="num">§1</span><h2 class="ttl">The field</h2><span class="gloss">origins and the turn</span></div>
+
+  <div class="move">
+    <div class="mh">Where the field begins&nbsp;·&nbsp;
+      <label style="font-style:normal"><input type="radio" name="ab" checked onclick="ab('A')"> Erlang first</label>
+      <label style="font-style:normal"><input type="radio" name="ab" onclick="ab('B')"> trajectories first</label>
+    </div>
+    <div class="spine">
+      <div class="altA">
+        <p>Queueing theory begins in the early twentieth century with Erlang's question: how many lines must a telephone exchange carry so that a caller rarely finds it engaged.<a class="cite" data-k="erlang">Erlang</a></p>
+        <p>From that question grew a field: the stochastic analysis of demand placed on shared, and usually limited, resources, delivering waiting times, workloads, backlogs, utilisation.</p>
+      </div>
+      <div class="altB">
+        <p>A part moves through cutting, assembly and painting; a web request through a load balancer, an application server and a database; a video file is encoded, transmitted, stored — each a job carrying demands through the stages of a service network.</p>
+        <p>The stochastic analysis of such systems (begun by Erlang on telephone congestion at the start of the twentieth century<a class="cite" data-k="erlang">Erlang</a>) delivers their waiting times, workloads, backlogs, utilisation.</p>
+      </div>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The lasting classical lesson</div>
+    <div class="spine"><p>Already in the M/G/1 queue the mean wait depends on the second moment of the service requirement: congestion follows the variability of what a job brings, not its mean alone.<a class="cite" data-k="p-k">Pollaczek–Khinchine</a></p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">One frame across domains</div>
+    <div class="spine"><p>The same picture spans manufacturing, computing and media: a job as a carrier of demands moving through the stages of a network — the image the later chapters open on.</p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Data reshaped the models</div>
+    <div class="spine"><p>Measurements of data-network traffic in the 1990s broke the classical assumptions about how demand arrives and what it carries.</p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Scale, asymptotics, universality</div>
+    <div class="spine">
+      <p>At the scale of modern systems, asymptotic analysis is a standard mode, not a concession.</p>
+      <p>Its limits reveal laws invisible in the microscopic detail and shared across systems that differ in that detail.<a class="cite" data-k="universality">Whitt</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The absorbed features, and the turn</div>
+    <div class="spine">
+      <p>Modern models have taken in non-Markovian dynamics, heavy tails, dependence within and across a job's stages, time variation, heterogeneity, strategic behaviour.</p>
+      <p>Behind that variety lies one simplification the classical theory made and the modern work relaxes: it took the demand as given twice over; this thesis works where each given is loosened.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+</section>
+
+<!-- §2 -->
+<section id="s2" data-screen-label="§2 · Two directions">
+  <div class="sec-h"><span class="num">§2</span><h2 class="ttl">The two directions</h2><span class="gloss">the classical model, and how it opened</span></div>
+
+  <div class="move">
+    <div class="mh">The inheritance, and how the field split it</div>
+    <div class="spine">
+      <p>Given in law: what a job brings is a distribution handed to the model. Given in arrival: the stream may bend to the system's state, be blocked or lost, but its rule is handed, never chosen — on the demand's side, no one decides.<a class="cite" data-k="given-examples">Erlang</a></p>
+      <p>From this common trunk the field grew in several directions; the two this thesis walks loosen these two givens separately: directions of research, not a partition of systems.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Direction one: the law relaxed</div>
+    <div class="spine">
+      <p>Keep the arrival's rule handed and free the law of what a job brings: heavy tails, dependence within a job and across its stages, and rate–duration dependence: the transmission rate tied to the duration.</p>
+      <p>This line does explain its laws (by a source mechanism,<a class="cite" data-k="tws">Taqqu et al.</a> or by fitting to measurement<a class="cite" data-k="mrr">Maulik et al.</a>) but every explanation ends in another law: the demand stays exogenous and autonomous, never responding to the congestion it creates.</p>
+      <p>Its deliverable is the law of congestion: exact where structure allows, asymptotic at scale.<a class="cite" data-k="scaling-programme">Kaj–Taqqu</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Direction two: the arrival becomes a decision</div>
+    <div class="spine">
+      <p>Now whether the job comes is someone's decision: the designer's, the customer's, or both, since a toll is the designer moving the customer's calculus; with the customer's step, demand becomes endogenous: an equilibrium rather than an input.<a class="cite" data-k="control-lineage">Lippman–Stidham</a></p>
+      <p>The tools change with it: fixed-point analysis beside distributional; individual-against-social and decentralised-against-centralised comparisons; instruments: prices, tolls, information, inventory targets.</p>
+      <p>The next two sections follow the two directions; the last returns to the thesis.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+</section>
+
+<!-- §3 -->
+<section id="s3" data-screen-label="§3 · What a job carries">
+  <div class="sec-h"><span class="num">§3</span><h2 class="ttl">What a job carries</h2><span class="gloss">exact and asymptotic analysis</span></div>
+
+  <div class="move">
+    <div class="mh">An exact answer, where the model allows it</div>
+    <div class="spine"><p>The strongest thing to ask of such a model is an exact answer: the full stationary law written in closed form. The Markovian queues give it: the M/M/1 queue is geometric.<a class="cite" data-k="markov">Kleinrock</a></p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Transforms reach further</div>
+    <div class="spine"><p>Beyond the Markovian case, transform methods still pin the law down exactly, even where it has no closed form; and the infinite-server queue stays solvable whatever the service times: M/G/∞ keeps a Poisson count under any duration distribution, an insensitivity property.<a class="cite" data-k="transforms">Takács; Cohen</a></p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Where exactness breaks — and where it does not</div>
+    <div class="spine">
+      <p>Exactness is fragile: general service laws, dependence among the characteristics of a single job, time variation, complex service disciplines all cost it.</p>
+      <p>But interaction between queues alone does not: Markovian networks with independent marks keep exact product-form laws. What breaks exactness in a network is what a job carries with it across the stages — the subject of this thesis.<a class="cite" data-k="product-form">Jackson; Kelly</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The reading problem</div>
+    <div class="spine"><p>These exact characterisations arrive as transforms or integral equations: exact and versatile, and silent until they are inverted, expanded, or passed to a limit.</p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Approximation, and the systematic route</div>
+    <div class="spine"><p>Numerical inversion, simulation and heuristics answer locally; asymptotic analysis is the systematic route (fluid limits, diffusion approximations, scaling limits), predictive already at moderate size.</p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Reading a system at scale</div>
+    <div class="spine">
+      <p>At the scale of modern systems, the way to read them is to rescale time and space and pass to a limit: the workload converges to a limiting process that captures the large-scale behaviour, and that process becomes the object of study.</p>
+      <p>The oldest such limit is heavy traffic: as utilisation approaches one the rescaled workload converges to reflected Brownian motion, and under heavy-tailed service to a reflected stable process — already a sign that the input law, not the regime alone, chooses the limit.<a class="cite" data-k="heavy-traffic">Iglehart–Whitt</a><a class="cite" data-k="boxma-cohen">Boxma–Cohen</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The data break</div>
+    <div class="spine"><p>The measurements that forced the change: packet traffic self-similar and long-range dependent across time scales,<a class="cite" data-k="ltww">Leland et al.</a> file sizes and durations heavy-tailed over orders of magnitude,<a class="cite" data-k="crovella">Crovella–Bestavros</a> transmission rates highly variable and tied to size.<a class="cite" data-k="zhang02">Zhang et al.</a></p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">A second way limits arise — from the data</div>
+    <div class="spine">
+      <p>The traffic data brought a second mechanism — and the setting this thesis works in: an infinite-source Poisson stream, its sessions arriving as a Poisson process and each transmitting for a heavy-tailed period, and the source population and the observation window grown together, so that nothing is pushed to the edge of stability as it is in heavy traffic.<a class="cite" data-k="tws">Taqqu et al.</a></p>
+      <p>Which limiting process appears is set by the regime and the joint law of a job's rate and duration together:<a class="cite" data-k="dr-pair">D'Auria–Resnick</a> when the heavy work is shared across many jobs the limit is Gaussian — fractional Brownian motion; when a single job carries it, a short such job gives a stable Lévy process and a window-spanning one a Telecom-type limit.<a class="cite" data-k="scaling-programme">Kaj–Taqqu; Gaigalas–Kaj</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move key">
+    <div class="mh">What this thesis drops</div>
+    <div class="spine">
+      <p>Two assumptions have stood across this whole line: that a job's rate is independent of its duration, and that there is a single resource.</p>
+      <p>This thesis drops both: it carries dependent job characteristics through a network, and asks what the mark (the rate and duration a job carries) does across the stages.<a class="cite" data-k="pt08">Pipiras–Taqqu (2008)</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+</section>
+
+<!-- §4 -->
+<section id="s4" data-screen-label="§4 · Arrival as decision">
+  <div class="sec-h"><span class="num">§4</span><h2 class="ttl">The arrival becomes a decision</h2><span class="gloss">strategic customers, and inventory</span></div>
+
+  <div class="move">
+    <div class="mh">From handed rules to Naor's game</div>
+    <div class="spine">
+      <p>Impatience and admission entered first as handed rules (balking, reneging<a class="cite" data-k="handed-rules">Haight</a>) and as the controller's optimisation;<a class="cite" data-k="control-lineage">Lippman–Stidham</a> Naor's step put the customer's own utility behind the rule.<a class="cite" data-k="naor">Naor</a></p>
+      <p>In an observable M/M/1 a customer joins by weighing reward against expected waiting cost, and the equilibrium is a threshold.</p>
+      <p>Because a joiner ignores the delay it imposes on those who come later, the individually chosen threshold never falls below the socially optimal one — and a toll aligns them.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Unobservable queues, and the information axis</div>
+    <div class="spine">
+      <p>When the queue cannot be observed, admission is priced instead — and there, in the basic homogeneous model, the profit-maximising fee and the social optimum coincide.<a class="cite" data-k="edelson">Edelson–Hildebrand</a></p>
+      <p>The field organised itself along this information axis, observable against unobservable; chapter 1's setting is the unobservable side.<a class="cite" data-k="hassin">Hassin</a></p>
+      <p>The variants sweep out heterogeneous and multi-class customers and richer information structures,<a class="cite" data-k="mendelson">Mendelson</a> until congestion information itself (its value, disclosure, price) becomes an object of study.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Choice beyond joining</div>
+    <div class="spine"><p>The same logic reaches beyond joining to the choice of routes and providers (a tradition older than the queueing game) where self-interested routing settles at an equilibrium measurably worse than the system optimum.<a class="cite" data-k="wardrop">Wardrop</a></p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The systems here are not pure queues: they hold inventory</div>
+    <div class="spine">
+      <p>Inventory theory optimises stock against a demand it takes as given: from Harris's economic order quantity to base-stock, or order-up-to, policies.<a class="cite" data-k="harris">Harris</a><a class="cite" data-k="scarf">Scarf</a></p>
+      <p>The shortfall of a base-stock system is itself a single-server queue, so a make-to-stock system is a queue whose inventory sets the waiting.<a class="cite" data-k="buzacott">Buzacott–Shanthikumar</a></p>
+      <p>With several demand classes on one line that stock is rationed across them; it is this inventory, shaping the wait, that a strategic customer reads when deciding whether to join.<a class="cite" data-k="rationing">Ha; de Véricourt</a></p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move key">
+    <div class="mh">Strategic customers meet inventory</div>
+    <div class="spine">
+      <p>Within make-to-stock systems, demand responsiveness has entered at the aggregate level: the revenue management of a make-to-stock queue.<a class="cite" data-k="caldentey-wein">Caldentey–Wein</a></p>
+      <p>Closest to this thesis is a single-product make-to-stock queue with unobservable inventory and strategic joining, comparing decentralised and centralised objectives.<a class="cite" data-k="oz-k">Öz–Karaesmen</a></p>
+      <p>Its extensions stay single-product, varying the lever or the flow: setup costs, dynamic service, pricing and disclosure, retrials, two echelons.</p>
+      <p>We are not aware of prior work combining several strategic customer classes on one production line under unobservable inventory: the multi-class machinery exists without the game,<a class="cite" data-k="abouee">Abouee-Mehrizi et al.</a> the game without the classes.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+</section>
+
+<!-- §5 -->
+<section id="s5" data-screen-label="§5 · This thesis">
+  <div class="sec-h"><span class="num">§5</span><h2 class="ttl">This thesis</h2><span class="gloss">the three studies</span></div>
+
+  <div class="move">
+    <div class="mh">What the three share</div>
+    <div class="spine">
+      <p class="anchor">This thesis takes up three studies along these lines. They were not cut from a single template; each was chosen as a problem worth solving in its own right. Set side by side, however, they share more than a common setting.</p>
+      <p>The more is this: for all their separateness, the three run along just two branches (two freeing the law of what a job brings, the third turning the arrival into a decision), the two sides of the one given twice over.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Chapter 1: strategic two-class make-to-stock<a class="cite" data-k="ch1">Ch. 1</a></div>
+    <div class="spine">
+      <p>Two customer classes arrive at a single production line and one shared first-come queue; the producer holds a base-stock target for each product, a joining customer triggers exactly one production job, and neither inventory nor backlog is observed.</p>
+      <p>A customer joins by weighing reward against price and anticipated waiting; the performance measures (waiting times, inventory levels, backlogs) are obtained in closed form.</p>
+      <p>Each class's incentive to join falls as either class joins more; a Nash equilibrium always exists, is unique whenever some target is positive, and degenerates to a continuum only on a knife-edge at zero inventory.</p>
+      <p>Above the customers sit two optimisations: a producer setting targets as a Stackelberg leader, with finite optimal levels, and a planner coordinating targets and participation through the balance of holding against waiting cost.</p>
+      <p>Producer and planner can part ways over whom to exclude: the coincidence of profit and welfare familiar from the simplest model gives way. And the step over the closest ancestor is the second class on a shared line.<a class="cite" data-k="oz-k">Öz–Karaesmen</a></p>
+      <p class="opt">a correction scheme (class-specific tolls or subsidies implementing the planner's participation as an equilibrium) recurs here, Naor's toll inside the inventory system.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Chapter 2: exact transforms with dependent marks<a class="cite" data-k="ch2">Ch. 2</a></div>
+    <div class="spine">
+      <p>A Poisson stream of jobs, each carrying a duration and a transmission rate at every stage, with dependence allowed arbitrarily within a job and across its stages.</p>
+      <p>Removing capacity constraints (immediate service) is what keeps the analysis exact while the demand is freed in full generality; the arrival itself stays Poisson.</p>
+      <p>The deliverables are explicit Laplace–Stieltjes transforms for the joint law of job counts and workloads, at an instant and cumulatively; tandem and parallel networks are solved, and the two motifs compose to any acyclic topology.</p>
+      <p>The model generalises the unit-rate M/G/∞ queue, drops the rate–duration independence standing in the scaling literature, and reads as the infinite-capacity limit of a loss network.</p>
+      <p class="opt">the steady-state start is handled exactly, through length-biased residual laws — and under heavy tails the initial population drains slowly enough to matter, the framework itself flagging what chapter 3 then scales.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The hinge</div>
+    <div class="spine"><p>These transforms characterise the very model chapter 3 will scale — exact, yet silent in the sense §3 gave the word; the limit is their systematic reading, and chapter 3 takes it.</p></div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Chapter 3: the scaling limits<a class="cite" data-k="ch3">Ch. 3</a></div>
+    <div class="spine">
+      <p>The model of chapter 2 on two nodes, with the arrival intensity growing together with the observation window; the object is the joint cumulative workload, at the level of its finite-dimensional distributions.</p>
+      <p>Three questions order the results: does the rescaled work average out; if not, is the heavy work shared among many jobs or carried by one; and if by one, how long is that job against the window.</p>
+      <p>When the work averages out the limit is a bivariate Wiener process, the same for either topology; when heavy work is shared it is Gaussian with fractional-Brownian marginals, and the network survives only in the dependence between the two nodes.</p>
+      <p>The two topologies part here: symmetric parallel service gives a genuine bivariate fractional Brownian motion, while the tandem's dependence is one-sided: a forward time shift, never bivariate fractional Brownian motion.</p>
+      <p>When one job dominates, its length selects the limit: a short job a stable Lévy process, a window-length job a Telecom-type limit, a spanning job a degenerate line.</p>
+      <p>The headline: the law of the marks selects the type of the limit; the network enters only through the dependence between nodes, and only when the work is heavy — a single family, rate tied to duration through a Gaussian copula, sweeping the picture out.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">The thread</div>
+    <div class="spine">
+      <p>One thing recurs across all three: what one part of the demand does to the rest of the system. Naor was the first to put a price on it.</p>
+      <p>In chapter 1 a joining customer lengthens the wait for everyone behind: a congestion externality. In chapter 3 the two nodes' workloads move together only through the jobs that pass through both: the network's one trace in the limit. In chapter 2 that same cross-stage dependence is there from the outset, built into the model rather than emerging from it.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+
+  <div class="move">
+    <div class="mh">Scope, and order</div>
+    <div class="spine">
+      <p>The reach is deliberately bounded. The scaling limits are for two nodes; the exact transforms, for any acyclic network of tandem and parallel pieces. General topologies and feedback routing are left for later, the convergence is taken at the level of the finite-dimensional distributions with tightness not yet shown, and first-come service is kept as chapter 1's baseline.</p>
+      <p>The order of the chapters runs one way: closed-form performance measures, then exact transforms, then limit laws, giving up explicitness for generality at each step.</p>
+    </div>
+    <div class="srcwrap"></div>
+  </div>
+</section>
+
+</main>
+<footer>
+  <div class="foot-note">An outline, not finished prose. Each “—” is one step; click a source to see what it gives.</div>
+</footer>
+
+<script>
+// Source notes, keyed by the data-k on each .cite chip.
+// Fields per entry: t = short title, c = citation line, s = status (textbook | carried | result — maps to an STL label + accent), g = gloss.
+const SRC = {
+  "erlang":{t:"Erlang",c:"Erlang (1909, 1917)",s:"textbook",g:"Introduced the field on telephone traffic — the loss and delay formulas that carry his name; the object throughout is systems where demand meets shared, finite capacity."},
+  "p-k":{t:"Pollaczek–Khinchine",c:"Pollaczek (1930); Khinchine (1932)",s:"textbook",g:"The M/G/1 analysis whose mean-wait formula displays the second moment of service — the law of what a job brings, not its average, sets the congestion."},
+  "universality":{t:"Process limits",c:"Donsker (1951); Billingsley (1968); Whitt (2002)",s:"textbook",g:"The framework making “different microscopic models, one macroscopic law” precise — the invariance principle and its process-level descendants."},
+  "given-examples":{t:"Intricate, yet given",c:"Erlang (1917); Engset (1918)",s:"textbook",g:"The stream may depend on the system's state — blocking (Erlang), finite-source effects (Engset) — yet its rule is fixed in advance: intricacy is not agency."},
+  "tws":{t:"Superposition mechanism",c:"Taqqu, Willinger & Sherman (1997); Norros (1994)",s:"carried",g:"The aggregate self-similar law derived from a source mechanism: superpose many on–off sources with heavy-tailed active periods and rescale, sources first then time — the reverse order gives a stable limit. Norros (1994) instead posits fractional-Brownian input directly in a storage model."},
+  "mrr":{t:"Fitted rate–duration law",c:"Maulik, Resnick & Rootzén (2002); Zhang et al. (2002)",s:"carried",g:"The joint law of a job's rate and duration fitted to measured traffic — the documented dependence behind “rates tied to durations”."},
+  "scaling-programme":{t:"The law, read into a limit",c:"Kaj & Taqqu (2008); Gaigalas & Kaj (2003); D'Auria & Resnick (2006, 2008)",s:"carried",g:"Turns a heavy-tailed input law into a scaling limit — fractional Brownian, stable, or the intermediate Telecom process (Gaigalas–Kaj) — the deliverable of direction one at scale."},
+  "control-lineage":{t:"Arrival as control",c:"Miller (1969); Lippman & Stidham (1977)",s:"carried",g:"Admission control and rate pricing let the designer choose the arrival before any customer game — the customer's own utility is Naor's later step."},
+  "markov":{t:"Markovian exactness",c:"Kleinrock (1975); Asmussen (2003)",s:"textbook",g:"Where the dynamics are Markovian the stationary law is exact and explicit — the M/M/1 queue is geometric."},
+  "transforms":{t:"Transform methods",c:"Sevastyanov (1957); Takács (1962); Cohen (1982)",s:"textbook",g:"Beyond Markovian structure, transforms characterise laws whose densities are out of reach — the single-server theory from M/G/1 onward; and the infinite-server queue keeps a Poisson count under any service distribution (Sevastyanov's insensitivity)."},
+  "harris":{t:"Economic order quantity",c:"Harris (1913)",s:"carried",g:"The origin of inventory theory: supply optimised against a demand taken as given."},
+  "scarf":{t:"(s,S) optimality",c:"Arrow, Harris & Marschak (1951); Scarf (1960)",s:"carried",g:"Stochastic, dynamic inventory policies; with no fixed ordering cost the optimum is an order-up-to, or base-stock, level."},
+  "buzacott":{t:"Make-to-stock as a queue",c:"Buzacott & Shanthikumar (1993)",s:"carried",g:"The inventory shortfall of a base-stock system is a single-server queue — such a system is a queueing system."},
+  "rationing":{t:"Stock rationing",c:"Ha (1997); de Véricourt, Karaesmen & Dallery (2002); Topkis (1968)",s:"carried",g:"With several demand classes on one production line, the optimal policies ration stock across them."},
+  "product-form":{t:"Product-form networks",c:"Jackson (1957, 1963); Kelly (1979); Baskett–Chandy–Muntz–Palacios (1975)",s:"textbook",g:"Markovian networks with independent marks, under the standard Jackson/BCMP disciplines, keep exact product-form laws — interaction alone does not break exactness; dependent, travelling job characteristics do."},
+  "heavy-traffic":{t:"Heavy traffic",c:"Kingman (1961, 1962); Iglehart & Whitt (1970)",s:"textbook",g:"As utilisation approaches one, Kingman's law sends the scaled stationary wait to an exponential; the process-level workload limit — reflected Brownian motion — is Iglehart–Whitt."},
+  "boxma-cohen":{t:"Heavy tails in heavy traffic",c:"Boxma & Cohen (1999); Whitt (2002)",s:"carried",g:"Under heavy-tailed service the heavy-traffic limit is a reflected stable process — the two asymptotic regimes are not separate worlds."},
+  "ltww":{t:"Self-similar traffic",c:"Leland, Taqqu, Willinger & Wilson (1994)",s:"carried",g:"The measurement that broke the classical picture: packet traffic self-similar, and long-range dependent, across time scales."},
+  "crovella":{t:"Heavy-tailed sizes",c:"Crovella & Bestavros (1997)",s:"carried",g:"File sizes and connection durations heavy-tailed over orders of magnitude."},
+  "zhang02":{t:"Rate–size dependence",c:"Zhang, Breslau, Paxson & Shenker (2002)",s:"carried",g:"Transmission rates highly variable and strongly tied to size; the heavy rate tail is a modelling premise, not a measured invariant."},
+  "dr-pair":{t:"The joint law decides",c:"D'Auria & Resnick (2006, 2008)",s:"carried",g:"A companion pair on the job's volume, duration and rate: rate-independent-of-volume gives near-Gaussian traffic, rate-independent-of-duration dramatically heavier, stable behaviour."},
+  "pt08":{t:"Framework for dependent marks",c:"Pipiras & Taqqu (2008)",s:"carried",g:"Scaling limits of Lévy stochastic integrals under a general control measure — no product form forced, which is what admits dependent (rate, duration)."},
+  "handed-rules":{t:"Impatience as a rule",c:"Haight (1957, 1959)",s:"textbook",g:"Balking (Haight 1957) and reneging (Haight 1959) entered first as handed rules — behaviour fixed in advance, before any strategic choice."},
+  "naor":{t:"Naor's game",c:"Naor (1969)",s:"textbook",g:"Observable M/M/1 where a customer joins by weighing reward against expected waiting cost; the individual threshold never falls below the social one, and a toll aligns them."},
+  "edelson":{t:"Unobservable, priced",c:"Edelson & Hildebrand (1975)",s:"carried",g:"Congestion pricing for an unobservable queue — and there, in the basic homogeneous model, the profit-maximising fee and the social optimum coincide."},
+  "mendelson":{t:"Heterogeneous & priority",c:"Mendelson (1985); Mendelson & Whang (1990)",s:"carried",g:"Pricing a queue with delay-sensitive, heterogeneous users: Mendelson (1985) characterises the socially optimal price and how a revenue-maximiser departs from it; Mendelson–Whang (1990) give an incentive-compatible priority-pricing scheme attaining the social optimum."},
+  "hassin":{t:"The field's monographs",c:"Hassin & Haviv (2003); Hassin (2016)",s:"carried",g:"The organising surveys of strategic queueing, along the observable / unobservable information axis."},
+  "wardrop":{t:"Routing equilibrium",c:"Wardrop (1952)",s:"textbook",g:"Choice of routes and providers — a self-interested-routing tradition older than the queueing game; the selfish equilibrium can be measurably less efficient than the system optimum."},
+  "caldentey-wein":{t:"Revenue management of make-to-stock",c:"Caldentey & Wein (2006)",s:"carried",g:"Demand responsiveness in a make-to-stock queue at the aggregate level — pricing and admission against congestion."},
+  "abouee":{t:"Multi-class machinery",c:"Abouee-Mehrizi, Balcıoğlu & Baron (2012)",s:"carried",g:"Exact analysis of a centralised multi-class make-to-stock queue — the class machinery, without the strategic game."},
+  "oz-k":{t:"The closest ancestor",c:"Öz & Karaesmen (2015); Li, Guo, Li & Song (2016)",s:"carried",g:"A single-product make-to-stock queue with unobservable inventory and strategic joining, decentralised vs centralised — the nearest thing before chapter 1."},
+  "ch1":{t:"Chapter 1",c:"Kanavetas & Kosarevskaia (2026), Queueing Systems",s:"result",g:"Two-class strategic make-to-stock: closed-form performance measures; existence and uniqueness of the joining equilibrium; Stackelberg producer and social planner; their divergence over exclusion."},
+  "ch2":{t:"Chapter 2",c:"this thesis (in preparation)",s:"result",g:"Exact Laplace–Stieltjes transforms for job counts and workloads in networks with dependent marks — tandem, parallel, and any acyclic composition."},
+  "ch3":{t:"Chapter 3",c:"this thesis (in preparation)",s:"result",g:"The scaling limits of the two-node workload — Wiener, fractional-Brownian, stable, Telecom-type, degenerate — selected by the law of the marks."}
+};
+const STL = {textbook:"textbook",carried:"related work",result:"this thesis"};
+
+function cardHTML(k){
+  const d=SRC[k];
+  return '<div class="srccard st-'+d.s+'" data-card="'+k+'">'+
+    '<div class="sc-h"><span class="sc-t">'+d.t+'</span><span class="sc-s">'+(STL[d.s]||d.s)+'</span></div>'+
+    '<div class="sc-c">'+d.c+'</div><div class="sc-g">'+d.g+'</div></div>';
+}
+// Each .cite chip is a real toggle button — operable by mouse and keyboard.
+document.querySelectorAll('.cite[data-k]').forEach(function(el){
+  el.setAttribute('role','button');
+  el.setAttribute('tabindex','0');
+  el.setAttribute('aria-expanded','false');
+  function toggle(){
+    const mv=el.closest('.move'), k=el.getAttribute('data-k'), wrap=mv.querySelector('.srcwrap');
+    const ex=wrap.querySelector('[data-card="'+k+'"]');
+    const chips=mv.querySelectorAll('.cite[data-k="'+k+'"]');
+    if(ex){
+      ex.remove();
+      chips.forEach(c=>{c.classList.remove('open');c.setAttribute('aria-expanded','false');});
+      // Turning one source off means "all shown" no longer holds — resync the toolbar toggle.
+      if(allOn){ allOn=false; document.getElementById('srcState').textContent='on click'; document.getElementById('srcBtn').classList.remove('act'); }
+    } else {
+      wrap.insertAdjacentHTML('beforeend',cardHTML(k));
+      chips.forEach(c=>{c.classList.add('open');c.setAttribute('aria-expanded','true');});
+    }
+  }
+  el.addEventListener('click',toggle);
+  el.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
+});
+
+let allOn=false;
+function toggleSrc(){
+  allOn=!allOn;
+  document.getElementById('srcState').textContent=allOn?'all shown':'on click';
+  document.getElementById('srcBtn').classList.toggle('act',allOn);
+  document.querySelectorAll('.move').forEach(function(mv){
+    const wrap=mv.querySelector('.srcwrap'); if(!wrap) return;
+    if(!allOn){ wrap.innerHTML=''; mv.querySelectorAll('.cite.open').forEach(c=>{c.classList.remove('open');c.setAttribute('aria-expanded','false');}); return; }
+    const seen=[];
+    mv.querySelectorAll('.cite[data-k]').forEach(function(c){
+      const k=c.getAttribute('data-k');
+      if(seen.indexOf(k)<0){ seen.push(k);
+        if(!wrap.querySelector('[data-card="'+k+'"]')) wrap.insertAdjacentHTML('beforeend',cardHTML(k));
+      }
+      c.classList.add('open'); c.setAttribute('aria-expanded','true');
+    });
+  });
+}
+function ab(w){ document.body.classList.toggle('optB', w==='B'); }
+</script>
+</body>
+</html>
