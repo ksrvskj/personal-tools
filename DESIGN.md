@@ -17,14 +17,22 @@ Keep in repo root. Update when decisions change.
 - Used for: ingredient amounts, KBJU numbers, timers, coffee doses, portion stepper value
 - Never for body text
 
-**Sizing scale:**
-- Page title (h1): clamp(24px, 7vw, 32px) / weight 600 / `--text-strong` (`.page-title`)
-- Page eyebrow (uppercase mono): 10px / weight 600 / letter-spacing .14em
-- Card name: 14px / weight 500
-- Card description: 11px / weight 300
-- Body text (cook steps): 15px / weight 400
-- Small meta: 10-11px / weight 400
-- Mono numbers: 12-16px depending on context
+**Sizing scale** — tokenized in `style.css :root`; use the token, not a px literal:
+| Token        | Value   | Role                             |
+|--------------|---------|----------------------------------|
+| `--fs-2xs`   | 10px    | Eyebrows, mono micro-labels      |
+| `--fs-xs`    | 11px    | Meta, pills, small labels        |
+| `--fs-sm`    | 12px    | Buttons, secondary text          |
+| `--fs-md`    | 13px    | Subtitles, small body            |
+| `--fs-base`  | 14px    | Card names                       |
+| `--fs-lg`    | 15px    | Body text, cook steps            |
+| `--fs-title` | clamp(24px, 7vw, 32px) | Page titles (`.page-title`, `.wo-title`, `.wo-view-title`) |
+
+Bare px font sizes are allowed only for one-off micro/display cases (8–9px badges, 16px+ component headings).
+
+**Control sizes:** `--tap: 44px` — minimum touch target (buttons, checks, timer rings); `--pill-h: 25px` — pill/badge height; `--topbar-h: 53px` — sticky topbar height (the workout tabs stick at `top: var(--topbar-h)`).
+
+**Breakpoints:** canonical set is `480px` (compact→regular), `720px` (wide phone/tablet), `980px` (desktop extras). The workout page adds a `359px` tiny-phone case; the standalone paper pages use their own.
 
 ---
 
@@ -107,6 +115,7 @@ Legacy tokens `--soup`, `--curry`, `--pasta`, `--skillet` still exist for backwa
 - **Generous around groups.** Page margins, header-to-content gap, section separators — air here.
 - **Don't add air between things that belong together.** If items are part of the same unit (card group, filter bar), reducing gap makes them feel more cohesive, not cramped.
 - **Every spacing decision needs a reason.** "It looks better with more space" is not a reason. "These are a group and should read as one block" is.
+- **Spacing stays literal by decision.** Unlike colors and font sizes, gaps/paddings are optically hand-tuned per component (5/6/7px neighbors are deliberate); they are not tokenized, but new values should stay within the existing 2–24px range.
 
 ### Specific Values
 | Context                    | Value   |

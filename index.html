@@ -30,7 +30,7 @@ body{
 
 /* Header */
 .hub-header{text-align:center;margin-bottom:40px}
-.hub-title{font-size:13px;font-weight:400;letter-spacing:5px;text-transform:uppercase;color:var(--neutral)}
+.hub-title{font-size:var(--fs-md);font-weight:400;letter-spacing:5px;text-transform:uppercase;color:var(--neutral)}
 
 /* Bento — asymmetric middle row */
 .bento{display:grid;grid-template-columns:6fr 4fr;gap:8px}
@@ -90,8 +90,8 @@ a.bc::after{
 
 /* Text */
 .bc-text{flex:1;min-width:0}
-.bc-name{font-size:14px;font-weight:500;color:var(--text);letter-spacing:.1px}
-.bc-desc{font-size:11px;color:var(--dim);font-weight:300;margin-top:3px;line-height:1.35}
+.bc-name{font-size:var(--fs-base);font-weight:500;color:var(--text);letter-spacing:.1px}
+.bc-desc{font-size:var(--fs-xs);color:var(--dim);font-weight:300;margin-top:3px;line-height:1.35}
 
 /* Themes */
 .t-cool{--ac:var(--cool)}
@@ -112,12 +112,12 @@ a.bc::after{
 .hub-footer{animation-delay:.3s}
 
 /* Paper workspace links */
-.hub-links{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:16px;font-size:11px;color:var(--dim)}
+.hub-links{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:16px;font-size:var(--fs-xs);color:var(--dim)}
 .hub-links a{color:var(--dim);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.18);padding:4px 0}
 .hub-links a:hover{color:var(--text)}
 
 /* Footer */
-.hub-footer{text-align:center;margin-top:30px;font-size:10px;color:var(--neutral);letter-spacing:1.5px;font-weight:300}
+.hub-footer{text-align:center;margin-top:30px;font-size:var(--fs-2xs);color:var(--neutral);letter-spacing:1.5px;font-weight:300}
 </style>
 </head>
 <body>
