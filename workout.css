@@ -34,10 +34,10 @@ body.workout-page *::after {
   box-sizing: border-box;
 }
 
-body.workout-page button,
-body.workout-page input,
-body.workout-page select,
-body.workout-page textarea {
+/* Fully inside :where() — zero specificity — so component font-size
+   rules like .wo-tab win over this reset. (A bare body.workout-page
+   prefix would be (0,1,1) and silently beat every single-class rule.) */
+:where(body.workout-page) :where(button, input, select, textarea) {
   font: inherit;
 }
 
