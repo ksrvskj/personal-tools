@@ -18,8 +18,8 @@ Keep in repo root. Update when decisions change.
 - Never for body text
 
 **Sizing scale:**
-- Page title (h1): 24px / weight 600
-- Section label (uppercase): 11px / weight 400 / letter-spacing 2.5px
+- Page title (h1): clamp(24px, 7vw, 32px) / weight 600 / `--text-strong` (`.page-title`)
+- Page eyebrow (uppercase mono): 10px / weight 600 / letter-spacing .14em
 - Card name: 14px / weight 500
 - Card description: 11px / weight 300
 - Body text (cook steps): 15px / weight 400
@@ -31,50 +31,61 @@ Keep in repo root. Update when decisions change.
 ## Color Palette
 
 ### Base
-| Token        | Hex       | Usage                        |
-|-------------|-----------|------------------------------|
-| `--bg`      | `#0f0f12` | Page background              |
-| `--surface` | `#17171c` | Card/panel backgrounds       |
-| `--text`    | `#e2dbd0` | Primary text (warm white)    |
-| `--dim`     | `#6b6560` | Secondary text, descriptions |
+| Token             | Hex       | Usage                        |
+|-------------------|-----------|------------------------------|
+| `--bg`            | `#0f0f12` | Page background              |
+| `--surface`       | `#17171c` | Card/panel backgrounds       |
+| `--surface-raised`| `#1d1d23` | Elevated panels              |
+| `--surface-soft`  | `#202027` | Inset panels                 |
+| `--text`          | `#eee8df` | Primary text (warm white)    |
+| `--text-strong`   | `#fffaf3` | Headings, emphasis           |
+| `--muted`         | `#aaa29a` | Secondary text               |
+| `--dim`           | `#938c85` | Tertiary text, hints         |
+| `--line`          | `rgba(255,255,255,.09)` | Default borders |
+| `--line-strong`   | `rgba(255,255,255,.16)` | Emphasized borders |
 
-### 3 Accent Families
-| Token       | Hex       | Domain                       |
-|------------|-----------|------------------------------|
-| `--warm`   | `#c9a87e` | Food, recipes, default accent|
-| `--cool`   | `#7fa693` | Body, health, workout        |
-| `--neutral`| `#9b928a` | Coffee, utilities            |
+### Accent Families
+| Token       | Hex       | Domain                        |
+|------------|-----------|-------------------------------|
+| `--warm`   | `#d1ad7d` | Food, recipes, default accent |
+| `--cool`   | `#83b59b` | Body, health, workout green   |
+| `--neutral`| `#9b928a` | Coffee, utilities             |
+| `--blue`   | `#82afbc` | Info, teal accents            |
+| `--purple` | `#bea5cd` | Lavender accents              |
+| `--danger` | `#d89284` | Warnings, stop rules          |
+| `--yellow` | `#e3c867` | Timers, focus rings (workout) |
 
-Recipes and coffee set `--accent` in inline `<style>`:
-- Recipes: `--accent: var(--warm)` (`#c9a87e`)
-- Coffee: `--accent: var(--neutral)` (`#9b928a`)
+Recipes and coffee set `--accent` in inline `<style>` as `var()` references:
+- Recipes: `--accent: var(--warm)`
+- Coffee: `--accent: var(--neutral)`
 
-The workout page does not use `--accent` — it defines its own `--wo-*` palette on `body.workout-page` in `workout.css` (base green `--wo-green: #83b59b`).
+The workout page's `--wo-*` tokens are aliases of these shared tokens (`--wo-green: var(--cool)` etc.) — one palette, two naming layers, no drift possible.
 
 ### Recipe Category Colors
-| Category     | Token         | Hex       | Character    |
-|-------------|--------------|-----------|--------------|
-| Batch       | `--batch`     | `#c9a87e` | Warm gold    |
-| Breakfast   | `--breakfast` | `#c4917e` | Dusty coral  |
-| Grains      | `--grains`    | `#9b928a` | Neutral      |
-| Fermentation| `--ferment`   | `#7fa693` | Sage green   |
-| Baking      | `--baking`    | `#b49ac4` | Soft lavender|
-| Slow        | `--slow`      | `#7faab4` | Muted teal   |
+All category tokens reference the base accents:
+| Category     | Token         | Value           | Character    |
+|-------------|--------------|-----------------|--------------|
+| Batch       | `--batch`     | `var(--warm)`   | Warm gold    |
+| Breakfast   | `--breakfast` | `#c4917e`       | Dusty coral  |
+| Grains      | `--grains`    | `var(--neutral)`| Neutral      |
+| Fermentation| `--ferment`   | `var(--cool)`   | Sage green   |
+| Baking      | `--baking`    | `var(--purple)` | Soft lavender|
+| Slow        | `--slow`      | `var(--blue)`   | Muted teal   |
 
 Subcategories (soup, curry, pasta, skillet) inherit `--batch` color.
 Legacy tokens `--soup`, `--curry`, `--pasta`, `--skillet` still exist for backwards compat.
 
 ### Dietary Tags
-| Tag      | Color       | Matches            |
-|----------|------------|---------------------|
-| Vegan    | `--vegan`  | `#7fa693` (= cool)  |
-| GF       | `--gf`     | `#c9a87e` (= warm)  |
-| Fast     | `--fast`   | `#7faab4` (= teal)  |
-| Protein  | `--hprot`  | `#c4917e` (= coral) |
+| Tag      | Color       | Matches             |
+|----------|------------|----------------------|
+| Vegan    | `--vegan`  | `var(--cool)`        |
+| GF       | `--gf`     | `var(--warm)`        |
+| Fast     | `--fast`   | `var(--blue)`        |
+| Protein  | `--hprot`  | `#c4917e` (= coral)  |
 
 ### Color Usage Rules
 - Category colors appear in: card border (14% opacity), card icon bg (8%), filter buttons, inline highlights in cook steps
-- Text is always `--text` or `--dim`, never category-colored (except tiny tags and mono numbers)
+- Text is always `--text`, `--muted`, or `--dim`, never category-colored (except tiny tags and mono numbers)
 - Borders: `color-mix(in srgb, var(--c) 14%, transparent)` — subtle, visible on OLED
 - Backgrounds: `color-mix(in srgb, var(--c) 5-8%, transparent)` — tint, not color
 
@@ -85,8 +96,8 @@ Legacy tokens `--soup`, `--curry`, `--pasta`, `--skillet` still exist for backwa
 ### Border Radius
 | Element          | Radius         |
 |-----------------|----------------|
-| Cards, panels   | `16px` (--radius) |
-| Small elements  | `10px` (--radius-sm) |
+| Cards, panels   | `18px` (--radius) |
+| Small elements  | `12px` (--radius-sm) |
 | Buttons, pills  | `6-8px`        |
 | Icons (hub)     | `9-13px` proportional to size |
 | Step numbers    | `50%` (circle) |
@@ -106,7 +117,7 @@ Legacy tokens `--soup`, `--curry`, `--pasta`, `--skillet` still exist for backwa
 | Hub grid gap              | 8px     |
 | Icon-to-text gap (cards)  | 10px    |
 | Filter button gap         | 6px     |
-| Section spacing (header->content) | 12px |
+| Section spacing (header->content) | 8px (page-header bottom padding) |
 
 ---
 
@@ -120,21 +131,21 @@ Legacy tokens `--soup`, `--curry`, `--pasta`, `--skillet` still exist for backwa
 | Workout | Stick figure        | `--cool` |
 | Recipes | Pot with steam      | `--warm` |
 | Coffee  | Cup with handle     | `--neutral` |
-| Dutch   | Open book           | `#8da3bf` (hub-local tint) |
+| Dutch   | Open book           | `--study` (`#8da3bf`, bespoke slate for the study card) |
 
 ### Recipe Categories — 6 Top-Level + 4 Subcategories
 
 Hierarchical architecture: 6 top-level categories, "Batch" expands to show 4 subcategories.
 
 **Top-level categories** (`TOP_CATS`, icon-only buttons 44×44px):
-| Category     | Icon                         | Color token     | Hex       |
+| Category     | Icon                         | Color token     | Value     |
 |-------------|------------------------------|-----------------|-----------|
-| Batch       | Pot + steam (`cat.batch`)     | `--batch`       | `#c9a87e` |
+| Batch       | Pot + steam (`cat.batch`)     | `--batch`       | `var(--warm)` |
 | Breakfast   | Muesli bowl + yoghurt carton (`cat.breakfast`) | `--breakfast` | `#c4917e` |
-| Grains      | Saucepan + grain dots (`cat.grains`) | `--grains` | `#9b928a` |
-| Fermentation| Jar + pickles (`cat.ferment`) | `--ferment`     | `#7fa693` |
-| Baking      | Whisk + rolling pin (`cat.baking`) | `--baking` | `#b49ac4` |
-| Slow        | Cloche dome (`cat.slow`)      | `--slow`        | `#7faab4` |
+| Grains      | Saucepan + grain dots (`cat.grains`) | `--grains` | `var(--neutral)` |
+| Fermentation| Jar + pickles (`cat.ferment`) | `--ferment`     | `var(--cool)` |
+| Baking      | Whisk + rolling pin (`cat.baking`) | `--baking` | `var(--purple)` |
+| Slow        | Cloche dome (`cat.slow`)      | `--slow`        | `var(--blue)` |
 
 **Batch subcategories** (`SUB_CATS`, text-only buttons):
 | Subcategory | Icon (cards only)             | Inherits color from |
@@ -186,13 +197,13 @@ SVG fractalNoise filter, 2.5% opacity, 128px tile. Applied via `body::before`, `
 
 ### Ambient Glow (hub only)
 Two blurred circles (280px, blur 100px, opacity 5%):
-- Warm (#c9a87e) top-right
-- Cool (#7fa693) bottom-left
+- Warm (`var(--warm)`) top-right
+- Cool (`var(--cool)`) bottom-left
 
 Decorative, not functional. Only on hub page where there's enough empty space.
 
-### Header Gradient
-Each page: `linear-gradient(180deg, color-mix(in srgb, var(--accent) 6%, transparent), transparent)`. Barely visible warm wash at top.
+### Page Header
+Eyebrow pattern shared with the workout page: `.page-eyebrow` (mono uppercase, accent) + `.page-title` + `.page-subtitle`, optional `.page-pills` row of `.pill` chips.
 
 ---
 
@@ -250,9 +261,9 @@ OK to use:
 
 ## Shared Components
 
-### Header
-`.header` with `.header-top`. Contains: `.header-sub` (uppercase label), `h1` (gradient text), `.header-desc`.
-The back link no longer lives in the header: `.header-links` is retired in favor of the sticky `.topbar` + `.topbar-back` chrome (see the back-to-hub convention in File Structure).
+### Page Header
+`header.page-header` containing `.page-eyebrow` (10px JetBrains Mono, weight 600, uppercase, accent-colored), `h1.page-title` (clamp 24-32px, `--text-strong`), `p.page-subtitle` (13px, `--muted`), and an optional `.page-pills` row of `.pill` chips.
+Back links do not live in the header — they live in the sticky `.topbar` + `.topbar-back` chrome (see the back-to-hub convention in File Structure).
 
 ### Language Toggle
 `.lang-toggle` with `.lang-btn` buttons. Active state via `.lang-btn.active`.
@@ -422,7 +433,7 @@ Hub is the exception: it links style.css for shared base (body, noise, fonts) bu
   <meta name="theme-color" content="#0f0f12">
   <title>...</title>
   <link rel="stylesheet" href="style.css">
-  <style>:root{--accent:#...}</style>
+  <style>:root{--accent:var(--warm)}</style>  <!-- var() reference, not a hex literal -->
 </head>
 <body>
   <!-- HTML structure -->

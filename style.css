@@ -1,5 +1,5 @@
-/* ========== DESIGN SYSTEM v2 ========== */
-/* Manrope (300-600) + JetBrains Mono · 3-color palette · noise · 16px radius */
+/* ========== DESIGN SYSTEM v2 (unified with the workout page) ========== */
+/* Manrope (300-600) + JetBrains Mono · noise · 18px radius */
 /* Icons: <script src="icons.js"></script> — see icons.js for all SVGs */
 
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap');
@@ -9,29 +9,40 @@
 :root{
   --bg:#0f0f12;
   --surface:#17171c;
-  --text:#e2dbd0;
-  --dim:#6b6560;
-  --warm:#c9a87e;
-  --cool:#7fa693;
+  --surface-raised:#1d1d23;
+  --surface-soft:#202027;
+  --text:#eee8df;
+  --text-strong:#fffaf3;
+  --muted:#aaa29a;
+  --dim:#938c85;
+  --line:rgba(255,255,255,.09);
+  --line-strong:rgba(255,255,255,.16);
+  --warm:#d1ad7d;
+  --cool:#83b59b;
   --neutral:#9b928a;
-  --soup:#c9a87e;
-  --curry:#7fa693;
-  --pasta:#b49ac4;
-  --skillet:#7faab4;
-  --vegan:#7fa693;
-  --gf:#c9a87e;
-  --fast:#7faab4;
+  --blue:#82afbc;
+  --purple:#bea5cd;
+  --danger:#d89284;
+  --yellow:#e3c867;
+  --study:#8da3bf;
+  --soup:var(--warm);
+  --curry:var(--cool);
+  --pasta:var(--purple);
+  --skillet:var(--blue);
+  --vegan:var(--cool);
+  --gf:var(--warm);
+  --fast:var(--blue);
   --hprot:#c4917e;
   --comfort:#c4917e;
-  --batch:#c9a87e;
+  --batch:var(--warm);
   --breakfast:#c4917e;
-  --grains:#9b928a;
-  --ferment:#7fa693;
-  --baking:#b49ac4;
-  --slow:#7faab4;
-  --accent:#c9a87e;
-  --radius:16px;
-  --radius-sm:10px;
+  --grains:var(--neutral);
+  --ferment:var(--cool);
+  --baking:var(--purple);
+  --slow:var(--blue);
+  --accent:var(--warm);
+  --radius:18px;
+  --radius-sm:12px;
 }
 
 body{background:var(--bg);color:var(--text);font-family:'Manrope','Helvetica Neue',sans-serif;min-height:100vh;overflow-x:hidden;position:relative}
@@ -47,12 +58,14 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .topbar-back:hover{opacity:1}
 .topbar-back:active{opacity:.45}
 
-/* ===== HEADER ===== */
-.header{padding:24px 20px 12px;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 6%,transparent) 0%,transparent 100%);position:relative;z-index:1}
-.header-top{display:flex;justify-content:space-between;align-items:flex-start}
-.header-sub{font-size:11px;text-transform:uppercase;letter-spacing:2.5px;opacity:.3;font-weight:400;margin-bottom:4px}
-.header h1{font-size:24px;font-weight:600;background:linear-gradient(135deg,var(--text),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.header-desc{font-size:12px;opacity:.4;margin-top:4px;font-weight:300}
+/* ===== PAGE HEADER (v2 eyebrow pattern, shared with the workout page) ===== */
+.page-header{padding:20px 20px 8px;position:relative;z-index:1}
+.page-eyebrow{margin:0 0 6px;color:var(--accent);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10px;font-weight:600;line-height:1.4;letter-spacing:.14em;text-transform:uppercase}
+.page-title{margin:0;color:var(--text-strong);font-size:clamp(24px,7vw,32px);font-weight:600;line-height:1.08;letter-spacing:-.03em}
+.page-subtitle{max-width:620px;margin:7px 0 0;color:var(--muted);font-size:13px;font-weight:400;line-height:1.55}
+.page-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+.pill{display:inline-flex;min-height:25px;padding:4px 9px;align-items:center;justify-content:center;gap:5px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.025);color:var(--muted);font-size:11px;font-weight:600;line-height:1.2;letter-spacing:.02em}
+
 /* ===== LANG TOGGLE ===== */
 .lang-toggle{display:flex;border-radius:6px;overflow:hidden;border:1px solid rgba(255,255,255,.08);flex-shrink:0;margin-top:2px}
 .lang-btn{padding:4px 10px;font-size:11px;font-weight:500;background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);cursor:pointer;border:none;font-family:inherit;transition:all .12s}
@@ -88,9 +101,9 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .card-tag{font-size:9px;font-weight:600;padding:2px 6px;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
 .card-tag{display:inline-flex;align-items:center;gap:2px}
 .card-tag svg{width:10px;height:10px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
-.tag-vegan{background:rgba(127,166,147,.1);color:var(--vegan)}
-.tag-gf{background:rgba(201,168,126,.08);color:var(--gf)}
-.tag-fast{background:rgba(127,170,180,.1);color:var(--fast)}
+.tag-vegan{background:rgba(131,181,155,.1);color:var(--vegan)}
+.tag-gf{background:rgba(209,173,125,.08);color:var(--gf)}
+.tag-fast{background:rgba(130,175,188,.1);color:var(--fast)}
 .tag-hprot{background:rgba(196,145,126,.1);color:var(--hprot)}
 .tag-comfort{background:rgba(196,145,126,.1);color:var(--hprot)}
 
@@ -100,7 +113,7 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .ing-row{padding:2px 16px 10px;display:none;gap:5px;flex-wrap:wrap}
 .ing-row.open{display:flex}
 .ibtn{padding:3px 9px;border-radius:5px;border:1px solid rgba(255,255,255,.05);background:rgba(255,255,255,.02);color:rgba(255,255,255,.25);font-size:10px;font-weight:400;cursor:pointer;font-family:inherit;transition:all .12s}
-.ibtn.on{border-color:rgba(127,170,180,.3);color:var(--fast);background:rgba(127,170,180,.06)}
+.ibtn.on{border-color:rgba(130,175,188,.3);color:var(--fast);background:rgba(130,175,188,.06)}
 
 /* ===== CARDS ===== */
 .cards{padding:0 16px 100px;position:relative;z-index:1}
@@ -117,7 +130,7 @@ body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xm
 .card-sub{font-size:11px;opacity:.35;font-style:italic;margin-top:1px;font-weight:300}
 .card-row{display:flex;gap:6px;margin-top:5px;flex-wrap:wrap;align-items:center}
 .card-meta{font-size:11px;opacity:.35;font-weight:400}
-.card-protein{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(127,166,147,.08);color:var(--vegan)}
+.card-protein{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;padding:2px 6px;border-radius:4px;background:rgba(131,181,155,.08);color:var(--vegan)}
 .card-protein svg{width:11px;height:11px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
 .card-preview{margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.05)}
 .card-preview-list{font-size:12px;line-height:1.7;opacity:.45;columns:2;column-gap:12px;font-weight:300}

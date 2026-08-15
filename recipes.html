@@ -9,16 +9,16 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>Рецепты / Recipes</title>
 <link rel="stylesheet" href="style.css">
-<style>:root{--accent:#c9a87e}</style>
+<style>:root{--accent:var(--warm)}</style>
 </head>
 <body>
 <div id="browseView">
   <div class="topbar"><a class="topbar-back" href="index.html">←&nbsp;<span data-back-label>На главную</span></a><div class="lang-toggle"><button class="lang-btn" onclick="setLang('ru')">RU</button><button class="lang-btn" onclick="setLang('en')">EN</button></div></div>
-  <div class="header"><div class="header-top"><div>
-    <div class="header-sub">Batch Cooking</div>
-    <h1 id="hTitle"></h1>
-    <div class="header-desc" id="hDesc"></div>
-  </div></div></div>
+  <header class="page-header">
+    <div class="page-eyebrow">Batch Cooking</div>
+    <h1 class="page-title" id="hTitle"></h1>
+    <p class="page-subtitle" id="hDesc"></p>
+  </header>
   <div class="cat-bar" id="catBar"></div>
   <div class="sub-bar" id="subBar"></div>
   <div class="tag-filters" id="tagBar"></div>

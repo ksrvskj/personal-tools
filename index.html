@@ -38,7 +38,7 @@ body{
 /* Card base */
 a.bc{
   text-decoration:none;
-  border-radius:16px;
+  border-radius:var(--radius);
   padding:20px;
   display:flex;
   align-items:center;
@@ -97,7 +97,7 @@ a.bc::after{
 .t-cool{--ac:var(--cool)}
 .t-warm{--ac:var(--warm)}
 .t-neutral{--ac:var(--neutral)}
-.t-study{--ac:#8da3bf}
+.t-study{--ac:var(--study)}
 
 /* Entrance animation */
 .hub-header,.bc,.hub-links,.hub-footer{

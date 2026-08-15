@@ -2,24 +2,25 @@
    Loaded after style.css. Every rule is intentionally scoped to the workout app. */
 
 body.workout-page {
-  --wo-bg: #0f0f12;
-  --wo-surface: #17171c;
-  --wo-surface-raised: #1d1d23;
-  --wo-surface-soft: #202027;
-  --wo-text: #eee8df;
-  --wo-text-strong: #fffaf3;
-  --wo-muted: #aaa29a;
-  --wo-dim: #938c85;
-  --wo-line: rgba(255, 255, 255, .09);
-  --wo-line-strong: rgba(255, 255, 255, .16);
-  --wo-warm: #d1ad7d;
-  --wo-green: #83b59b;
-  --wo-blue: #82afbc;
-  --wo-purple: #bea5cd;
-  --wo-danger: #d89284;
-  --wo-yellow: #e3c867;
-  --wo-radius: 18px;
-  --wo-radius-sm: 12px;
+  /* Aliases of the shared design-system tokens in style.css — single source of truth. */
+  --wo-bg: var(--bg);
+  --wo-surface: var(--surface);
+  --wo-surface-raised: var(--surface-raised);
+  --wo-surface-soft: var(--surface-soft);
+  --wo-text: var(--text);
+  --wo-text-strong: var(--text-strong);
+  --wo-muted: var(--muted);
+  --wo-dim: var(--dim);
+  --wo-line: var(--line);
+  --wo-line-strong: var(--line-strong);
+  --wo-warm: var(--warm);
+  --wo-green: var(--cool);
+  --wo-blue: var(--blue);
+  --wo-purple: var(--purple);
+  --wo-danger: var(--danger);
+  --wo-yellow: var(--yellow);
+  --wo-radius: var(--radius);
+  --wo-radius-sm: var(--radius-sm);
   --wo-shadow: 0 20px 60px rgba(0, 0, 0, .28);
   width: 100%;
   max-width: none;
