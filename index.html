@@ -18,7 +18,7 @@ body{
   align-items:center;
   justify-content:center;
   padding:40px 24px;
-  overflow:hidden;
+  overflow-x:hidden;
 }
 
 /* Ambient glows */
@@ -30,7 +30,7 @@ body{
 
 /* Header */
 .hub-header{text-align:center;margin-bottom:40px}
-.hub-title{font-size:13px;font-weight:400;letter-spacing:5px;text-transform:uppercase;color:#9a938c}
+.hub-title{font-size:13px;font-weight:400;letter-spacing:5px;text-transform:uppercase;color:var(--neutral)}
 
 /* Bento — asymmetric middle row */
 .bento{display:grid;grid-template-columns:6fr 4fr;gap:8px}
@@ -84,7 +84,7 @@ a.bc::after{
   flex-shrink:0;
 }
 .bc-icon svg{
-  stroke:var(--ac);stroke-width:1.6;fill:none;
+  stroke:var(--ac);stroke-width:1.5;fill:none;
   stroke-linecap:round;stroke-linejoin:round;
 }
 
@@ -100,7 +100,7 @@ a.bc::after{
 .t-study{--ac:#8da3bf}
 
 /* Entrance animation */
-.hub-header,.bc,.hub-footer{
+.hub-header,.bc,.hub-links,.hub-footer{
   animation:fadeUp .4s ease both;
 }
 .hub-header{animation-delay:0s}
@@ -108,10 +108,16 @@ a.bc::after{
 .bento .bc:nth-child(2){animation-delay:.1s}
 .bento .bc:nth-child(3){animation-delay:.15s}
 .bento .bc:nth-child(4){animation-delay:.2s}
-.hub-footer{animation-delay:.25s}
+.hub-links{animation-delay:.25s}
+.hub-footer{animation-delay:.3s}
+
+/* Paper workspace links */
+.hub-links{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:16px;font-size:11px;color:var(--dim)}
+.hub-links a{color:var(--dim);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.18);padding:4px 0}
+.hub-links a:hover{color:var(--text)}
 
 /* Footer */
-.hub-footer{text-align:center;margin-top:36px;font-size:10px;color:#9a938c;letter-spacing:1.5px;font-weight:300}
+.hub-footer{text-align:center;margin-top:30px;font-size:10px;color:var(--neutral);letter-spacing:1.5px;font-weight:300}
 </style>
 </head>
 <body>
@@ -128,16 +134,7 @@ a.bc::after{
 
     <!-- Hero: Workout -->
     <a class="bc bc-hero t-cool" href="workout.html">
-      <div class="bc-icon">
-        <svg viewBox="0 0 24 24">
-          <circle cx="12" cy="3.5" r="2"/>
-          <path d="M7 8h10"/>
-          <path d="M12 8v6"/>
-          <path d="M8 21l4-7 4 7"/>
-          <path d="M7 8l-2-3"/>
-          <path d="M17 8l2-3"/>
-        </svg>
-      </div>
+      <div class="bc-icon" data-icon="workout"></div>
       <div class="bc-text">
         <div class="bc-name">Силовые в поездке</div>
         <div class="bc-desc">4 тренировки на коврике · турник отдельно</div>
@@ -146,15 +143,7 @@ a.bc::after{
 
     <!-- Recipes (wider — 3fr) -->
     <a class="bc bc-reg t-warm" href="recipes.html">
-      <div class="bc-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M4 11h16v7a3 3 0 01-3 3H7a3 3 0 01-3-3v-7z"/>
-          <path d="M2 11h20"/>
-          <path d="M8 4c0 2 2 3 0 5"/>
-          <path d="M12 3c0 2 2 3 0 5"/>
-          <path d="M16 4c0 2 2 3 0 5"/>
-        </svg>
-      </div>
+      <div class="bc-icon" data-icon="recipes"></div>
       <div class="bc-text">
         <div class="bc-name">Рецепты</div>
         <div class="bc-desc">20 рецептов · на русском и английском</div>
@@ -163,14 +152,7 @@ a.bc::after{
 
     <!-- Coffee (narrower — 2fr) -->
     <a class="bc bc-reg t-neutral" href="coffee.html">
-      <div class="bc-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M5 9h12v8a3 3 0 01-3 3H8a3 3 0 01-3-3V9z"/>
-          <path d="M17 11h1.5a2.5 2.5 0 010 5H17"/>
-          <path d="M8 5c0-1 .5-2 1.5-2"/>
-          <path d="M12 5c0-1 .5-2 1.5-2"/>
-        </svg>
-      </div>
+      <div class="bc-icon" data-icon="coffee"></div>
       <div class="bc-text">
         <div class="bc-name">Кофе</div>
         <div class="bc-desc">Кемекс · V60 · аэропресс</div>
@@ -179,12 +161,7 @@ a.bc::after{
 
     <!-- Dutch (full width bottom) -->
     <a class="bc bc-bottom t-study" href="dutch.html">
-      <div class="bc-icon">
-        <svg viewBox="0 0 24 24">
-          <path d="M2 5v15c4-2 8-2 10 0V5C10 3 6 3 2 5z"/>
-          <path d="M12 5v15c2-2 6-2 10 0V5c-2-2-6-2-10 0"/>
-        </svg>
-      </div>
+      <div class="bc-icon" data-icon="dutch"></div>
       <div class="bc-text">
         <div class="bc-name">Нидерландский</div>
         <div class="bc-desc">Грамматика · A1→B1 · на русском и английском</div>
@@ -193,8 +170,19 @@ a.bc::after{
 
   </div>
 
+  <div class="hub-links">
+    <span>Paper 2:</span>
+    <a href="intro_outline.html">план введения</a>
+    <span>·</span>
+    <a href="paper_map.html">карта</a>
+  </div>
+
   <div class="hub-footer">ksrvskj.github.io</div>
 </div>
 
+<script src="icons.js"></script>
+<script>
+if(typeof ICONS!=='undefined'&&ICONS.hub)document.querySelectorAll('.bc-icon[data-icon]').forEach(function(el){el.innerHTML=ICONS.hub[el.dataset.icon]||'';});
+</script>
 </body>
 </html>

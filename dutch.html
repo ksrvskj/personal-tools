@@ -16,7 +16,7 @@
 <!-- INDEX VIEW -->
 <div id="indexView">
   <div class="topbar">
-    <a class="back-btn" href="index.html"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg><span>Hub</span></a>
+    <a class="back-btn" href="index.html"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg><span data-back-label>На главную</span></a>
     <div class="topbar-title"></div>
     <div class="topbar-right"><div class="lang-toggle"><button class="lang-btn" onclick="setLang('ru')">RU</button><button class="lang-btn" onclick="setLang('en')">EN</button></div></div>
   </div>
@@ -31,7 +31,7 @@
 <!-- GUIDE VIEW -->
 <div id="guideView">
   <div class="topbar">
-    <div class="back-btn" onclick="exitGuide()"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg></div>
+    <button class="back-btn" type="button" onclick="exitGuide()" aria-label="Назад к списку разделов" data-aria-ru="Назад к списку разделов" data-aria-en="Back to guide list"><svg viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7"/></svg></button>
     <div class="topbar-title"><div class="topbar-sub" id="topSub"></div><div class="topbar-main" id="topMain"></div></div>
     <div class="topbar-right"><div class="lang-toggle"><button class="lang-btn" onclick="setLang('ru')">RU</button><button class="lang-btn" onclick="setLang('en')">EN</button></div></div>
   </div>
@@ -40,16 +40,15 @@
   <div class="content" id="guideContent"></div>
 </div>
 
-<div class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+<button class="scroll-top" id="scrollTop" type="button" aria-label="Наверх" data-aria-ru="Наверх" data-aria-en="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">
   <svg viewBox="0 0 24 24"><path d="M12 19V5"/><path d="M5 12l7-7 7 7"/></svg>
-</div>
+</button>
 
+<script src="lang.js"></script>
 <script src="dutch-data.js"></script>
 <script>
 /* ========== STATE ========== */
-let lang=localStorage.getItem('lang')||'ru',activeGuide=null;
-function setLang(l){lang=l;localStorage.setItem('lang',l);render();updateURL();}
-function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
+let activeGuide=null,guidePushed=false;
 
 /* ========== RENDERING ========== */
 function renderIndex(){
@@ -57,7 +56,7 @@ function renderIndex(){
   const gc=BLOCKS.reduce((n,b)=>n+b.guides.length,0);
   document.getElementById('idxSub').textContent=lang==='ru'?`Справочник · A1→B1 · ${gc} разделов`:`Reference · A1→B1 · ${gc} guides`;
   let ci=0;
-  document.getElementById('idxBlocks').innerHTML=BLOCKS.map(b=>`<div class="idx-block"><div class="idx-block-name" style="color:${b.color}"><span class="idx-block-icon" style="color:${b.color}">${BLOCK_ICONS[b.id]}</span>${t(b.name)}</div>${b.guides.map(g=>`<div class="idx-card" style="--c:${b.color};animation-delay:${(ci++)*0.04}s" onclick="openGuide('${g.id}')"><div class="idx-card-body"><div class="idx-card-title">${t(g.title)}</div><div class="idx-card-sub">${g.sub}</div></div><div class="idx-card-level" style="--c:${b.color}">${g.level}</div><div class="idx-card-arrow"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></div>`).join('')}</div>`).join('');
+  document.getElementById('idxBlocks').innerHTML=BLOCKS.map(b=>`<div class="idx-block"><div class="idx-block-name" style="color:${b.color}"><span class="idx-block-icon" style="color:${b.color}">${BLOCK_ICONS[b.id]}</span>${t(b.name)}</div>${b.guides.map(g=>`<a class="idx-card" href="?g=${g.id}${lang!=='ru'?'&lang='+lang:''}" style="--c:${b.color};animation-delay:${(ci++)*0.04}s" onclick="openGuide('${g.id}');return false;"><div class="idx-card-body"><div class="idx-card-title">${t(g.title)}</div><div class="idx-card-sub">${g.sub}</div></div><div class="idx-card-level" style="--c:${b.color}">${g.level}</div><div class="idx-card-arrow"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div></a>`).join('')}</div>`).join('');
 }
 
 function renderGuide(){
@@ -100,17 +99,32 @@ function render(){
 }
 
 /* ========== NAVIGATION ========== */
-function openGuide(id){activeGuide=id;render();updateURL();window.scrollTo({top:0});}
-function exitGuide(){activeGuide=null;render();updateURL();window.scrollTo({top:0});}
+function openGuide(id,push){activeGuide=id;render();if(push===false){updateURL();}else{guidePushed=true;updateURL('push');}window.scrollTo({top:0});}
+function exitGuide(fromPopstate){
+  if(fromPopstate!==true&&guidePushed){guidePushed=false;history.back();return;}
+  activeGuide=null;guidePushed=false;render();window.scrollTo({top:0});
+  if(fromPopstate!==true)updateURL();}
 function toggleDet(id,btn){const b=document.getElementById('dt-'+id);if(!b)return;const o=b.classList.toggle('open');btn.classList.toggle('open',o);}
 
 /* ========== URL ========== */
-function readURL(){const p=new URLSearchParams(location.search);if(p.get('lang')&&['ru','en'].includes(p.get('lang'))){lang=p.get('lang');localStorage.setItem('lang',lang);}if(p.get('g'))activeGuide=p.get('g');}
-function updateURL(){const p=new URLSearchParams();if(activeGuide)p.set('g',activeGuide);if(lang!=='ru')p.set('lang',lang);const qs=p.toString();history.replaceState(null,'',qs?'?'+qs:location.pathname);}
+function findGuide(id){for(const b of BLOCKS){const g=b.guides.find(x=>x.id===id);if(g)return g;}return null;}
+function readURL(initial){const p=new URLSearchParams(location.search);if(initial===true&&p.get('lang')&&['ru','en'].includes(p.get('lang'))){lang=p.get('lang');localStorage.setItem('lang',lang);}applyLang();const g=p.get('g');activeGuide=g&&findGuide(g)?g:null;}
+function updateURL(mode){const p=new URLSearchParams();if(activeGuide)p.set('g',activeGuide);if(lang!=='ru')p.set('lang',lang);const qs=p.toString();const url=qs?'?'+qs:location.pathname;const st={guidePushed:Boolean(activeGuide)&&guidePushed};if(mode==='push')history.pushState(st,'',url);else history.replaceState(st,'',url);}
 
 window.addEventListener('scroll',()=>{document.getElementById('scrollTop').classList.toggle('show',window.scrollY>400)});
-window.addEventListener('popstate',()=>{readURL();render();});
-readURL();render();
+window.addEventListener('popstate',()=>{
+  const entryPushed=Boolean(history.state&&history.state.guidePushed);
+  readURL();
+  guidePushed=Boolean(activeGuide)&&entryPushed;
+  render();
+  updateURL();
+  window.scrollTo({top:0});
+});
+const initialGuidePushed=Boolean(history.state&&history.state.guidePushed);
+readURL(true);
+guidePushed=Boolean(activeGuide)&&initialGuidePushed;
+render();
+if(activeGuide)updateURL();
 </script>
 </body>
 </html>

@@ -13,12 +13,12 @@
 </head>
 <body>
 <div id="browseView">
+  <div class="topbar"><a class="topbar-back" href="index.html">←&nbsp;<span data-back-label>На главную</span></a><div class="lang-toggle"><button class="lang-btn" onclick="setLang('ru')">RU</button><button class="lang-btn" onclick="setLang('en')">EN</button></div></div>
   <div class="header"><div class="header-top"><div>
     <div class="header-sub">Batch Cooking</div>
     <h1 id="hTitle"></h1>
     <div class="header-desc" id="hDesc"></div>
-    <div class="header-links"><a class="header-link" href="index.html">← Hub</a></div>
-  </div><div class="lang-toggle"><button class="lang-btn" onclick="setLang('ru')">RU</button><button class="lang-btn" onclick="setLang('en')">EN</button></div></div></div>
+  </div></div></div>
   <div class="cat-bar" id="catBar"></div>
   <div class="sub-bar" id="subBar"></div>
   <div class="tag-filters" id="tagBar"></div>
@@ -31,19 +31,17 @@
 </div>
 <div class="nutrition-toggle" id="nutToggle" onclick="toggleNutrition()"><span id="nutLabel"></span></div>
 <script src="icons.js"></script>
+<script src="lang.js"></script>
 <script>
-let lang=localStorage.getItem('lang')||'ru';
-function setLang(l){lang=l;localStorage.setItem('lang',l);document.documentElement.lang=l;fullRender();updateURL();}
-function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
 const UI={title:{ru:"Рецепты",en:"Recipes"},desc:{ru:"Быстро · Вегетарианский · С белком",en:"Quick · Vegetarian · High protein"},coffee:{ru:"Кофе",en:"Coffee"},cook:{ru:"Готовить →",en:"Cook →"},back:{ru:"Рецепты",en:"Recipes"},portions:{ru:"Порции",en:"Servings"},perPortion:{ru:"на порцию",en:"per serving"},ingredients:{ru:"Ингредиенты",en:"Ingredients"},tips:{ru:"Заметки",en:"Notes"},noMatch:{ru:"Нет рецептов с такими фильтрами",en:"No recipes match these filters"},start:{ru:"старт",en:"start"},pause:{ru:"пауза",en:"pause"},reset:{ru:"заново",en:"reset"},share:{ru:"Поделиться",en:"Share"},copied:{ru:"Ссылка скопирована!",en:"Link copied!"},pWord(n){if(lang==='en')return n===1?'serving':'servings';return n===1?'порция':n<5?'порции':'порций';}};
 
 const TOP_CATS=[
-  {id:"batch",label:{ru:"Основное",en:"Batch"},color:"#c9a87e"},
-  {id:"breakfast",label:{ru:"Завтрак",en:"Breakfast"},color:"#c4917e"},
-  {id:"grains",label:{ru:"Крупы",en:"Grains"},color:"#9b928a"},
-  {id:"ferment",label:{ru:"Ферментация",en:"Fermentation"},color:"#7fa693"},
-  {id:"baking",label:{ru:"Выпечка",en:"Baking"},color:"#b49ac4"},
-  {id:"slow",label:{ru:"Долгое",en:"Slow"},color:"#7faab4"}
+  {id:"batch",label:{ru:"Основное",en:"Batch"},color:"var(--batch)"},
+  {id:"breakfast",label:{ru:"Завтрак",en:"Breakfast"},color:"var(--breakfast)"},
+  {id:"grains",label:{ru:"Крупы",en:"Grains"},color:"var(--grains)"},
+  {id:"ferment",label:{ru:"Ферментация",en:"Fermentation"},color:"var(--ferment)"},
+  {id:"baking",label:{ru:"Выпечка",en:"Baking"},color:"var(--baking)"},
+  {id:"slow",label:{ru:"Долгое",en:"Slow"},color:"var(--slow)"}
 ];
 const SUB_CATS=[
   {id:"soup",parent:"batch",label:{ru:"Супы",en:"Soups"}},
@@ -92,7 +90,7 @@ let hideNutrition=localStorage.getItem('hideNutrition')==='1';
 function sc(v,b,tgt,unit){const raw=v*(tgt/b);const countable=!unit||['','шт','pcs','горсть','handful','щеп.','pinch'].includes(unit);if(countable)return Math.round(raw*2)/2;const small=['ч.л.','tsp','ст.л.','tbsp'].includes(unit);if(small)return Math.round(raw*2)/2;if(raw>=50)return Math.round(raw/5)*5;if(raw>=10)return Math.round(raw);return Math.round(raw*10)/10;}
 function fmtIng(ing,b,tgt){let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));return t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;}
 function resolve(s,ings,b,tgt){return t(s).replace(/\{(\d+)\}/g,(_,i)=>{const ing=ings[+i];if(!ing)return'?';let a=ing.pp?ing.a:sc(ing.a,b,tgt,t(ing.u));let short=t(ing.u)?`${a} ${t(ing.u)}`:`${a}`;return`<span class="hi">${short}</span>`;});}
-function getTopColor(id){return TOP_CATS.find(c=>c.id===id)?.color||'#c9a87e';}
+function getTopColor(id){return TOP_CATS.find(c=>c.id===id)?.color||'var(--warm)';}
 function gc(cat){
   const sub=SUB_CATS.find(s=>s.id===cat);
   if(sub)return getTopColor(sub.parent);
@@ -167,8 +165,12 @@ function toggleIngPanel(){ingOpen=!ingOpen;renderBrowse();}
 function toggleIng(id){activeIngs.has(id)?activeIngs.delete(id):activeIngs.add(id);openCard=null;renderBrowse();}
 function toggleCard(id){openCard=openCard===id?null:id;renderBrowse();}
 
-function enterCook(id){cookId=id;stepsDone={};Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});tmrs={};document.body.classList.add('cooking');window.scrollTo(0,0);renderCook();updateURL();}
-function exitCook(){Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});tmrs={};document.body.classList.remove('cooking');cookId=null;updateURL();}
+let cookPushed=false;
+function enterCook(id,push){cookId=id;stepsDone={};Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});tmrs={};document.body.classList.add('cooking');window.scrollTo(0,0);renderCook();if(push===false){updateURL();}else{cookPushed=true;updateURL('push');}}
+function exitCook(fromPopstate){Object.keys(tmrs).forEach(k=>{if(tmrs[k].iv)clearInterval(tmrs[k].iv);});tmrs={};document.body.classList.remove('cooking');cookId=null;
+  if(fromPopstate===true){cookPushed=false;return;}
+  if(cookPushed){cookPushed=false;history.back();return;}
+  updateURL();}
 function adjP(id,delta){const r=R.find(x=>x.id===id);if(!r)return;const cur=cookPortion[id]||r.bp;cookPortion[id]=Math.min(12,Math.max(1,cur+delta));renderCook();updateURL();}
 function setP(id,val){const n=parseInt(val);if(isNaN(n)||n<1)return;cookPortion[id]=Math.min(12,Math.max(1,n));renderCook();updateURL();}
 function toggleStep(i,e){e?.stopPropagation();stepsDone[i]=!stepsDone[i];renderCook();}
@@ -191,12 +193,26 @@ function renderCook(){
   document.getElementById('cookContent').innerHTML=h;
 }
 
-function readURL(){const p=new URLSearchParams(location.search);if(p.get('lang')&&['ru','en'].includes(p.get('lang'))){lang=p.get('lang');localStorage.setItem('lang',lang);}if(p.get('clean')==='1'){hideNutrition=true;localStorage.setItem('hideNutrition','1');}document.documentElement.lang=lang;if(p.get('r')){const recipe=R.find(x=>x.id===p.get('r'));if(recipe)enterCook(recipe.id);}}
-function updateURL(){const p=new URLSearchParams();if(cookId)p.set('r',cookId);if(lang!=='ru')p.set('lang',lang);const qs=p.toString();history.replaceState(null,'',qs?'?'+qs:location.pathname);}
+function readURL(){const p=new URLSearchParams(location.search);if(p.get('lang')&&['ru','en'].includes(p.get('lang'))){lang=p.get('lang');localStorage.setItem('lang',lang);}if(p.get('clean')==='1'){hideNutrition=true;localStorage.setItem('hideNutrition','1');}applyLang();if(p.get('r')){const recipe=R.find(x=>x.id===p.get('r'));if(recipe)enterCook(recipe.id,false);}}
+function updateURL(mode){const p=new URLSearchParams();if(cookId)p.set('r',cookId);if(lang!=='ru')p.set('lang',lang);const qs=p.toString();const url=qs?'?'+qs:location.pathname;const st={cookPushed:Boolean(cookId)&&cookPushed};if(mode==='push')history.pushState(st,'',url);else history.replaceState(st,'',url);}
 function shareRecipe(){const p=new URLSearchParams();p.set('r',cookId);if(lang!=='ru')p.set('lang',lang);const url=location.origin+location.pathname+'?'+p;if(navigator.share){navigator.share({url}).catch(()=>{});}else if(navigator.clipboard){navigator.clipboard.writeText(url).then(()=>{const btn=document.getElementById('shareBtn');if(btn){const orig=btn.textContent;btn.textContent=t(UI.copied);setTimeout(()=>btn.textContent=orig,1500);}});}}
 
+const initialCookPushed=Boolean(history.state&&history.state.cookPushed);
 readURL();fullRender();
-window.addEventListener('popstate',()=>{if(cookId)exitCook();});
+if(cookId){cookPushed=initialCookPushed;updateURL();}
+window.addEventListener('popstate',()=>{
+  const entryPushed=Boolean(history.state&&history.state.cookPushed);
+  const p=new URLSearchParams(location.search);
+  const r=p.get('r');
+  const recipe=r?R.find(x=>x.id===r):null;
+  if(recipe){
+    if(cookId!==recipe.id)enterCook(recipe.id,false);
+    cookPushed=entryPushed;
+  }else if(cookId){exitCook(true);}
+  // Re-sync the landed entry to the current lang (a switch made inside cook
+  // mode must not be reverted by the stale param on the older entry).
+  updateURL();
+});
 </script>
 </body>
 </html>

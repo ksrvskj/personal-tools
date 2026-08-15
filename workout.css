@@ -239,6 +239,25 @@ body.workout-page.wo-focus-open {
   display: none;
 }
 
+.wo-tab-home {
+  min-width: 40px;
+  min-height: 44px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  color: var(--wo-dim);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.wo-tab-home:hover {
+  color: var(--wo-text);
+  border-color: var(--wo-line);
+}
+
 .wo-tab {
   min-width: max-content;
   min-height: 44px;
@@ -1803,6 +1822,8 @@ button.wo-toggle:focus-visible,
 .wo-skip:focus-visible,
 .wo-hub-link:focus-visible,
 .wo-tab:focus-visible,
+.wo-tab-home:focus-visible,
+.wo-focus-next:focus-visible,
 .wo-choice:focus-visible,
 .wo-quick-card:focus-visible,
 .wo-primary:focus-visible,

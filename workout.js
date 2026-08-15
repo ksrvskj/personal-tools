@@ -1500,11 +1500,12 @@
       window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
       return;
     }
-    const consumeFocusEntry = Boolean(focusState) && focusPushed;
     if (focusState) closeFocus(false);
     currentView = next;
     renderApp();
-    updateURL(push === false || consumeFocusEntry ? 'replace' : 'push');
+    // Tabs are light navigation: they replace the current entry. Only the
+    // step-by-step dialog pushes history (and consumes it on close).
+    updateURL('replace');
     document.getElementById('workoutMain').focus({ preventScroll: true });
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }

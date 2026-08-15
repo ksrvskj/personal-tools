@@ -113,13 +113,14 @@ Legacy tokens `--soup`, `--curry`, `--pasta`, `--skillet` still exist for backwa
 ## Icons
 
 ### Hub — SVG Line Icons
-3 custom SVGs, one per tool. Consistent stroke width 1.6, round caps/joins, no fill.
+4 custom SVGs, one per tool, living in `ICONS.hub` (icons.js) and injected into `.bc-icon[data-icon]` slots at load. Consistent stroke width 1.5, round caps/joins, no fill.
 
 | Tool    | Icon description     | Accent   |
 |---------|---------------------|----------|
 | Workout | Stick figure        | `--cool` |
 | Recipes | Pot with steam      | `--warm` |
 | Coffee  | Cup with handle     | `--neutral` |
+| Dutch   | Open book           | `#8da3bf` (hub-local tint) |
 
 ### Recipe Categories — 6 Top-Level + 4 Subcategories
 
@@ -250,12 +251,12 @@ OK to use:
 ## Shared Components
 
 ### Header
-`.header` with `.header-top` (flex: content left, lang toggle right).
-Contains: `.header-sub` (uppercase label), `h1` (gradient text), `.header-desc`, `.header-links`.
+`.header` with `.header-top`. Contains: `.header-sub` (uppercase label), `h1` (gradient text), `.header-desc`.
+The back link no longer lives in the header: `.header-links` is retired in favor of the sticky `.topbar` + `.topbar-back` chrome (see the back-to-hub convention in File Structure).
 
 ### Language Toggle
 `.lang-toggle` with `.lang-btn` buttons. Active state via `.lang-btn.active`.
-Appears in header and (for recipes) in cook mode bar.
+Lives in the sticky `.topbar` (and, for recipes, also in the cook mode bar).
 
 ### Cards
 `.card` with `--c` CSS variable for per-item color theming.
@@ -295,7 +296,7 @@ The workout page uses application state instead of the browse/cook convention:
 ## Deep Links & URL Params
 
 ### Pattern
-Read on load -> set state -> render. Recipes and coffee write on state change via `history.replaceState` (don't pollute the back button). The workout page intentionally uses `history.pushState` for tab and step-mode navigation and resolves entries in a `popstate` listener, so Back closes the step dialog or returns to the previous view instead of leaving the page.
+Read on load -> set state -> render. One rule site-wide: **a fullscreen state pushes exactly one history entry and consumes it on close** (workout step mode, recipes cook mode, dutch guides — Back closes them and never re-opens or dead-ends); **everything lighter writes via `history.replaceState`** (tabs, accordions, filters, language). Pages that push track the entry in `history.state` (`focusPushed`/`cookPushed`/`guidePushed`) so the close-consumes-entry contract survives reload and Forward, and resolve entries in a `popstate` listener.
 
 ### Recipes
 | Param   | Values          | Effect                    |
@@ -313,6 +314,14 @@ Example: `recipes.html?r=rosti-egg&lang=en`
 | `lang`| `ru` / `en` | Sets language        |
 
 Example: `coffee.html?m=chemex&lang=en`
+
+### Dutch
+| Param | Values      | Effect                                        |
+|-------|-------------|-----------------------------------------------|
+| `g`   | guide id    | Opens that guide (pushes one history entry)   |
+| `lang`| `ru` / `en` | Sets language                                 |
+
+Example: `dutch.html?g=basics&lang=en`
 
 ### Workout
 | Param   | Values                              | Effect                              |
@@ -358,8 +367,9 @@ When scaling portions, amounts are rounded context-aware:
 ```
 personal-tools/
   DESIGN.md        <- this file
-  style.css        <- shared design-system CSS
+  style.css        <- shared design-system CSS (incl. .topbar sticky back-to-hub chrome, .sr-only, :focus-visible)
   icons.js         <- shared SVG icons (ICONS.hub/cat/coffee/tag/ui + iconInner helper)
+  lang.js          <- shared RU/EN globals: lang, t(), setLang(), applyLang() + [data-back-label] localization
   index.html       <- hub dashboard (links style.css + hub-specific inline)
   workout.html     <- workout page semantic shell
   workout.css      <- workout layout, components, and step-by-step mode
@@ -367,9 +377,18 @@ personal-tools/
   workout.js       <- program data, state, rendering, timers, and persistence
   recipes.html     <- batch cooking (browse + cook mode)
   coffee.html      <- brew guides (calculators)
+  dutch.html       <- Dutch grammar (index + guide views; light theme)
+  dutch.css        <- dutch/components stylesheet (own light token set)
+  dutch-data.js    <- guide content + BLOCK_ICONS
+  components.html  <- dutch design-system catalog (light theme)
+  paper_map.html   <- Paper 2 content map (light "paper" theme, standalone)
+  intro_outline.html <- Paper 2 introduction outline (light "paper" theme, standalone)
+  favicon.svg      <- site favicon
 ```
 
-Each page links `style.css`; most pages keep only `:root` variable overrides inline. The workout page also links `workout.css`, then loads `workout-diagrams.js` before `workout.js`.
+Each page links `style.css`; most pages keep only `:root` variable overrides inline (as `var()` references to shared tokens, not hex literals). Bilingual pages load `lang.js` before their main script. The workout page also links `workout.css`, then loads `workout-diagrams.js` before `workout.js`.
+
+Back-to-hub convention: dark pages use the sticky `.topbar` + `.topbar-back` from `style.css` («← На главную»); dutch/components use the equivalent light `.topbar`/`.back-btn` from `dutch.css`; the workout tab bar carries a `.wo-tab-home` link. Every page must keep a hub link visible without scrolling.
 Pages that use shared icons load `icons.js` before their main script. The workout page owns a separate diagram vocabulary and does not depend on the shared icon file.
 
 Hub is the exception: it links style.css for shared base (body, noise, fonts) but keeps bento grid / hero card styles inline (hub-specific layout).
@@ -425,7 +444,7 @@ The workout page is the page-level exception: `workout.html` stays a small seman
 - **`render()`** / **`fullRender()`** rebuilds DOM from state via innerHTML
 - **Targeted DOM updates** for timers (`updateTmRing`, `updateBrewRing`) — don't re-render entire page every second
 - **`readURL()`** at init — parse URL params, set state
-- **`updateURL()`** on state change — `history.replaceState`, not pushState
+- **`updateURL(mode)`** on state change — `history.replaceState` by default; `updateURL('push')` only when opening a fullscreen state (cook / guide / workout focus), per the Deep Links Pattern
 - **`event.stopPropagation()`** on nested clickable elements inside cards
 
 ### CSS Patterns
