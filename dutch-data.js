@@ -121,9 +121,9 @@ basics:{
       </div>
       <div class="comparison">
         <div class="cmp"><div class="cmp-label">${R?'Всегда de':'Always de'}</div>
-          <div class="cmp-ex" style="font-size:12px;color:var(--dim);line-height:1.7">${R?'Мн. число · Люди · Деревья, фрукты · Горы, реки':'Plurals · People · Trees, fruits · Mountains, rivers'}</div></div>
+          <div class="cmp-ex cmp-note cmp-note--dim">${R?'Мн. число · Люди · Деревья, фрукты · Горы, реки':'Plurals · People · Trees, fruits · Mountains, rivers'}</div></div>
         <div class="cmp"><div class="cmp-label">${R?'Всегда het':'Always het'}</div>
-          <div class="cmp-ex" style="font-size:12px;color:var(--dim);line-height:1.7">${R?'Уменьш. (-je) · Инфинитив · Языки, спорт · Металлы · ge- слова':'Dimin. (-je) · Infinitives · Languages, sports · Metals · ge- words'}</div></div>
+          <div class="cmp-ex cmp-note cmp-note--dim">${R?'Уменьш. (-je) · Инфинитив · Языки, спорт · Металлы · ge- слова':'Dimin. (-je) · Infinitives · Languages, sports · Metals · ge- words'}</div></div>
       </div>
       ${det('art_het',R?'Частые het-слова':'Common het-words',`
         <div class="tip" style="font-style:normal"><span class="mc">het huis · het kind · het meisje · het water · het boek · het jaar · het hoofd · het werk · het woord · het land · het geld · het eten · het probleem</span></div>
@@ -166,10 +166,10 @@ basics:{
     {id:'negation',group:'rule',title:{ru:'Отрицание: niet и geen',en:'Negation: niet & geen'},content(l){const R=l==='ru';return`
       <div class="comparison">
         <div class="cmp"><div class="cmp-label">geen</div>
-          <div class="cmp-ex" style="font-size:12px">${R?'Отрицает <strong>существительное</strong><br>Вместо een / без артикля':'Negates <strong>noun</strong><br>Replaces een / no article'}</div>
+          <div class="cmp-ex cmp-note">${R?'Отрицает <strong>существительное</strong><br>Вместо een / без артикля':'Negates <strong>noun</strong><br>Replaces een / no article'}</div>
           <div class="cmp-ex" style="margin-top:6px"><span class="mc">geen</span> auto, <span class="mc">geen</span> geld</div></div>
         <div class="cmp"><div class="cmp-label">niet</div>
-          <div class="cmp-ex" style="font-size:12px">${R?'<strong>Всё остальное</strong><br>Глаголы, прилаг., наречия, с de/het':'<strong>Everything else</strong><br>Verbs, adj., adv., with de/het'}</div>
+          <div class="cmp-ex cmp-note">${R?'<strong>Всё остальное</strong><br>Глаголы, прилаг., наречия, с de/het':'<strong>Everything else</strong><br>Verbs, adj., adv., with de/het'}</div>
           <div class="cmp-ex" style="margin-top:6px">Ik werk <span class="mc">niet</span></div></div>
       </div>
 
@@ -839,8 +839,8 @@ passive:{title:{ru:'Пассив',en:'Passive'},subtitle:'Lijdende vorm',level:'
       </div>
       ${det('pas_door',R?'door vs met':'door vs met',`
         <div class="comparison">
-          <div class="cmp"><div class="cmp-label">door (${R?'кем':'by whom'})</div><div class="cmp-ex" style="font-size:12px">geschreven <span class="hi">door</span> een auteur</div></div>
-          <div class="cmp"><div class="cmp-label">met (${R?'чем':'with what'})</div><div class="cmp-ex" style="font-size:12px">geschreven <span class="hi">met</span> een pen</div></div>
+          <div class="cmp"><div class="cmp-label">door (${R?'кем':'by whom'})</div><div class="cmp-ex cmp-note">geschreven <span class="hi">door</span> een auteur</div></div>
+          <div class="cmp"><div class="cmp-label">met (${R?'чем':'with what'})</div><div class="cmp-ex cmp-note">geschreven <span class="hi">met</span> een pen</div></div>
         </div>
       `)}`;}},
     {id:'tenses',group:'formation',title:{ru:'По временам',en:'By Tense'},content(l){const R=l==='ru';return`
@@ -873,9 +873,9 @@ prefixes:{title:{ru:'Приставки',en:'Prefixes'},subtitle:'Scheidbare wer
   sections:[
     {id:'overview',group:'overview',title:{ru:'Сводка трёх типов',en:'Three Types'},content(l){const R=l==='ru';return`
       <div class="comparison" style="grid-template-columns:1fr 1fr 1fr">
-        <div class="cmp"><div class="cmp-label">${R?'Отделяемые':'Separable'}</div><div class="cmp-ex" style="font-size:12px"><span class="mc">aan, af, op, uit, mee, terug...</span></div><div class="cmp-ex" style="font-size:11px;color:var(--dim);margin-top:4px">${R?'Ударение на приставке':'Stress on prefix'}<br><span class="hi">ÓP</span>staan</div></div>
-        <div class="cmp"><div class="cmp-label">${R?'Неотделяемые':'Inseparable'}</div><div class="cmp-ex" style="font-size:12px"><span class="mc">be-, ver-, ont-, ge-, her-</span></div><div class="cmp-ex" style="font-size:11px;color:var(--dim);margin-top:4px">${R?'Ударение на корне':'Stress on root'}<br>be<span class="hi">GRIJ</span>pen</div></div>
-        <div class="cmp"><div class="cmp-label">${R?'Оба':'Both'}</div><div class="cmp-ex" style="font-size:12px"><span class="mc">door, over, om, onder, voor</span></div><div class="cmp-ex" style="font-size:11px;color:var(--dim);margin-top:4px">${R?'Значение меняется!':'Meaning changes!'}</div></div>
+        <div class="cmp"><div class="cmp-label">${R?'Отделяемые':'Separable'}</div><div class="cmp-ex cmp-note"><span class="mc">aan, af, op, uit, mee, terug...</span></div><div class="cmp-ex" style="font-size:11px;color:var(--dim);margin-top:4px">${R?'Ударение на приставке':'Stress on prefix'}<br><span class="hi">ÓP</span>staan</div></div>
+        <div class="cmp"><div class="cmp-label">${R?'Неотделяемые':'Inseparable'}</div><div class="cmp-ex cmp-note"><span class="mc">be-, ver-, ont-, ge-, her-</span></div><div class="cmp-ex" style="font-size:11px;color:var(--dim);margin-top:4px">${R?'Ударение на корне':'Stress on root'}<br>be<span class="hi">GRIJ</span>pen</div></div>
+        <div class="cmp"><div class="cmp-label">${R?'Оба':'Both'}</div><div class="cmp-ex cmp-note"><span class="mc">door, over, om, onder, voor</span></div><div class="cmp-ex" style="font-size:11px;color:var(--dim);margin-top:4px">${R?'Значение меняется!':'Meaning changes!'}</div></div>
       </div>
       <table class="dtable"><thead><tr><th>${R?'Конструкция':'Construction'}</th><th>${R?'Отделяемый':'Separable'}</th><th>${R?'Неотделяемый':'Inseparable'}</th></tr></thead><tbody>
         <tr><td>Presens</td><td class="mc">Ik bel <span class="v2">op</span>.</td><td class="mc">Ik betaal.</td></tr>

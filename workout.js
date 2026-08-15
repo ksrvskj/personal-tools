@@ -1179,8 +1179,8 @@
       '<section class="wo-week" aria-labelledby="weekTitle">' +
         '<div class="wo-section-head"><div><div class="wo-view-kicker">Пример недели</div><h2 class="wo-section-title" id="weekTitle">Силовые и бег</h2></div></div>' +
         '<div class="wo-timeline" role="group" aria-label="Пример недели">' +
-          '<span class="wo-phase">лёгкий бег + A</span><span class="wo-phase">восстановление</span><span class="wo-phase">интервалы</span>' +
-          '<span class="wo-phase">пресс</span><span class="wo-phase">B</span><span class="wo-phase">отдых</span><span class="wo-phase">длительный</span>' +
+          '<span class="wo-phase"><strong>лёгкий бег + A</strong></span><span class="wo-phase"><strong>восстановление</strong></span><span class="wo-phase"><strong>интервалы</strong></span>' +
+          '<span class="wo-phase"><strong>пресс</strong></span><span class="wo-phase"><strong>B</strong></span><span class="wo-phase"><strong>отдых</strong></span><span class="wo-phase"><strong>длительный</strong></span>' +
         '</div>' +
         '<p>A и B лучше ставить после лёгкого бега или в отдельный день. Между ними — хотя бы 48 часов; не ставить накануне темпа, интервалов или длительной.</p>' +
       '</section>' +
@@ -1250,7 +1250,7 @@
 
       '<div class="wo-timeline" role="group" aria-label="Блоки тренировки">' +
         plan.sections.map(function (section) {
-          return '<span class="wo-phase">' + escapeHtml(section.title) + '<small>' + escapeHtml(section.meta) + '</small></span>';
+          return '<span class="wo-phase"><strong>' + escapeHtml(section.title) + '</strong><small>' + escapeHtml(section.meta) + '</small></span>';
         }).join('') +
       '</div>' +
 

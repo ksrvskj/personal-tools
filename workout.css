@@ -41,6 +41,11 @@ body.workout-page *::after {
   font: inherit;
 }
 
+/* UA default for strong/b is 700; the system caps at 600 (no 700 face is even loaded). */
+:where(body.workout-page) :where(strong, b) {
+  font-weight: 600;
+}
+
 body.workout-page button,
 body.workout-page a,
 body.workout-page summary,
@@ -68,11 +73,11 @@ body.workout-page.wo-focus-open {
   left: 8px;
   min-height: var(--tap);
   padding: 11px 16px;
-  border-radius: 10px;
+  border-radius: var(--wo-radius-sm);
   background: var(--wo-text-strong);
   color: var(--wo-bg);
   font-size: var(--fs-md);
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   transform: translateY(-160%);
   transition: transform .16s ease;
@@ -221,7 +226,7 @@ body.workout-page.wo-focus-open {
   justify-content: center;
   gap: 7px;
   border: 1px solid transparent;
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: transparent;
   color: var(--wo-muted);
   font-size: var(--fs-sm);
@@ -334,8 +339,14 @@ body.workout-page.wo-focus-open {
 
 .wo-control-group + .wo-control-group {
   margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--wo-line);
+}
+
+.wo-control-group + .wo-control-group::before {
+  content: '';
+  display: block;
+  height: 1px;
+  margin-bottom: 16px;
+  background: var(--wo-line);
 }
 
 .wo-control-group > label,
@@ -367,7 +378,7 @@ body.workout-page.wo-focus-open {
   justify-content: center;
   gap: 6px;
   border: 1px solid var(--wo-line);
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .022);
   color: var(--wo-muted);
   font-size: var(--fs-sm);
@@ -420,7 +431,7 @@ body.workout-page.wo-focus-open {
   justify-content: space-between;
   gap: 8px;
   border: 1px solid var(--wo-line);
-  border-radius: 14px;
+  border-radius: var(--wo-radius-sm);
   background: var(--wo-surface);
   color: var(--wo-text);
   text-align: left;
@@ -467,9 +478,9 @@ body.workout-page.wo-focus-open {
   align-items: flex-start;
   gap: 10px;
   border: 1px solid rgba(130, 175, 188, .22);
-  border-radius: 13px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(130, 175, 188, .065);
-  color: #bed5dc;
+  color: color-mix(in srgb, var(--wo-blue) 55%, var(--wo-text-strong));
   font-size: var(--fs-sm);
   line-height: 1.55;
 }
@@ -485,7 +496,7 @@ body.workout-page.wo-focus-open {
 .wo-banner[data-tone="warning"] {
   border-color: rgba(209, 173, 125, .28);
   background: rgba(209, 173, 125, .075);
-  color: #e4c79f;
+  color: color-mix(in srgb, var(--wo-warm) 60%, var(--wo-text-strong));
 }
 
 .wo-banner.is-danger,
@@ -493,7 +504,7 @@ body.workout-page.wo-focus-open {
 .wo-banner[data-tone="danger"] {
   border-color: rgba(216, 146, 132, .28);
   background: rgba(216, 146, 132, .075);
-  color: #e9b2a7;
+  color: color-mix(in srgb, var(--wo-danger) 65%, var(--wo-text-strong));
 }
 
 .wo-banner.is-success,
@@ -545,9 +556,9 @@ body.workout-page.wo-focus-open {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   font-size: var(--fs-sm);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.2;
   text-align: center;
   text-decoration: none;
@@ -619,7 +630,7 @@ body.workout-page.wo-focus-open {
   gap: 2px;
   overflow: hidden;
   border: 1px solid var(--wo-line);
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .018);
   color: var(--wo-muted);
   font-size: var(--fs-2xs);
@@ -640,6 +651,11 @@ body.workout-page.wo-focus-open {
 .wo-phase:nth-child(2)::before { background: var(--wo-purple); }
 .wo-phase:nth-child(3)::before { background: var(--wo-green); }
 .wo-phase:nth-child(4)::before { background: var(--wo-warm); }
+
+.wo-phase small {
+  font-size: inherit;
+  color: var(--wo-dim);
+}
 
 .wo-phase strong {
   color: var(--wo-text);
@@ -713,7 +729,7 @@ body.workout-page.wo-focus-open {
   align-items: center;
   justify-content: center;
   border: 1px solid rgba(131, 181, 155, .23);
-  border-radius: 10px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(131, 181, 155, .065);
   color: var(--wo-green);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -764,7 +780,7 @@ body.workout-page.wo-focus-open {
   justify-content: center;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, .055);
-  border-radius: 14px;
+  border-radius: var(--wo-radius-sm);
   background:
     linear-gradient(rgba(255, 255, 255, .018) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, .018) 1px, transparent 1px),
@@ -796,7 +812,8 @@ body.workout-page.wo-focus-open {
 
 .wo-dose-row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  /* Dose is short ("3 × 6–8") — size it to content; the long rest string wraps. */
+  grid-template-columns: fit-content(45%) minmax(0, 1fr);
   gap: 8px;
   align-items: stretch;
 }
@@ -811,7 +828,7 @@ body.workout-page.wo-focus-open {
   justify-content: center;
   gap: 2px;
   border: 1px solid var(--wo-line);
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .02);
   color: var(--wo-dim);
   font-size: var(--fs-xs);
@@ -834,7 +851,6 @@ body.workout-page.wo-focus-open {
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
-  overflow-wrap: anywhere;
 }
 
 .wo-cues {
@@ -884,7 +900,7 @@ body.workout-page.wo-focus-open {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--wo-line-strong);
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .025);
   color: var(--wo-dim);
   font-size: 16px;
@@ -975,7 +991,7 @@ body.workout-page.wo-focus-open {
   min-width: 0;
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, .055);
-  border-radius: 10px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .018);
   color: var(--wo-muted);
   font-size: var(--fs-xs);
@@ -1055,7 +1071,7 @@ body.workout-page.wo-focus-open {
   min-height: 58px;
   padding: 10px 11px 10px 53px;
   border: 1px solid var(--wo-line);
-  border-radius: 13px;
+  border-radius: var(--wo-radius-sm);
   background: var(--wo-surface);
   color: var(--wo-muted);
   font-size: var(--fs-xs);
@@ -1079,7 +1095,7 @@ body.workout-page.wo-focus-open {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--wo-line-strong);
-  border-radius: 9px;
+  border-radius: 8px;
   background: #151519;
   color: var(--wo-dim);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -1230,7 +1246,7 @@ body.workout-page.wo-focus-open {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--wo-line);
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .025);
   color: var(--wo-muted);
   text-decoration: none;
@@ -1254,7 +1270,7 @@ body.workout-page.wo-focus-open {
 }
 
 .wo-focus-footer {
-  padding: 10px max(12px, env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+  padding: 10px max(12px, env(safe-area-inset-right), calc((100% - 680px) / 2)) calc(10px + env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left), calc((100% - 680px) / 2));
   border-top: 1px solid var(--wo-line);
   background: rgba(15, 15, 18, .92);
   backdrop-filter: blur(14px);
@@ -1395,7 +1411,7 @@ button.wo-toggle {
   width: fit-content;
   padding: 0 12px;
   border: 1px solid var(--wo-line);
-  border-radius: 11px;
+  border-radius: var(--wo-radius-sm);
   background: rgba(255, 255, 255, .022);
   text-align: left;
 }
@@ -1471,7 +1487,7 @@ button.wo-toggle.is-on > span {
   margin-bottom: 2px;
   color: var(--wo-danger);
   font-size: var(--fs-xs);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: .08em;
   text-transform: uppercase;
 }
@@ -1516,7 +1532,7 @@ button.wo-toggle.is-on > span {
   margin-top: 5px;
   padding: 9px 11px;
   border: 1px solid var(--wo-line-strong);
-  border-radius: 10px;
+  border-radius: var(--wo-radius-sm);
   outline: 0;
   background: #121216;
   color: var(--wo-text-strong);
@@ -1596,7 +1612,7 @@ button.wo-toggle.is-on > span {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--wo-line-strong);
-  border-radius: 9px;
+  border-radius: 8px;
   background: #151519;
   color: var(--wo-dim);
   font-family: 'JetBrains Mono', ui-monospace, monospace;
@@ -1659,11 +1675,11 @@ button.wo-toggle.is-on > span {
   min-height: var(--tap);
   padding: 0 10px;
   border: 1px solid currentColor;
-  border-radius: 9px;
+  border-radius: 8px;
   background: transparent;
   color: inherit;
   font-size: var(--fs-xs);
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -1699,7 +1715,7 @@ button.wo-toggle.is-on > span {
   padding: 0 8px;
   overflow: hidden;
   border: 1px solid var(--wo-line-strong);
-  border-radius: 9px;
+  border-radius: 8px;
   background: rgba(255, 255, 255, .028);
   color: var(--wo-muted);
   font-size: var(--fs-xs);

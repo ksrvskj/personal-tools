@@ -290,7 +290,7 @@ Value input: JetBrains Mono, colored with `--c`.
 ### Timer Ring
 `.timer-wrap` > `.timer-ring` > `.timer-inner` + `.timer-hint`.
 Conic-gradient fill shows progress. Shared between recipes (countdown) and coffee (count-up).
-Default size: 44x44 ring / 36x36 inner. Coffee brew variant: 64x64 / 52x52.
+Size everywhere: 44x44 ring / 36x36 inner (the --tap standard; the old oversized coffee variant is retired).
 
 ### Check Button
 `.check-btn` / `.check-btn.checked` — 28px circle, turns `--vegan` green when checked.

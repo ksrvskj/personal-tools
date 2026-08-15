@@ -78,7 +78,7 @@
   }
 
   function text(x, y, value, tone, size, weight, anchor) {
-    return `<text x="${x}" y="${y}" fill="${colour[tone] || tone || colour.muted}" font-family="ui-sans-serif, system-ui, -apple-system, sans-serif" font-size="${size || 10}" font-weight="${weight || 650}" text-anchor="${anchor || 'middle'}">${escapeHtml(value)}</text>`;
+    return `<text x="${x}" y="${y}" fill="${colour[tone] || tone || colour.muted}" font-family="'JetBrains Mono', ui-monospace, monospace" font-size="${size || 10}" font-weight="${weight || 600}" text-anchor="${anchor || 'middle'}">${escapeHtml(value)}</text>`;
   }
 
   function ground(x1, x2, y) {
@@ -97,7 +97,7 @@
   function phase(x, number) {
     return [
       filledCircle(x, 14, 9.5, 'muted', 0.24),
-      text(x, 18, number, 'ink', 11, 750)
+      text(x, 18, number, 'ink', 11, 600)
     ].join('');
   }
 
@@ -512,7 +512,7 @@
       line(270, 111, 260, 137, 'ink'), line(270, 111, 280, 137, 'ink'),
       arrow('M 96 47 Q 111 58 109 76', context, 'burgundy'),
       arrow('M 206 61 Q 221 75 218 96', context, 'burgundy'),
-      text(160, 143, '5–7 s', 'gold', 12, 750)
+      text(160, 143, '5–7 s', 'gold', 12, 600)
     ].join('');
   }
 

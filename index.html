@@ -113,7 +113,8 @@ a.bc::after{
 
 /* Paper workspace links */
 .hub-links{display:flex;justify-content:center;align-items:center;gap:7px;margin-top:16px;font-size:var(--fs-xs);color:var(--dim)}
-.hub-links a{color:var(--dim);text-decoration:none;border-bottom:1px dotted rgba(255,255,255,.18);padding:4px 0}
+.hub-links a{display:inline-flex;align-items:center;min-height:var(--tap);padding:0 6px;margin:0 -2px;color:var(--dim);text-decoration:none}
+.hub-links a span{border-bottom:1px dotted rgba(255,255,255,.18)}
 .hub-links a:hover{color:var(--text)}
 
 /* Footer */
@@ -172,9 +173,9 @@ a.bc::after{
 
   <div class="hub-links">
     <span>Paper 2:</span>
-    <a href="intro_outline.html">план введения</a>
+    <a href="intro_outline.html"><span>план введения</span></a>
     <span>·</span>
-    <a href="paper_map.html">карта</a>
+    <a href="paper_map.html"><span>карта</span></a>
   </div>
 
   <div class="hub-footer">ksrvskj.github.io</div>
