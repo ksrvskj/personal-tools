@@ -8,34 +8,31 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <title>Кофе / Coffee</title>
 <link rel="stylesheet" href="style.css">
-<style>:root{--accent:#9b928a}</style>
+<style>:root{--accent:var(--neutral)}</style>
 </head>
 <body>
 
+<div class="topbar">
+  <a class="topbar-back" href="index.html">←&nbsp;<span data-back-label>На главную</span></a>
+  <div class="lang-toggle">
+    <button class="lang-btn" onclick="setLang('ru')">RU</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
 <div class="header">
   <div class="header-top">
     <div>
       <div class="header-sub">Filter Coffee</div>
       <h1 id="hTitle">Кофе</h1>
       <div class="header-desc">Chemex · V60 · Aeropress · Cold Brew</div>
-      <div class="header-links">
-        <a class="header-link" href="index.html">← Hub</a>
-      </div>
-    </div>
-    <div class="lang-toggle">
-      <button class="lang-btn" onclick="setLang('ru')">RU</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
     </div>
   </div>
 </div>
 <div class="methods" id="methods"></div>
 
 <script src="icons.js"></script>
+<script src="lang.js"></script>
 <script>
-let lang=localStorage.getItem('lang')||'ru';
-function setLang(l){lang=l;localStorage.setItem('lang',l);render();updateURL();}
-function t(o){if(!o)return'';if(typeof o==='string')return o;return o[lang]||o.ru||o.en||'';}
-
 const UI={
   title:{ru:"Кофе",en:"Coffee"},
   coffee:{ru:"Кофе",en:"Coffee"},
@@ -43,7 +40,7 @@ const UI={
   grind:{ru:"Помол",en:"Grind"},
 };
 
-function coffeeIcon(id){return ICONS.coffee[id]||(id.startsWith('aero')?ICONS.coffee.aeropress:null)||ICONS.coffee.chemex;}
+function coffeeIcon(id){return ICONS.coffee[id]||(id.startsWith('aero')?ICONS.coffee.aeropress:id.startsWith('v60')?ICONS.coffee.v60:null)||ICONS.coffee.chemex;}
 
 const M=[
   {
@@ -71,7 +68,37 @@ const M=[
       {time:"0:45",amt:Math.round(r*0.6),note:{ru:"Основной пролив, по спирали",en:"Main pour, spiral"}},
       {time:"1:30",amt:Math.round(r*0.4),note:{ru:"Финальный пролив, по центру",en:"Final pour, center"}}
     ]};},
-    notes:{ru:"Пока нет любимого рецепта — экспериментируй! Помол чуть мельче чем Chemex. Swirl после bloom.",en:"No favorite recipe yet — experiment! Grind slightly finer than Chemex. Swirl after bloom."}
+    notes:{ru:"Быстрый вариант на каждый день. Помол чуть мельче, чем для Chemex. Swirl после bloom.",en:"Quick everyday version. Grind slightly finer than Chemex. Swirl after bloom."}
+  },
+  {
+    id:"v60-hoffmann",name:"V60 — Hoffmann",style:"Ultimate V60 · 1:16.7",
+    meta:{ru:"~3.5 мин · Классика: сладкий и чистый",en:"~3.5 min · The classic: sweet & clean"},
+    ratio:16.7,dd:15,presets:[15,22,30],
+    grind:55,grindT:{ru:"Средне-мелкий",en:"Medium-fine"},
+    temp:{ru:"95°C+ (светлая обжарка — кипяток)",en:"95°C+ (boiling for light roasts)"},
+    calc(d){const w=Math.round(d*50/3),b=d*2,s=Math.round(w*0.6);return{w,pours:[
+      {time:"0:00",amt:b,note:{ru:"Bloom — залить и покрутить воронку (swirl), 45 сек",en:"Bloom — pour and swirl, 45 sec"}},
+      {time:"0:45",amt:s-b,note:{ru:"Долить до 60% воды к 1:15, ровной спиралью",en:"Pour to 60% of water by 1:15, steady spiral"}},
+      {time:"1:15",amt:w-s,note:{ru:"Долить до 100% к 1:45",en:"Top up to 100% by 1:45"}},
+      {time:"1:45",amt:null,note:{ru:"Размешать ложкой по разу в обе стороны, затем swirl",en:"Stir once each way with a spoon, then swirl"}},
+      {time:"3:30",amt:null,note:{ru:"Полное стекание к ~3:30",en:"Full drawdown by ~3:30"}}
+    ]};},
+    notes:{ru:"Рецепт Джеймса Хоффманна («Ultimate V60»). Полная версия — 30 г на 500 мл, пропорции масштабируются линейно.",en:"James Hoffmann's Ultimate V60. Full batch is 30 g / 500 ml; scales linearly."}
+  },
+  {
+    id:"v60-kasuya",name:"V60 — Kasuya 4:6",style:"4:6 Method · 1:15",
+    meta:{ru:"~3.5 мин · Настраиваемый баланс",en:"~3.5 min · Tunable balance"},
+    ratio:15,dd:20,presets:[15,20,30],
+    grind:70,grindT:{ru:"Крупный",en:"Coarse"},
+    temp:"~93°C",
+    calc(d){const w=d*15,p=Math.round(w/5);return{w,pours:[
+      {time:"0:00",amt:p,note:{ru:"1-й пролив; первые два задают кислотность и сладость",en:"Pour 1; first two pours set acidity & sweetness"}},
+      {time:"0:45",amt:p,note:{ru:"2-й пролив — вода к этому моменту должна стечь",en:"Pour 2 — previous water should have drained"}},
+      {time:"1:30",amt:p,note:{ru:"3-й пролив; последние три отвечают за крепость",en:"Pour 3; last three set strength"}},
+      {time:"2:15",amt:p,note:{ru:"4-й пролив",en:"Pour 4"}},
+      {time:"3:00",amt:w-p*4,note:{ru:"5-й пролив; стекание к ~3:30",en:"Pour 5; drawdown by ~3:30"}}
+    ]};},
+    notes:{ru:"Метод Тэцу Касуи, чемпиона мира по завариванию 2016 года: первые 40% воды формируют вкус, последние 60% — крепость.",en:"Tetsu Kasuya's method (2016 World Brewers Cup champion): first 40% of water shapes taste, last 60% — strength."}
   },
   {
     id:"aero-filter",name:"Aeropress — Filter",style:"Immersion · Inverted",
@@ -116,8 +143,28 @@ const M=[
 
 let openMethod=null,doses={},brewTimers={};
 function getDose(m){return doses[m.id]||m.dd;}
-function setDose(id,v){const n=parseInt(v);if(n>0&&n<200){doses[id]=n;render();}}
-function setPreset(id,v){doses[id]=v;render();}
+// In-place update: a full render() would rebuild the input and drop focus/caret mid-typing.
+function updateDose(id,syncInput){
+  const m=M.find(x=>x.id===id),card=document.getElementById('m-'+id);
+  if(!m)return;
+  if(!card){render();return;}
+  const dose=getDose(m),data=m.calc(dose);
+  if(syncInput){const inp=card.querySelector('.dose-input');if(inp)inp.value=dose;}
+  const water=card.querySelector('.dose-water');if(water)water.textContent=data.w;
+  card.querySelectorAll('.preset').forEach(b=>b.classList.toggle('active',parseInt(b.textContent)===dose));
+  let total=0;
+  const pourEls=card.querySelectorAll('.pour');
+  data.pours.forEach((p,i)=>{
+    if(p.amt)total+=p.amt;
+    const el=pourEls[i];if(!el)return;
+    const amt=el.querySelector('.pour-amount');
+    if(amt&&p.amt)amt.textContent=`${p.amt} ${lang==='ru'?'мл':'ml'}`;
+  });
+  const totalEl=card.querySelector('.pour-total');
+  if(totalEl)totalEl.textContent=`Σ ${total} ${lang==='ru'?'мл':'ml'}`;
+}
+function setDose(id,v){const n=parseInt(v);if(n>0&&n<200){doses[id]=n;updateDose(id,false);}}
+function setPreset(id,v){doses[id]=v;updateDose(id,true);}
 function toggle(id){openMethod=openMethod===id?null:id;render();updateURL();
   if(openMethod)setTimeout(()=>document.getElementById('m-'+id)?.scrollIntoView({behavior:'smooth',block:'start'}),50);
 }
@@ -150,7 +197,7 @@ function updateBrewRing(id){
     ring.style.background=`conic-gradient(${done?'var(--vegan)':'var(--accent)'} ${pct}%, rgba(255,255,255,0.1) ${pct}%)`;
     inner.style.color=done?'var(--vegan)':'var(--text)';
     inner.textContent=done?'\u2713':fmtTime(b.elapsed);
-    hint.textContent=done?(lang==='ru'?'готово — нажми для сброса':'done — tap to reset'):b.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start');
+    hint.textContent=done?(lang==='ru'?'готово — нажать для сброса':'done — tap to reset'):b.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start');
   }
   // highlight active pour
   const pours=document.querySelectorAll('#m-'+id+' .pour');
@@ -201,7 +248,7 @@ function render(){
           <div class="timer-ring" onclick="toggleBrew('${m.id}')" style="background:conic-gradient(var(--accent) 0%, rgba(255,255,255,0.1) 0%)">
             <div class="timer-inner" style="color:${brewTimers[m.id]?.done?'var(--vegan)':'var(--text)'}">${brewTimers[m.id]?fmtTime(brewTimers[m.id].elapsed):'0:00'}</div>
           </div>
-          <span class="timer-hint">${brewTimers[m.id]?.done?(lang==='ru'?'готово — нажми для сброса':'done — tap to reset'):brewTimers[m.id]?.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start')}</span>
+          <span class="timer-hint">${brewTimers[m.id]?.done?(lang==='ru'?'готово — нажать для сброса':'done — tap to reset'):brewTimers[m.id]?.iv?(lang==='ru'?'пауза':'tap to pause'):(lang==='ru'?'старт':'tap to start')}</span>
         </div>
         <div class="pours">
           <div class="pour-header">${t(UI.recipe)} · ${t(m.temp)}</div>
@@ -223,6 +270,7 @@ function readURL(){
   if(params.get('lang')&&['ru','en'].includes(params.get('lang'))){
     lang=params.get('lang');localStorage.setItem('lang',lang);
   }
+  applyLang();
   if(params.get('m')){
     const method=M.find(x=>x.id===params.get('m'));
     if(method)openMethod=method.id;
