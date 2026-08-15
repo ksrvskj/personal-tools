@@ -22,10 +22,6 @@ body.workout-page {
   --wo-radius: var(--radius);
   --wo-radius-sm: var(--radius-sm);
   --wo-shadow: 0 20px 60px rgba(0, 0, 0, .28);
-  width: 100%;
-  max-width: none;
-  margin: 0;
-  border: 0;
   background: var(--wo-bg);
   color: var(--wo-text);
   color-scheme: dark;
@@ -90,7 +86,7 @@ body.workout-page.wo-focus-open {
 .wo-header {
   position: relative;
   z-index: 1;
-  padding: calc(22px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) 18px max(16px, env(safe-area-inset-left));
+  padding: 22px max(16px, env(safe-area-inset-right)) 18px max(16px, env(safe-area-inset-left));
   background:
     radial-gradient(circle at 8% -20%, rgba(131, 181, 155, .16), transparent 48%),
     radial-gradient(circle at 95% 20%, rgba(209, 173, 125, .10), transparent 42%);
@@ -139,31 +135,6 @@ body.workout-page.wo-focus-open {
   font-size: 13px;
   font-weight: 400;
   line-height: 1.55;
-}
-
-.wo-hub-link {
-  display: inline-flex;
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0 13px;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  border: 1px solid var(--wo-line);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, .025);
-  color: var(--wo-muted);
-  font-size: 12px;
-  font-weight: 600;
-  text-decoration: none;
-  transition: border-color .15s ease, background .15s ease, color .15s ease;
-}
-
-.wo-hub-link:hover {
-  border-color: rgba(131, 181, 155, .35);
-  background: rgba(131, 181, 155, .07);
-  color: var(--wo-text);
 }
 
 .wo-meta {
@@ -220,10 +191,10 @@ body.workout-page.wo-focus-open {
 .wo-tabs {
   position: sticky;
   z-index: 50;
-  top: 0;
+  top: calc(var(--topbar-h) + env(safe-area-inset-top));
   width: 100%;
   min-height: 56px;
-  padding: calc(6px + env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
+  padding: 6px max(12px, env(safe-area-inset-right)) 6px max(12px, env(safe-area-inset-left));
   display: flex;
   gap: 5px;
   overflow-x: auto;
@@ -238,25 +209,6 @@ body.workout-page.wo-focus-open {
 
 .wo-tabs::-webkit-scrollbar {
   display: none;
-}
-
-.wo-tab-home {
-  min-width: 40px;
-  min-height: 44px;
-  display: inline-flex;
-  flex: 0 0 auto;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid transparent;
-  border-radius: 11px;
-  color: var(--wo-dim);
-  font-size: 15px;
-  text-decoration: none;
-}
-
-.wo-tab-home:hover {
-  color: var(--wo-text);
-  border-color: var(--wo-line);
 }
 
 .wo-tab {
@@ -1821,9 +1773,7 @@ button.wo-toggle:focus-visible,
 
 /* Keyboard visibility */
 .wo-skip:focus-visible,
-.wo-hub-link:focus-visible,
 .wo-tab:focus-visible,
-.wo-tab-home:focus-visible,
 .wo-focus-next:focus-visible,
 .wo-choice:focus-visible,
 .wo-quick-card:focus-visible,
@@ -1840,12 +1790,6 @@ button.wo-toggle:focus-visible,
 }
 
 @media (min-width: 480px) {
-  body.workout-page {
-    max-width: none;
-    margin: 0;
-    border: 0;
-  }
-
   .wo-header {
     padding-right: max(22px, env(safe-area-inset-right));
     padding-left: max(22px, env(safe-area-inset-left));
@@ -2032,16 +1976,6 @@ button.wo-toggle:focus-visible,
     font-size: 25px;
   }
 
-  .wo-hub-link {
-    width: 44px;
-    padding: 0;
-    font-size: 0;
-  }
-
-  .wo-hub-link::before {
-    content: '←';
-    font-size: 16px;
-  }
 
   .wo-main {
     padding-right: 10px;

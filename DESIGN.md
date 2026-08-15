@@ -399,7 +399,7 @@ personal-tools/
 
 Each page links `style.css`; most pages keep only `:root` variable overrides inline (as `var()` references to shared tokens, not hex literals). Bilingual pages load `lang.js` before their main script. The workout page also links `workout.css`, then loads `workout-diagrams.js` before `workout.js`.
 
-Back-to-hub convention: dark pages use the sticky `.topbar` + `.topbar-back` from `style.css` («← На главную»); dutch/components use the equivalent light `.topbar`/`.back-btn` from `dutch.css`; the workout tab bar carries a `.wo-tab-home` link. Every page must keep a hub link visible without scrolling.
+Back-to-hub convention: dark pages — workout included — use the sticky `.topbar` + `.topbar-back` from `style.css` («← На главную»), exactly one back affordance per page; dutch/components use the equivalent light `.topbar`/`.back-btn` from `dutch.css`. On the workout page the view tabs stick directly below the topbar (`top: var(--topbar-h)`). Every page keeps its hub link visible without scrolling, and every dark page lives in the same centered 720px column.
 Pages that use shared icons load `icons.js` before their main script. The workout page owns a separate diagram vocabulary and does not depend on the shared icon file.
 
 Hub is the exception: it links style.css for shared base (body, noise, fonts) but keeps bento grid / hero card styles inline (hub-specific layout).

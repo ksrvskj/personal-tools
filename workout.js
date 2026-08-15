@@ -540,6 +540,7 @@
   const announcer = document.getElementById('workoutAnnouncer');
   const backgroundRegions = [
     document.querySelector('.wo-skip'),
+    document.querySelector('.topbar'),
     document.querySelector('.wo-header'),
     document.querySelector('.wo-tabs'),
     document.getElementById('workoutMain')
