@@ -55,12 +55,6 @@ const ICONS = {
     aeropress: `<svg viewBox="0 0 24 24"><path d="M7 2h10"/><path d="M8 2v8"/><path d="M16 2v8"/><rect x="7" y="8" width="10" height="9" rx=".5"/><rect x="9" y="9" width="6" height="2.5" rx=".5"/><path d="M6 17h12"/><path d="M7 17v1h10v-1"/><path d="M12 20.5c0 0-.8 1.2-.8 1.8a.8.8 0 001.6 0c0-.6-.8-1.8-.8-1.8z"/></svg>`
   },
 
-  // ===== WORKOUT TIERS =====
-  tier: {
-    moon: `<svg viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`,
-    sun: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M4.93 4.93l2.12 2.12"/><path d="M16.95 16.95l2.12 2.12"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="M4.93 19.07l2.12-2.12"/><path d="M16.95 7.05l2.12-2.12"/></svg>`,
-    lightning: `<svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>`
-  },
 
   // ===== DIETARY TAGS (use at 16-20px) =====
   tag: {

@@ -1,27 +1,38 @@
 # Personal Tools
 
-A collection of personal tools — workout routines, batch-cooking recipes, and coffee brew guides.
+Небольшой набор личных инструментов: тренировки, рецепты для готовки на несколько дней, памятки по кофе и грамматика нидерландского.
 
-## What's inside
+## Что внутри
 
-- **Workout** — Bodyweight morning routine with three tiers (Just Show Up / Regular / Full Pack). Core, glutes, upper body, mobility. All exercises are lower-back safe.
-- **Recipes** — Batch cooking recipes with KBJU (calories, protein, fat, carbs) and step-by-step cook mode.
-- **Coffee** — Brew guides for Chemex, V60, Aeropress (filter, espresso, cold brew) with ratio calculators.
+- **Силовые в поездке** — четыре тренировки на коврике: **A**, **B**, **Пресс** и **Короткая**. Раздел **Сегодня** помогает выбрать одну из них. Турник вынесен отдельно и появляется только на те дни, когда он есть. Подходы, результаты, таймеры и текущая ступень подтягивания сохраняются в браузере.
+- **Рецепты** — блюда на несколько дней с калорийностью, БЖУ и пошаговым режимом готовки.
+- **Кофе** — памятки для кемекса, V60 и аэропресса с расчётом пропорций.
+- **Нидерландский** — грамматика A1→B1, на русском и английском.
 
-## Structure
+## Структура
 
 ```
-style.css       <- Shared CSS (variables, fonts, header, lang toggle)
-index.html      <- Hub / dashboard
-workout.html    <- Morning workout
-recipes.html    <- Batch cooking recipes
-coffee.html     <- Coffee brew guides
+style.css       <- общие стили, шрифты и переменные
+icons.js        <- общие SVG-иконки (рецепты, кофе, нидерландский)
+index.html      <- главная страница
+workout.html    <- каркас страницы с тренировками
+workout.css     <- вкладки, карточки и пошаговый режим тренировки
+workout-diagrams.js <- схемы упражнений
+workout.js      <- программа, таймеры и сохранение результатов
+recipes.html    <- рецепты
+coffee.html     <- памятки по кофе
+dutch.html      <- грамматика нидерландского
+dutch.css       <- стили страницы нидерландского
+dutch-data.js   <- материал уроков
 ```
 
-## Deep Links
+## Прямые ссылки
 
-- Recipe: `?r=chickpea-spinach-tomato&lang=en`
-- Coffee method: `?m=chemex&lang=en`
-- Workout tier: `?t=full`
+- Рецепт: `?r=chickpea-spinach-tomato&lang=en`
+- Способ приготовления кофе: `?m=chemex&lang=en`
+- Раздел тренировки: `?w=today`, `?w=a`, `?w=b`, `?w=core`, `?w=bar` или `?w=quick`
+- Короткая тренировка: `?short=1`
 
-Open at: `https://ksrvskj.github.io/personal-tools/`
+Старые ссылки тоже работают: `?t=min` открывает **Короткую**, `?t=regular` — **Пресс**, `?t=full` — **A**.
+
+Сайт: `https://ksrvskj.github.io/personal-tools/`

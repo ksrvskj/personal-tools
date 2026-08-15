@@ -45,10 +45,11 @@ Keep in repo root. Update when decisions change.
 | `--cool`   | `#7fa693` | Body, health, workout        |
 | `--neutral`| `#9b928a` | Coffee, utilities            |
 
-Each page sets `--accent` in inline `<style>`:
+Recipes and coffee set `--accent` in inline `<style>`:
 - Recipes: `--accent: var(--warm)` (`#c9a87e`)
-- Workout: `--accent: var(--cool)` (`#7fa693`)
 - Coffee: `--accent: var(--neutral)` (`#9b928a`)
+
+The workout page does not use `--accent` — it defines its own `--wo-*` palette on `body.workout-page` in `workout.css` (base green `--wo-green: #83b59b`).
 
 ### Recipe Category Colors
 | Category     | Token         | Hex       | Character    |
@@ -160,7 +161,7 @@ All: `viewBox="0 0 24 24"`, stroke only, same weight as hub icons.
 
 Batch button toggles expand/collapse on re-click (`.cat-expand` arrow indicator).
 
-All icons centralized in `icons.js` — accessed via `ICONS.cat.soup`, `ICONS.coffee.chemex`, `ICONS.tier.moon`, `ICONS.tag.vegan`, etc.
+Shared interface icons are centralized in `icons.js` — accessed via `ICONS.cat.soup`, `ICONS.coffee.chemex`, `ICONS.tag.vegan`, etc. Workout movement diagrams live separately in `workout-diagrams.js` so exercise anatomy does not become part of the shared icon API.
 Use `iconInner(svg)` helper to extract inner SVG content when wrapper `<svg>` already exists.
 
 ### Icon Sizing
@@ -277,12 +278,24 @@ Default size: 44x44 ring / 36x36 inner. Coffee brew variant: 64x64 / 52x52.
 `#browseView` / `#cookView` toggled via `body.cooking` class.
 CSS: `body.cooking #browseView{display:none} body.cooking #cookView{display:block}`.
 
+The workout page uses application state instead of the browse/cook convention:
+
+- Public tabs are **Сегодня / A / B / Пресс / Турник**. Public navigation and descriptions stay in Russian; route values remain English identifiers.
+- **A**, **B**, **Пресс**, and **Короткая** are fixed, self-contained plans. They do not depend on a pull-up bar and do not change when one is unavailable.
+- **Сегодня** recommends one of those four plans from the available time, energy, running schedule, and recent strength work.
+- **Турник** is a separate, opportunistic module. Bar availability belongs to the current date/workout, not to the base routine or to a standing equipment preference. When a secure, purpose-built bar is available, the module can be added before that day's plan or opened on its own.
+- A completed Bar block is not offered again on the same local day. Marked hard sets count toward the 48-hour recovery guard even before the block is formally completed; the current same-day block can still be finished without its remaining sets disappearing.
+- The page must not present a missing bar as a defect in the mat-based plans. Pull-up prompts belong in the optional module or in the temporary “bar available” state.
+- Step-by-step mode presents one exercise at a time; the overview keeps the whole workout scannable.
+- Completed sets, previous results, pull-up level, recovery dates, and the active timer persist under `localStorage('personal-tools.workout.v3')`; view and step position live in the URL.
+- Exercise copy gives form cues, scaling options, and stop rules; it must not claim that any movement is universally safe or universally “lower-back safe”.
+
 ---
 
 ## Deep Links & URL Params
 
 ### Pattern
-Read on load -> set state -> render. Write on state change via `history.replaceState` (not pushState — don't pollute back button).
+Read on load -> set state -> render. Recipes and coffee write on state change via `history.replaceState` (don't pollute the back button). The workout page intentionally uses `history.pushState` for tab and step-mode navigation and resolves entries in a `popstate` listener, so Back closes the step dialog or returns to the previous view instead of leaving the page.
 
 ### Recipes
 | Param   | Values          | Effect                    |
@@ -302,9 +315,16 @@ Example: `recipes.html?r=rosti-egg&lang=en`
 Example: `coffee.html?m=chemex&lang=en`
 
 ### Workout
-| Param | Values               | Effect         |
-|-------|----------------------|----------------|
-| `t`   | `min`/`regular`/`full`| Sets tier      |
+| Param   | Values                              | Effect                              |
+|---------|-------------------------------------|-------------------------------------|
+| `w`     | `today`/`a`/`b`/`core`/`bar`/`quick` | Opens that workout view           |
+| `short` | `1`                                 | Opens the **Короткая** alias       |
+| `focus` | `1`                                 | Opens one-exercise step-by-step mode |
+| `plan`  | `a`/`b`/`core`/`bar`/`quick`        | Identifies the workout behind a step-by-step link |
+| `ex` / `step` | exercise slot / step index   | Restores the exact focus position   |
+| `t`     | `min`/`regular`/`full`              | Legacy links: **Короткая / Пресс / A** |
+
+Canonical examples: `workout.html?w=bar`, `workout.html?w=quick`. `?short=1` remains a convenient alias. For old bookmarks, `?t=min` maps to **Короткая**, `?t=regular` maps to **Пресс**, and `?t=full` maps to **A**. New links should use `?w=`.
 
 ### Language
 URL param `?lang=` overrides `localStorage`. Priority: URL > localStorage > default `'ru'`. Shared across all pages via same localStorage key `'lang'`.
@@ -338,16 +358,19 @@ When scaling portions, amounts are rounded context-aware:
 ```
 personal-tools/
   DESIGN.md        <- this file
-  style.css        <- design system + all page CSS (shared)
-  icons.js         <- all SVG icons (ICONS.hub/cat/coffee/tier/tag/ui + iconInner helper)
+  style.css        <- shared design-system CSS
+  icons.js         <- shared SVG icons (ICONS.hub/cat/coffee/tag/ui + iconInner helper)
   index.html       <- hub dashboard (links style.css + hub-specific inline)
-  workout.html     <- morning routine
+  workout.html     <- workout page semantic shell
+  workout.css      <- workout layout, components, and step-by-step mode
+  workout-diagrams.js <- original exercise diagrams
+  workout.js       <- program data, state, rendering, timers, and persistence
   recipes.html     <- batch cooking (browse + cook mode)
   coffee.html      <- brew guides (calculators)
 ```
 
-Each page: `<link rel="stylesheet" href="style.css">` + inline `<style>` only for `:root` variable overrides.
-Each page (except hub): `<script src="icons.js"></script>` before the main `<script>` block.
+Each page links `style.css`; most pages keep only `:root` variable overrides inline. The workout page also links `workout.css`, then loads `workout-diagrams.js` before `workout.js`.
+Pages that use shared icons load `icons.js` before their main script. The workout page owns a separate diagram vocabulary and does not depend on the shared icon file.
 
 Hub is the exception: it links style.css for shared base (body, noise, fonts) but keeps bento grid / hero card styles inline (hub-specific layout).
 
@@ -359,7 +382,7 @@ Hub is the exception: it links style.css for shared base (body, noise, fonts) bu
 |----------|--------|-----|-----------------|
 | Framework | Vanilla JS | 15 recipes, 1 developer, static hosting, <100ms load | Persistent features (favorites, shopping list, meal plans) |
 | Hosting | GitHub Pages | Free, zero config, custom domain possible | Need server-side logic |
-| CSS | Shared file + inline `:root` overrides | One source of truth for design system | File count grows past 6-7 |
+| CSS | Shared base + page-specific `workout.css` | Keep common tokens centralized without crowding the base with a full-screen training UI | More pages develop substantial independent UI systems |
 | Rendering | `innerHTML` rebuild, data-driven | Simple, no virtual DOM overhead | Lists exceed ~100 items or need partial updates |
 | i18n | JS objects in each file | Simple, no build step | 3+ languages or external translators |
 | Icons | Inline SVG | No HTTP requests, style with CSS | Need 20+ icons -> consider sprite |
@@ -375,7 +398,7 @@ Hub is the exception: it links style.css for shared base (body, noise, fonts) bu
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#0f0f12">
   <title>...</title>
@@ -385,16 +408,19 @@ Hub is the exception: it links style.css for shared base (body, noise, fonts) bu
 <body>
   <!-- HTML structure -->
   <script>
-    // All JS inline, single script block
+    // Most pages keep a single inline script block
     // Data → State → Functions → Init
   </script>
 </body>
 </html>
 ```
 
+The workout page is the page-level exception: `workout.html` stays a small semantic shell and loads `workout.css`, `workout-diagrams.js`, and `workout.js` as separate files. This keeps the exercise catalogue, persistence, timers, and step-by-step rendering reviewable without enlarging the HTML.
+
 ### JS Patterns
 - **Data arrays** (`R`, `M`, exercises) at the top — plain objects, no classes
 - **State variables** after data — `let curCat`, `let openMethod`, `let cookId`
+- **Workout state** is serialized under `personal-tools.workout.v3`; migrations and legacy URL aliases are resolved before the first render
 - **`t(obj)`** resolves `{ru, en}` to current language string
 - **`render()`** / **`fullRender()`** rebuilds DOM from state via innerHTML
 - **Targeted DOM updates** for timers (`updateTmRing`, `updateBrewRing`) — don't re-render entire page every second
@@ -413,4 +439,4 @@ Hub is the exception: it links style.css for shared base (body, noise, fonts) bu
 - `pointer-events: none` on noise overlay and decorative elements
 - `event.stopPropagation()` required for buttons inside clickable cards
 - Timer intervals survive `render()` calls — they reference state variables, re-query DOM by ID
-- `localStorage` keys: `'lang'`, `'hideNutrition'` — shared across pages
+- `localStorage` keys: `'lang'`, `'hideNutrition'` — shared across pages; `'personal-tools.workout.v3'` — workout progress and UI state
